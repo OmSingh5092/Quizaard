@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "509388667130",
+    "firebase_url": "https://quizzard-bc0f6.firebaseio.com",
+    "project_id": "quizzard-bc0f6",
+    "storage_bucket": "quizzard-bc0f6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:509388667130:android:f6e08ad3f3fb07ec467143",
+        "android_client_info": {
+          "package_name": "com.andronauts.quizard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "509388667130-9ra14g2mrfs5r14nsnrp671r5cm87o28.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.andronauts.quizard",
+            "certificate_hash": "7268adab26487ffb5a5e506e2db0a30edbcb5865"
+          }
+        },
+        {
+          "client_id": "509388667130-kfpb8fkjpqovht81b7s56mmgl8gk24ci.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIOGj8XIn7Mc8k8UtrlUjuEQhMsaUKoAI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "509388667130-kfpb8fkjpqovht81b7s56mmgl8gk24ci.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
