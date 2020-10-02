@@ -13,6 +13,9 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    viewBinding{
+        enabled = "true"
+    }
 
     buildTypes {
         release {
@@ -29,5 +32,22 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    //cardview
+    implementation "androidx.cardview:cardview:1.0.0"
+
+    //recyclerview
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+
+    //material design
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.rengwuxian.materialedittext:library:2.1.4'
+
+    //retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+    //gson
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+    //okhttp3
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
 
 }
