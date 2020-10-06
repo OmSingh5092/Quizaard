@@ -3,7 +3,8 @@ const router = express.Router();
 
 const signInCtrl = require('../controllers/signInCtrl');
 
-router.post('/interviewer',signInCtrl.createUser);
+router.post('/faculty',signInCtrl.facultyGoogleSignIn);
+router.post('/student',signInCtrl.studentGoogleSignIn);
 
 
 module.exports = router;
