@@ -23,6 +23,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -49,9 +53,10 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
     //okhttp3
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
-
     //firebase
     implementation 'com.google.firebase:firebase-auth:19.4.0'
+    //google authentication
+    implementation 'com.google.android.gms:play-services-auth:18.0.0'
 
 }
 apply plugin: 'com.android.application'

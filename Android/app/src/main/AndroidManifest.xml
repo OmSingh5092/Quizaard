@@ -9,7 +9,11 @@
         android:roundIcon="@drawable/ic_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".faculty.activities.FacultyHomeActivity"></activity>
+        <activity android:name=".students.activities.HomeStudentActivity"></activity>
+        <activity android:name=".faculty.activities.HomeFacultyActivity" />
+        <activity android:name=".faculty.activities.RegisterFacultyActivity" />
+        <activity android:name=".students.activities.RegisterStudentActivity" />
+        <activity android:name=".faculty.activities.FacultyHomeActivity" />
         <activity android:name=".students.activities.StudentHomeActivity" />
         <activity android:name=".general.activities.LoginActivity" />
         <activity android:name=".general.activities.SplashActivity">
@@ -19,6 +23,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Quizard</string>
+
+    <string name="web_client_id">509388667130-kfpb8fkjpqovht81b7s56mmgl8gk24ci.apps.googleusercontent.com</string>
 </resources>

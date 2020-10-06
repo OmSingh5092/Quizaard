@@ -14,5 +14,6 @@ public class StudentHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding =ActivityStudentHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+     
     }
 }
