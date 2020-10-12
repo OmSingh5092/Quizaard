@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.andronauts.quizard.R;
 import com.andronauts.quizard.api.controllers.SignInCtrl;
-import com.andronauts.quizard.api.controllers.UserController;
 import com.andronauts.quizard.databinding.ActivityLoginBinding;
 import com.andronauts.quizard.faculty.activities.HomeFacultyActivity;
 import com.andronauts.quizard.faculty.activities.RegisterFacultyActivity;

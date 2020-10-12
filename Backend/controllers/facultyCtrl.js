@@ -25,7 +25,7 @@ const getProfile = (req,res)=>{
     .then((doc)=>{
         return res.status(200),json({
             success:true,
-            profile:doc,
+            faculty:doc,
         })
     }).catch((err)=>{
         console.log("Error",err);
