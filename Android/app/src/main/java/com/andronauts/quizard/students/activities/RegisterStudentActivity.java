@@ -17,6 +17,7 @@ import com.andronauts.quizard.databinding.ActivityRegisterStudentBinding;
 import com.andronauts.quizard.utils.PermissionCtrl;
 import com.andronauts.quizard.utils.SharedPrefs;
 import com.andronauts.quizard.utils.firebase.StorageCtrl;
+import com.google.android.material.snackbar.Snackbar;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
@@ -112,9 +113,13 @@ public class RegisterStudentActivity extends AppCompatActivity {
     }
 
     private void handlePhotoUpload(Uri uri){
+        Snackbar snackbar = Snackbar.make(binding.getRoot(),"Uploading...",Snackbar.LENGTH_INDEFINITE);
+        snackbar.show();
         new StorageCtrl(this).uploadFile(prefs.getEmail() + "/profile/photo.jpg", uri, new StorageCtrl.handleUpload() {
             @Override
             public void onSuccess() {
+                snackbar.dismiss();
+                Toast.makeText(RegisterStudentActivity.this, "Upload Successful!", Toast.LENGTH_SHORT).show();
                 student.setPhotoPath(prefs.getEmail() + "/profile/photo.jpg");
                 InputStream inputStream = null;
                 try {
@@ -127,15 +132,20 @@ public class RegisterStudentActivity extends AppCompatActivity {
 
             @Override
             public void onFailure() {
-
+                snackbar.dismiss();
+                Toast.makeText(RegisterStudentActivity.this, "Upload Failed", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void handleCardUpload(Uri uri){
-        new StorageCtrl(this).downloadFile(prefs.getEmail() + "/profile/card.jpg", uri, new StorageCtrl.handleDownload() {
+        Snackbar snackbar = Snackbar.make(binding.getRoot(),"Uploading...",Snackbar.LENGTH_INDEFINITE);
+        snackbar.show();
+        new StorageCtrl(this).uploadFile(prefs.getEmail() + "/profile/card.jpg", uri, new StorageCtrl.handleUpload() {
             @Override
             public void onSuccess() {
+                snackbar.dismiss();
+                Toast.makeText(RegisterStudentActivity.this, "Upload Successful!", Toast.LENGTH_SHORT).show();
                 student.setAdmitCardPath(prefs.getEmail() + "/profile/card.jpg");
                 InputStream inputStream = null;
                 try {
@@ -148,7 +158,8 @@ public class RegisterStudentActivity extends AppCompatActivity {
 
             @Override
             public void onFailure() {
-
+                snackbar.dismiss();
+                Toast.makeText(RegisterStudentActivity.this, "Upload Failed", Toast.LENGTH_SHORT).show();
             }
         });
     }

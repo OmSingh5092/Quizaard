@@ -61,7 +61,7 @@ public class SharedPrefs {
         editor.commit();
     }
 
-    public boolean isDoctor(){
+    public boolean isStudent(){
         return sharedPreferences.getBoolean(userType,true);
     }
 

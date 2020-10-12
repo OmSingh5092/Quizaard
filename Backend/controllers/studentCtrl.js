@@ -23,7 +23,7 @@ const updateProfile = (req,res)=>{
 const getProfile = (req,res)=>{
     const id = req.user.id;
 
-    Student.findOne({id:id})
+    Student.findOne({_id:id})
     .then((doc)=>{
         return res.status(200),json({
             success:true,

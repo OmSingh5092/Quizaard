@@ -29,12 +29,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <ImageView
                     android:id="@+id/photo"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_student_avatar"
                     android:layout_width="100dp"
-                    android:layout_height="100dp"/>
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_student_avatar" />
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/upload_photo"
                     android:layout_gravity="center"

@@ -18,6 +18,9 @@ public class Faculty {
     @SerializedName("faculty_id")
     @Expose
     private String facultyId;
+    @SerializedName("photo_path")
+    @Expose
+    private String photoPath;
     @SerializedName("department")
     @Expose
     private String department;
@@ -82,5 +85,13 @@ public class Faculty {
 
     public void setSubjects(List<String> subjects) {
         this.subjects = subjects;
+    }
+
+    public String getPhotoPath() {
+        return photoPath;
+    }
+
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
     }
 }

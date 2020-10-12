@@ -4,7 +4,7 @@ const updateProfile = (req,res)=>{
     const id = req.user.id;
     const body = req.body;
 
-    Faculty.updateOne({id:id},body)
+    Faculty.updateOne({_id:id},body)
     .then((doc)=>{
         return res.status(200).json({
             success:true,
@@ -21,7 +21,7 @@ const updateProfile = (req,res)=>{
 const getProfile = (req,res)=>{
     const id = req.user.id;
 
-    Faculty.findOne({id:id})
+    Faculty.findOne({_id:id})
     .then((doc)=>{
         return res.status(200),json({
             success:true,
