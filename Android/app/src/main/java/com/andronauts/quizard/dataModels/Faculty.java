@@ -15,6 +15,18 @@ public class Faculty {
     @SerializedName("email")
     @Expose
     private String email;
+    @SerializedName("faculty_id")
+    @Expose
+    private String facultyId;
+    @SerializedName("department")
+    @Expose
+    private String department;
+    @SerializedName("is_registered")
+    @Expose
+    private boolean isRegistered;
+    @SerializedName("subjects")
+    @Expose
+    private List<String> subjects;
 
     public String getId() {
         return id;
@@ -71,17 +83,4 @@ public class Faculty {
     public void setSubjects(List<String> subjects) {
         this.subjects = subjects;
     }
-
-    @SerializedName("faculty_id")
-    @Expose
-    private String facultyId;
-    @SerializedName("department")
-    @Expose
-    private String department;
-    @SerializedName("is_registered")
-    @Expose
-    private boolean isRegistered;
-    @SerializedName("subjects")
-    @Expose
-    private List<String> subjects;
 }

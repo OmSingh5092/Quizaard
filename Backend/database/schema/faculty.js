@@ -10,9 +10,18 @@ const faculty = new Schema(
         email:{
             type:String
         },
-        phone:{
-            type:Number
+        faculty_id:{
+            type:String,
         },
+        department:{
+            type:String,
+        },
+        is_registered:{
+            type:Boolean
+        },
+        subjects:{
+            type:Array
+        }
     },{
         timestamps:true
     },
@@ -21,4 +30,4 @@ const faculty = new Schema(
     }
 )
 
-module.exports = mongoose.model("faculties",faculty);
+module.exports = mongoose.model("faculty",faculty);

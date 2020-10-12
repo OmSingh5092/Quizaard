@@ -7,12 +7,34 @@ const student = new Schema(
         name:{
             type:String
         },
+        registration_number:{
+            type:String,
+        },
         email:{
             type:String
         },
-        phone:{
-            type:Number
+        photo_path:{
+            type:String,
         },
+        admit_card_path:{
+            type:String,
+        },
+        department:{
+            type:String,
+        },
+        year:{
+            type:String
+        },
+        is_registered:{
+            type:Boolean
+        },
+        subjects:{
+            type:Array
+        },
+        results:{
+            type:Array
+        }
+
     },{
         timestamps:true
     },
@@ -21,4 +43,4 @@ const student = new Schema(
     }
 )
 
-module.exports = mongoose.model("students",student);
+module.exports = mongoose.model("student",student);
