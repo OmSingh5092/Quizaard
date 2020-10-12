@@ -139,7 +139,6 @@ public class LoginActivity extends AppCompatActivity {
                             Log.w("TAG", "signInWithCredential:failure", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication Failed!", Toast.LENGTH_SHORT).show();
                         }
-
                         // ...
                     }
                 });

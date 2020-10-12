@@ -5,12 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.andronauts.quizard.R;
+import com.andronauts.quizard.databinding.ActivityRegisterFacultyBinding;
 
 public class RegisterFacultyActivity extends AppCompatActivity {
-
+    ActivityRegisterFacultyBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_faculty);
+        binding = ActivityRegisterFacultyBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+
     }
 }
