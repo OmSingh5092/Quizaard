@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_black"
+        android:layout_margin="20dp"
+        android:text="Quizzard"
+        android:textColor="@color/colorWhite"
+        android:textSize="50sp" />
+
+    <com.google.android.material.navigation.NavigationView
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        app:menu="@menu/menu_drawer_student"
+        app:itemTextColor="@color/colorWhite"
+        app:itemTextAppearance="@style/AppSideNavText"
+        app:elevation="0dp"/>
+
+</LinearLayout>

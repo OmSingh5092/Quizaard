@@ -17,8 +17,6 @@
         <activity android:name=".faculty.activities.HomeFacultyActivity" />
         <activity android:name=".faculty.activities.RegisterFacultyActivity" />
         <activity android:name=".students.activities.RegisterStudentActivity" />
-        <activity android:name=".faculty.activities.FacultyHomeActivity" />
-        <activity android:name=".students.activities.StudentHomeActivity" />
         <activity android:name=".general.activities.LoginActivity" />
         <activity android:name=".general.activities.SplashActivity">
             <intent-filter>

@@ -3,6 +3,7 @@
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
+        <item name = "colorSecondary">@color/colorSecondary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
@@ -11,6 +12,13 @@
 
         <!-- Text Input Layout -->
         <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
+
+        <!--SideNav Text -->
+    </style>
+
+    <style name="AppSideNavText" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/roboto_black</item>
+        <item name="android:textSize">15sp</item>
     </style>
 
 

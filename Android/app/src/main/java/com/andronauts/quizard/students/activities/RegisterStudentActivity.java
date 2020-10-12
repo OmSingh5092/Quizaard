@@ -186,7 +186,7 @@ public class RegisterStudentActivity extends AppCompatActivity {
 
     private void goToStudentHome(){
         prefs.saveNewUser(false);
-        Intent i = new Intent(this,StudentHomeActivity.class);
+        Intent i = new Intent(this,HomeStudentActivity.class);
         startActivity(i);
         finish();
     }

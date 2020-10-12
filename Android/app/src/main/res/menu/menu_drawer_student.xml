@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="Profile"
+        android:id="@+id/profile"/>
+    <item
+        android:title="Faculties"
+        android:id="@+id/faculties"/>
+    <item
+        android:title="Previous Quizzes"
+        android:id="@+id/previous_quizzes"/>
+    <item
+        android:title="Registered Subjects"
+        android:id="@+id/registered_subjects"/>
+    <item
+        android:title="Logout"
+        android:id="@+id/logout"/>
+
+</menu>

@@ -64,6 +64,9 @@ dependencies {
     //ylantis uCrop
     implementation 'com.github.yalantis:ucrop:2.2.6'
 
+    //animated bottom navigation
+    implementation 'nl.joery.animatedbottombar:library:1.0.8'
+
 }
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'

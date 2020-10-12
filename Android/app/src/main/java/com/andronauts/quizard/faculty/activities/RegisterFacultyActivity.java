@@ -11,13 +11,9 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.Toast;
 
-import com.andronauts.quizard.R;
 import com.andronauts.quizard.api.controllers.FacultyCtrl;
-import com.andronauts.quizard.api.controllers.StudentCtrl;
 import com.andronauts.quizard.dataModels.Faculty;
 import com.andronauts.quizard.databinding.ActivityRegisterFacultyBinding;
-import com.andronauts.quizard.students.activities.RegisterStudentActivity;
-import com.andronauts.quizard.students.activities.StudentHomeActivity;
 import com.andronauts.quizard.utils.PermissionCtrl;
 import com.andronauts.quizard.utils.SharedPrefs;
 import com.andronauts.quizard.utils.firebase.StorageCtrl;
@@ -155,7 +151,7 @@ public class RegisterFacultyActivity extends AppCompatActivity {
 
     private void goToStudentHome(){
         prefs.saveNewUser(false);
-        Intent i = new Intent(this, FacultyHomeActivity.class);
+        Intent i = new Intent(this, HomeFacultyActivity.class);
         startActivity(i);
         finish();
     }
