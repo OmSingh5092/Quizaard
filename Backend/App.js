@@ -2,21 +2,21 @@ const express = require('express');
 const app = express();
 const config = require('./config');
 const database = require('./database/database');
-const session = require('express-session');
 
 require('./passport');
 
 //Applying middlewares
 app.use(express.json());
-app.use(session(config.session));
 
 //Importing rotues
 const signInRoute = require('./routes/signinRouter');
-const profileRoute =require('./routes/profileRouter');
+const studentRoute = require('./routes/studentRouter');
+const facultyRoute = require('./routes/facultyRouter')
 
 //Applying routes
 app.use('/api/signin',signInRoute);
-app.use('/api/profile',profileRoute);
+app.use('/api/student',studentRoute);
+app.use('/api/faculty',facultyRoute);
 
 app.listen(config.app.local.port, ()=>{
     console.log("\n\n App listening... \n\n");

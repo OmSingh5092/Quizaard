@@ -26,7 +26,7 @@ const config = {
         }
     },
     gcp:{
-        clientId: "509388667130-9ra14g2mrfs5r14nsnrp671r5cm87o28.apps.googleusercontent.com",
+        clientId: "509388667130-kfpb8fkjpqovht81b7s56mmgl8gk24ci.apps.googleusercontent.com",
     },
 }
 

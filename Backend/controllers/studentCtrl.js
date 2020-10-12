@@ -3,14 +3,16 @@ const Student = require('../database/schema/student');
 const updateProfile = (req,res)=>{
     const id = req.user.id;
     const body = req.body;
-
-    Student.updateOne({id:id},body)
+    console.log("Body",body);
+    console.log("ID",id);
+    Student.updateOne({_id:id},body)
     .then((doc)=>{
         return res.status(200).json({
             success:true,
             update:doc,
         })
     }).catch((err)=>{
+        console.log("Error",err);
         return res.status(500).json({
             success:false,
             msg:"Update couldnot be done!",

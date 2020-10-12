@@ -28,7 +28,7 @@ public class Student {
     @Expose
     private String department;
     @SerializedName("year")
-    private String year;
+    private int year;
     @SerializedName("is_registered")
     @Expose
     private boolean isRegistered;
@@ -95,11 +95,11 @@ public class Student {
         this.department = department;
     }
 
-    public String getYear() {
+    public int getYear() {
         return year;
     }
 
-    public void setYear(String year) {
+    public void setYear(int year) {
         this.year = year;
     }
 

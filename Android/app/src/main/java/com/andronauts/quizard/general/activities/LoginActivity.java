@@ -17,6 +17,7 @@ import com.andronauts.quizard.faculty.activities.HomeFacultyActivity;
 import com.andronauts.quizard.faculty.activities.RegisterFacultyActivity;
 import com.andronauts.quizard.students.activities.HomeStudentActivity;
 import com.andronauts.quizard.students.activities.RegisterStudentActivity;
+import com.andronauts.quizard.utils.PermissionCtrl;
 import com.andronauts.quizard.utils.SharedPrefs;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -45,6 +46,8 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        sharedPrefs = new SharedPrefs(this);
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getResources().getString(R.string.web_client_id))
                 .requestEmail()
@@ -68,6 +71,8 @@ public class LoginActivity extends AppCompatActivity {
                 signIn();
             }
         });
+
+        new PermissionCtrl(this).askStoragePermission();
     }
 
     @Override
@@ -173,4 +178,6 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }
+
+
 }

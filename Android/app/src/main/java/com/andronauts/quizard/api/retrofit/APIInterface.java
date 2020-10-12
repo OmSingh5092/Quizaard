@@ -5,11 +5,14 @@ import com.andronauts.quizard.api.responseModels.faculty.FacultyUpdateResponse;
 import com.andronauts.quizard.api.responseModels.signIn.GoogleSignInResponse;
 import com.andronauts.quizard.api.responseModels.student.StudentGetResponse;
 import com.andronauts.quizard.api.responseModels.student.StudentUpdateResponse;
+import com.andronauts.quizard.dataModels.Faculty;
+import com.andronauts.quizard.dataModels.Student;
 
 import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface APIInterface {
@@ -20,12 +23,12 @@ public interface APIInterface {
     Call<GoogleSignInResponse> facultyGoogleSignIn(@Body Map<String, String> body);
 
     @POST("student/update")
-    Call<StudentUpdateResponse> studentUpdate(@Body Map<String, String> body);
+    Call<StudentUpdateResponse> studentUpdate(@Header("token") String token ,@Body Student student);
     @POST("student/get")
-    Call<StudentGetResponse> studentGetProfile(@Body Map<String, String> body);
+    Call<StudentGetResponse> studentGetProfile(@Header("token") String token);
 
     @POST("faculty/update")
-    Call<FacultyUpdateResponse> facultyUpdate(@Body Map<String, String> body);
-    @POST("faculty/update")
-    Call<FacultyGetResponse> facultyGetProfile(@Body Map<String, String> body);
+    Call<FacultyUpdateResponse> facultyUpdate(@Header("token") String token, @Body Faculty faculty);
+    @POST("faculty/get")
+    Call<FacultyGetResponse> facultyGetProfile(@Header("token") String token);
 }
