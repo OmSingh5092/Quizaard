@@ -2,6 +2,9 @@ package com.andronauts.quizard.faculty.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,12 +13,37 @@ import android.view.MenuItem;
 
 import com.andronauts.quizard.R;
 import com.andronauts.quizard.databinding.ActivityHomeFacultyBinding;
+import com.andronauts.quizard.faculty.fragments.HostFacultyFragment;
+import com.andronauts.quizard.faculty.fragments.QuizFacultyFragment;
 import com.andronauts.quizard.general.activities.LoginActivity;
 import com.andronauts.quizard.utils.SessionManager;
 import com.google.android.material.navigation.NavigationView;
 
 public class HomeFacultyActivity extends AppCompatActivity {
     ActivityHomeFacultyBinding binding;
+
+    private class ViewPagerAdapter extends FragmentPagerAdapter{
+
+        public ViewPagerAdapter(@NonNull FragmentManager fm) {
+            super(fm);
+        }
+
+        @NonNull
+        @Override
+        public Fragment getItem(int position) {
+            switch (position){
+                case 0: return new HostFacultyFragment();
+                case 1: return new QuizFacultyFragment();
+            }
+            return null;
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +51,7 @@ public class HomeFacultyActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
         setSideNav();
-
+        setUpViewPager();
     }
 
     private void setSideNav(){
@@ -49,6 +77,15 @@ public class HomeFacultyActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    private void setUpViewPager(){
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        binding.viewPager.setAdapter(adapter);
+        binding.tabLayout.setupWithViewPager(binding.viewPager);
+
+        binding.tabLayout.getTabAt(0).setText("Host Quiz");
+        binding.tabLayout.getTabAt(1).setText("Quiz");
     }
 
     @Override
