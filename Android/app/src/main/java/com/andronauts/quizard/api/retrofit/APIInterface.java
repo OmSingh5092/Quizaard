@@ -2,11 +2,13 @@ package com.andronauts.quizard.api.retrofit;
 
 import com.andronauts.quizard.api.responseModels.faculty.FacultyGetResponse;
 import com.andronauts.quizard.api.responseModels.faculty.FacultyUpdateResponse;
+import com.andronauts.quizard.api.responseModels.quiz.QuizCreateResponse;
 import com.andronauts.quizard.api.responseModels.signIn.GoogleSignInResponse;
 import com.andronauts.quizard.api.responseModels.student.StudentGetResponse;
 import com.andronauts.quizard.api.responseModels.student.StudentUpdateResponse;
 import com.andronauts.quizard.api.responseModels.subject.SubjectGetResponse;
 import com.andronauts.quizard.dataModels.Faculty;
+import com.andronauts.quizard.dataModels.Quiz;
 import com.andronauts.quizard.dataModels.Student;
 
 import java.util.Map;
@@ -36,4 +38,7 @@ public interface APIInterface {
 
     @GET("subject/get")
     Call<SubjectGetResponse> getSubject(@Header("id") String id);
+
+    @POST("quiz/create")
+    Call<QuizCreateResponse> createQuiz(@Header("token") String token, @Body Quiz quiz);
 }

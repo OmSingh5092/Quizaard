@@ -1,6 +1,7 @@
 package com.andronauts.quizard.faculty.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import com.andronauts.quizard.api.controllers.SubjectCtrl;
 import com.andronauts.quizard.dataModels.Subject;
 import com.andronauts.quizard.databinding.RecyclerHostQuizFacultyBinding;
+import com.andronauts.quizard.faculty.activities.HostQuizFacultyActivity;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
@@ -47,7 +49,9 @@ public class HostQuizRecycler extends RecyclerView.Adapter<HostQuizRecycler.View
                 holder.host.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        Intent i = new Intent(context, HostQuizFacultyActivity.class);
+                        i.putExtra("subjectId",data.get(position));
+                        context.startActivity(i);
                     }
                 });
             }

@@ -23,9 +23,15 @@ const student = new Schema(
             type:String,
         },
         subject:{
-            type:Array
+            type:String
         },
-        faculties:{
+        faculty:{
+            type:String
+        },
+        paper:{
+            type:String,
+        },
+        questions:{
             type:Array
         }
     },

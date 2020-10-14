@@ -30,9 +30,80 @@ public class Quiz {
     @SerializedName("subject")
     @Expose
     private String subject;
-    @SerializedName("faculties")
+    @SerializedName("faculty")
     @Expose
-    private List<String> faculties;
+    private String faculty;
+    @SerializedName("paper")
+    @Expose
+    private String paper;
+
+    public String getPaper() {
+        return paper;
+    }
+
+    public void setPaper(String paper) {
+        this.paper = paper;
+    }
+
+    public List<Question> getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(List<Question> question) {
+        this.question = question;
+    }
+
+    @SerializedName("questions")
+    @Expose
+    private List<Question> question;
+
+    public static class Question{
+        @SerializedName("correct")
+        @Expose
+        private int correct;
+        @SerializedName("total")
+        @Expose
+        private int total;
+        @SerializedName("positive")
+        @Expose
+        private int positive;
+        @SerializedName("negative")
+        @Expose
+        private int negative;
+
+        public int getCorrect() {
+            return correct;
+        }
+
+        public void setCorrect(int correct) {
+            this.correct = correct;
+        }
+
+        public int getTotal() {
+            return total;
+        }
+
+        public void setTotal(int total) {
+            this.total = total;
+        }
+
+        public int getPositive() {
+            return positive;
+        }
+
+        public void setPositive(int positive) {
+            this.positive = positive;
+        }
+
+        public int getNegative() {
+            return negative;
+        }
+
+        public void setNegative(int negative) {
+            this.negative = negative;
+        }
+    }
+
 
     public String getId() {
         return id;
@@ -98,11 +169,11 @@ public class Quiz {
         this.subject = subject;
     }
 
-    public List<String> getFaculties() {
-        return faculties;
+    public String getFaculty() {
+        return faculty;
     }
 
-    public void setFaculties(List<String> faculties) {
-        this.faculties = faculties;
+    public void setFaculty(String faculty) {
+        this.faculty = faculty;
     }
 }

@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.andronauts.quizard"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -67,6 +67,9 @@ dependencies {
 
     //animated bottom navigation
     implementation 'nl.joery.animatedbottombar:library:1.0.8'
+
+    //number sliding picker
+    implementation 'com.github.sephiroth74:NumberSlidingPicker:1.0.3'
 
 }
 apply plugin: 'com.android.application'
