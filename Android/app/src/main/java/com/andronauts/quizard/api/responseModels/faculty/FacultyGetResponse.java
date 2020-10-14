@@ -8,7 +8,7 @@ public class FacultyGetResponse {
     @SerializedName("success")
     @Expose
     private boolean success;
-    @SerializedName("profile")
+    @SerializedName("faculty")
     @Expose
     private Faculty faculty;
     @SerializedName("msg")

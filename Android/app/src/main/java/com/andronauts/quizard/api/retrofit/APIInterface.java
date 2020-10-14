@@ -26,12 +26,12 @@ public interface APIInterface {
 
     @POST("student/update")
     Call<StudentUpdateResponse> studentUpdate(@Header("token") String token ,@Body Student student);
-    @POST("student/get")
+    @GET("student/get")
     Call<StudentGetResponse> studentGetProfile(@Header("token") String token);
 
     @POST("faculty/update")
     Call<FacultyUpdateResponse> facultyUpdate(@Header("token") String token, @Body Faculty faculty);
-    @POST("faculty/get")
+    @GET("faculty/get")
     Call<FacultyGetResponse> facultyGetProfile(@Header("token") String token);
 
     @GET("subject/get")

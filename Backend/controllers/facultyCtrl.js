@@ -23,7 +23,7 @@ const getProfile = (req,res)=>{
 
     Faculty.findOne({_id:id})
     .then((doc)=>{
-        return res.status(200),json({
+        return res.status(200).json({
             success:true,
             faculty:doc,
         })

@@ -18,4 +18,24 @@ const getSubject = async (req,res)=>{
     }
 }
 
-module.exports = {getSubject};
+const addSubject = (req,res)=>{
+
+    const body = req.body;
+
+    const subject = new Subject(body);
+
+    subject.save()
+    .then((doc)=>{
+        return res.status(200).json({
+            success:true,
+            subject:doc,
+        })
+    }).catch((err)=>{
+        return res.status(500).json({
+            success:false,
+            msg:"Internal Server error!"
+        })
+    })
+}
+
+module.exports = {getSubject,addSubject};
