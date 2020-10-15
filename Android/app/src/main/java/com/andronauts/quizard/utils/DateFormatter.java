@@ -29,4 +29,9 @@ public class DateFormatter {
         simpleDateFormat = new SimpleDateFormat("dd MMM yyyy");
         return simpleDateFormat.format(date);
     }
+
+    public String getDateAndTime(){
+        simpleDateFormat = new SimpleDateFormat("dd MMM yyyy hh:mm aa");
+        return simpleDateFormat.format(date);
+    }
 }

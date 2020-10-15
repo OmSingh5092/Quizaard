@@ -6,6 +6,7 @@ const verifyUser = require('../middlewares/verifyMW').user;
 
 router.get('/get/faculty',verifyUser,quizCtrl.getQuizByFaculty);
 router.get('/get/subject',verifyUser,quizCtrl.getQuizBySubject);
+router.get('/get/student',quizCtrl.getQuizByStudent);
 router.post('/create',verifyUser,quizCtrl.createQuiz);
 
 module.exports = router;

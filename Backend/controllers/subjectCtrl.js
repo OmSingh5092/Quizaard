@@ -38,4 +38,20 @@ const addSubject = (req,res)=>{
     })
 }
 
-module.exports = {getSubject,addSubject};
+const getAllSubjects = (req,res)=>{
+    Subject.find({})
+    .then((docs)=>{
+        return res.status(200).json({
+            success:true,
+            subjects:docs,
+        })
+    }).catch((err)=>{
+        console.log("Error",err);
+        return res.status(500).json({
+            success:false,
+            msg:"Internal Server Error!"
+        })
+    })
+}
+
+module.exports = {getSubject,addSubject,getAllSubjects};

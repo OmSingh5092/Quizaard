@@ -7,6 +7,7 @@ import com.andronauts.quizard.api.responseModels.quiz.QuizListGetResponse;
 import com.andronauts.quizard.api.responseModels.signIn.GoogleSignInResponse;
 import com.andronauts.quizard.api.responseModels.student.StudentGetResponse;
 import com.andronauts.quizard.api.responseModels.student.StudentUpdateResponse;
+import com.andronauts.quizard.api.responseModels.subject.SubjectGetAllResponse;
 import com.andronauts.quizard.api.responseModels.subject.SubjectGetResponse;
 import com.andronauts.quizard.dataModels.Faculty;
 import com.andronauts.quizard.dataModels.Quiz;
@@ -39,6 +40,8 @@ public interface APIInterface {
 
     @GET("subject/get")
     Call<SubjectGetResponse> getSubject(@Header("id") String id);
+    @GET("subject/get/all")
+    Call<SubjectGetAllResponse> getAllSubjects(@Header("token") String token);
 
     @POST("quiz/create")
     Call<QuizCreateResponse> createQuiz(@Header("token") String token, @Body Quiz quiz);
@@ -46,5 +49,7 @@ public interface APIInterface {
     Call<QuizListGetResponse> getQuizByFaculty(@Header("id") String id);
     @GET("quiz/get/subject")
     Call<QuizListGetResponse> getQuizBySubject(@Header("id") String id);
+    @GET("quiz/get/student")
+    Call<QuizListGetResponse> getQuizByStudent(@Header("token") String token);
 
 }

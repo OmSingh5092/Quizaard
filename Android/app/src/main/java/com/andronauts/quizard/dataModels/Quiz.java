@@ -18,6 +18,9 @@ public class Quiz {
     @SerializedName("is_completed")
     @Expose
     private boolean isCompleted;
+    @SerializedName("is_live")
+    @Expose
+    private boolean isLive;
     @SerializedName("start_time")
     @Expose
     private String startTime;
@@ -175,5 +178,13 @@ public class Quiz {
 
     public void setFaculty(String faculty) {
         this.faculty = faculty;
+    }
+
+    public boolean isLive() {
+        return isLive;
+    }
+
+    public void setLive(boolean live) {
+        isLive = live;
     }
 }

@@ -14,7 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".faculty.activities.HostQuizFacultyActivity"></activity>
+        <activity android:name=".general.activities.SubjectActivity"></activity>
+        <activity android:name=".students.activities.ProfileStudentActivity" />
+        <activity android:name=".faculty.activities.ProfileFacultyActivity" />
+        <activity android:name=".general.activities.StudentsActivity" />
+        <activity android:name=".general.activities.FacultiesActivity" />
+        <activity android:name=".students.activities.QuizStudentActivity" />
+        <activity android:name=".faculty.activities.HostQuizFacultyActivity" />
         <activity android:name=".students.activities.HomeStudentActivity" />
         <activity android:name=".faculty.activities.HomeFacultyActivity" />
         <activity android:name=".faculty.activities.RegisterFacultyActivity" />

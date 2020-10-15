@@ -1,4 +1,5 @@
 const Quiz = require('../database/schema/quiz');
+const Student = require('../database/schema/student');
 
 const createQuiz = (req,res)=>{
     const body = req.body;
@@ -54,4 +55,32 @@ const getQuizBySubject = (req,res)=>{
     })
 }
 
-module.exports = {createQuiz,getQuizByFaculty,getQuizBySubject};
+const getQuizByStudent = async (req,res)=>{
+    const id = req.user.id;
+
+    try{
+        const student = await Student.findById(id);
+    
+        const condition = [];
+        student.subjects.map((item,index)=>{
+            condition.push({subject:item});
+        })
+
+        const quizzes = await Quiz.find({$where:condition});
+
+        return res.status(200).json({
+            success:true,
+            quizzes:quizzes,
+        })
+    }catch(err){
+        console.log("Error",err);
+        res.status(500).json({
+            success:false,
+            msg:"Internal Server Error!",
+        })
+    }
+    
+
+}
+
+module.exports = {createQuiz,getQuizByFaculty,getQuizBySubject,getQuizByStudent};
