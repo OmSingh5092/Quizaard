@@ -2,6 +2,9 @@ package com.andronauts.quizard.students.activities;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -11,7 +14,8 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.Toast;
 
-import com.andronauts.quizard.api.controllers.StudentCtrl;
+import com.andronauts.quizard.api.responseModels.student.StudentUpdateResponse;
+import com.andronauts.quizard.api.retrofit.RetrofitClient;
 import com.andronauts.quizard.dataModels.Student;
 import com.andronauts.quizard.databinding.ActivityRegisterStudentBinding;
 import com.andronauts.quizard.utils.PermissionCtrl;
@@ -169,15 +173,15 @@ public class RegisterStudentActivity extends AppCompatActivity {
         student.setDepartment(binding.department.getText().toString());
         student.setYear(Integer.valueOf(binding.year.getText().toString()));
 
-        new StudentCtrl(this).updateProfile(student, new StudentCtrl.updateHandler() {
+        RetrofitClient.getClient().studentUpdate(prefs.getToken(),student).enqueue(new Callback<StudentUpdateResponse>() {
             @Override
-            public void onSuccess() {
+            public void onResponse(Call<StudentUpdateResponse> call, Response<StudentUpdateResponse> response) {
                 Toast.makeText(RegisterStudentActivity.this, "Update Successful!", Toast.LENGTH_SHORT).show();
                 goToStudentHome();
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<StudentUpdateResponse> call, Throwable t) {
 
             }
         });

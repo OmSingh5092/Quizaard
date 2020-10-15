@@ -13,6 +13,9 @@ const student = new Schema(
         is_completed:{
             type:Boolean,
         },
+        is_live:{
+            type:Boolean
+        },
         start_time:{
             type:String,
         },

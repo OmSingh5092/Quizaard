@@ -5,14 +5,16 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.andronauts.quizard.R;
-import com.andronauts.quizard.api.controllers.FacultyCtrl;
+import com.andronauts.quizard.api.responseModels.faculty.FacultyGetResponse;
+import com.andronauts.quizard.api.retrofit.RetrofitClient;
 import com.andronauts.quizard.dataModels.Faculty;
 import com.andronauts.quizard.databinding.FragmentHostFacultyBinding;
 import com.andronauts.quizard.faculty.adapters.HostQuizRecycler;
@@ -23,12 +25,13 @@ public class HostFacultyFragment extends Fragment {
     FragmentHostFacultyBinding binding;
     Context context;
     Faculty faculty = new Faculty();
+    SharedPrefs prefs;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHostFacultyBinding.inflate(getLayoutInflater(),container,false);
         context = getContext();
-
+        prefs = new SharedPrefs(context);
         loadData();
 
 
@@ -37,15 +40,15 @@ public class HostFacultyFragment extends Fragment {
     }
 
     private void loadData(){
-        new FacultyCtrl(context).getProfile(new FacultyCtrl.GetProfileHandler() {
+        RetrofitClient.getClient().facultyGetProfile(prefs.getToken()).enqueue(new Callback<FacultyGetResponse>() {
             @Override
-            public void onSuccess(Faculty faculty) {
-                HostFacultyFragment.this.faculty = faculty;
+            public void onResponse(Call<FacultyGetResponse> call, Response<FacultyGetResponse> response) {
+                HostFacultyFragment.this.faculty = response.body().getFaculty();
                 setUpRecyclerView();
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<FacultyGetResponse> call, Throwable t) {
 
             }
         });

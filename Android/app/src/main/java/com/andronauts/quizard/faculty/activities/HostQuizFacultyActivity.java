@@ -4,6 +4,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import it.sephiroth.android.library.numberpicker.NumberPicker;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -15,8 +18,8 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.andronauts.quizard.R;
-import com.andronauts.quizard.api.controllers.QuizCtrl;
+import com.andronauts.quizard.api.responseModels.quiz.QuizCreateResponse;
+import com.andronauts.quizard.api.retrofit.RetrofitClient;
 import com.andronauts.quizard.dataModels.Quiz;
 import com.andronauts.quizard.databinding.ActivityHostQuizFacultyBinding;
 import com.andronauts.quizard.faculty.adapters.MakeQuestionRecycler;
@@ -24,13 +27,11 @@ import com.andronauts.quizard.utils.DateFormatter;
 import com.andronauts.quizard.utils.SharedPrefs;
 import com.andronauts.quizard.utils.firebase.StorageCtrl;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.storage.FirebaseStorage;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class HostQuizFacultyActivity extends AppCompatActivity {
@@ -178,15 +179,15 @@ public class HostQuizFacultyActivity extends AppCompatActivity {
         quiz.setEndTime(String.valueOf(calendar.getTimeInMillis()+(1000*duration*60)));
 
 
-        new QuizCtrl(this).createQuiz(quiz, new QuizCtrl.CreateQuizHandler() {
+        RetrofitClient.getClient().createQuiz(prefs.getToken(),quiz).enqueue(new Callback<QuizCreateResponse>() {
             @Override
-            public void onSuccess(Quiz quiz) {
+            public void onResponse(Call<QuizCreateResponse> call, Response<QuizCreateResponse> response) {
                 Toast.makeText(HostQuizFacultyActivity.this, "Quiz Hosted Successfully", Toast.LENGTH_SHORT).show();
                 finish();
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<QuizCreateResponse> call, Throwable t) {
 
             }
         });

@@ -6,9 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.andronauts.quizard.api.controllers.SubjectCtrl;
+import com.andronauts.quizard.api.responseModels.subject.SubjectGetResponse;
+import com.andronauts.quizard.api.retrofit.RetrofitClient;
 import com.andronauts.quizard.dataModels.Subject;
 import com.andronauts.quizard.databinding.RecyclerHostQuizFacultyBinding;
 import com.andronauts.quizard.faculty.activities.HostQuizFacultyActivity;
@@ -19,6 +19,9 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HostQuizRecycler extends RecyclerView.Adapter<HostQuizRecycler.ViewHolder> {
 
@@ -40,9 +43,10 @@ public class HostQuizRecycler extends RecyclerView.Adapter<HostQuizRecycler.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        new SubjectCtrl(context).getSubject(data.get(position), new SubjectCtrl.GetSubjectHandler() {
+        RetrofitClient.getClient().getSubject(data.get(position)).enqueue(new Callback<SubjectGetResponse>() {
             @Override
-            public void onSuccess(Subject subject) {
+            public void onResponse(Call<SubjectGetResponse> call, Response<SubjectGetResponse> response) {
+                Subject subject = response.body().getSubject();
                 holder.name.setText(subject.getName());
                 holder.code.setText(subject.getSubjectCode());
 
@@ -57,8 +61,8 @@ public class HostQuizRecycler extends RecyclerView.Adapter<HostQuizRecycler.View
             }
 
             @Override
-            public void onFailure(Throwable t) {
-                Toast.makeText(context, "Subject load failed!", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<SubjectGetResponse> call, Throwable t) {
+
             }
         });
     }

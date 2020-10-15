@@ -3,6 +3,9 @@ package com.andronauts.quizard.general.activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +14,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.andronauts.quizard.R;
-import com.andronauts.quizard.api.controllers.SignInCtrl;
+import com.andronauts.quizard.api.responseModels.signIn.GoogleSignInResponse;
+import com.andronauts.quizard.api.retrofit.RetrofitClient;
 import com.andronauts.quizard.databinding.ActivityLoginBinding;
 import com.andronauts.quizard.faculty.activities.HomeFacultyActivity;
 import com.andronauts.quizard.faculty.activities.RegisterFacultyActivity;
@@ -30,6 +34,9 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
     ActivityLoginBinding binding;
@@ -102,24 +109,49 @@ public class LoginActivity extends AppCompatActivity {
 
     private void userSignIn(GoogleSignInAccount account){
         //Add code to submit user info in the database
-        new SignInCtrl(this).signIn(account.getIdToken(), isStudent, new SignInCtrl.signInHandler() {
-            @Override
-            public void onSuccess(String token, boolean isNewUser) {
-                sharedPrefs.saveName(account.getDisplayName());
-                sharedPrefs.saveEmail(account.getEmail());
-                sharedPrefs.saveNewUser(isNewUser);
-                sharedPrefs.saveToken(token);
-                sharedPrefs.saveUserType(isStudent);
-                firebaseAuthWithGoogle(account.getIdToken());
+        Map<String,String> map = new HashMap<>();
+        map.put("idToken",account.getIdToken());
+        if(isStudent){
+            RetrofitClient.getClient().studentGoogleSignIn(map).enqueue(new Callback<GoogleSignInResponse>() {
+                @Override
+                public void onResponse(Call<GoogleSignInResponse> call, Response<GoogleSignInResponse> response) {
 
-                Log.i("Token",token);
-            }
+                    sharedPrefs.saveName(account.getDisplayName());
+                    sharedPrefs.saveEmail(account.getEmail());
+                    sharedPrefs.saveNewUser(response.body().isNewUser());
+                    sharedPrefs.saveToken(response.body().getAuthToken());
+                    sharedPrefs.saveUserType(isStudent);
+                    firebaseAuthWithGoogle(account.getIdToken());
 
-            @Override
-            public void onFailure(Throwable e) {
+                    Log.i("Token",response.body().getAuthToken());
+                }
 
-            }
-        });
+                @Override
+                public void onFailure(Call<GoogleSignInResponse> call, Throwable t) {
+
+                }
+            });
+        }else{
+            RetrofitClient.getClient().facultyGoogleSignIn(map).enqueue(new Callback<GoogleSignInResponse>() {
+                @Override
+                public void onResponse(Call<GoogleSignInResponse> call, Response<GoogleSignInResponse> response) {
+
+                    sharedPrefs.saveName(account.getDisplayName());
+                    sharedPrefs.saveEmail(account.getEmail());
+                    sharedPrefs.saveNewUser(response.body().isNewUser());
+                    sharedPrefs.saveToken(response.body().getAuthToken());
+                    sharedPrefs.saveUserType(!isStudent);
+                    firebaseAuthWithGoogle(account.getIdToken());
+
+                    Log.i("Token",response.body().getAuthToken());
+                }
+
+                @Override
+                public void onFailure(Call<GoogleSignInResponse> call, Throwable t) {
+
+                }
+            });
+        }
 
     }
 

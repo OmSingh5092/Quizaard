@@ -3,6 +3,7 @@ package com.andronauts.quizard.api.retrofit;
 import com.andronauts.quizard.api.responseModels.faculty.FacultyGetResponse;
 import com.andronauts.quizard.api.responseModels.faculty.FacultyUpdateResponse;
 import com.andronauts.quizard.api.responseModels.quiz.QuizCreateResponse;
+import com.andronauts.quizard.api.responseModels.quiz.QuizListGetResponse;
 import com.andronauts.quizard.api.responseModels.signIn.GoogleSignInResponse;
 import com.andronauts.quizard.api.responseModels.student.StudentGetResponse;
 import com.andronauts.quizard.api.responseModels.student.StudentUpdateResponse;
@@ -41,4 +42,9 @@ public interface APIInterface {
 
     @POST("quiz/create")
     Call<QuizCreateResponse> createQuiz(@Header("token") String token, @Body Quiz quiz);
+    @GET("quiz/get/faculty")
+    Call<QuizListGetResponse> getQuizByFaculty(@Header("id") String id);
+    @GET("quiz/get/subject")
+    Call<QuizListGetResponse> getQuizBySubject(@Header("id") String id);
+
 }
