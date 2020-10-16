@@ -26,7 +26,7 @@ const getProfile = (req,res)=>{
 
     Student.findOne({_id:id})
     .then((doc)=>{
-        return res.status(200),json({
+        return res.status(200).json({
             success:true,
             student:doc,
         })
@@ -42,7 +42,7 @@ const getProfile = (req,res)=>{
 const addSubject = (req,res)=>{
     const id =  req.user.id;
     const subjectId = req.headers.subject_id;
-    Student.update({_id:id},{$push:{subjects:subjectId}})
+    Student.updateOne({_id:id},{$push:{subjects:subjectId}})
     .then((doc)=>{
         res.status(200).json({
             success:true,
@@ -61,7 +61,7 @@ const removeSubject = (req,res)=>{
     const id = req.user.id;
     const subjectId = req.headers.subject_id;
 
-    Student.updateOne({_id:id},{$pop:{subjects:subjectId}})
+    Student.updateOne({_id:id},{$pull:{subjects:subjectId}})
     .then((doc)=>{
         return res.status(200).json({
             success:true,

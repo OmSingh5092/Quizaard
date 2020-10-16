@@ -58,7 +58,7 @@ const removeSubject = (req,res)=>{
     const id = req.user.id;
     const subjectId = req.headers.subject_id;
 
-    Faculty.updateOne({_id:id},{$pop:{subjects:subjectId}})
+    Faculty.updateOne({_id:id},{$pull:{subjects:subjectId}})
     .then((doc)=>{
         return res.status(200).json({
             success:true,

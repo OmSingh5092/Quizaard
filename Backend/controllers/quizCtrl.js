@@ -60,13 +60,13 @@ const getQuizByStudent = async (req,res)=>{
 
     try{
         const student = await Student.findById(id);
-    
+        console.log("Student",student);
         const condition = [];
         student.subjects.map((item,index)=>{
             condition.push({subject:item});
         })
 
-        const quizzes = await Quiz.find({$where:condition});
+        const quizzes = await Quiz.find({$or:condition});
 
         return res.status(200).json({
             success:true,

@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,6 +39,12 @@ public class QuizStudentFragment extends Fragment {
         prefs = new SharedPrefs(context);
         loadData();
 
+        binding.refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+            }
+        });
         return binding.getRoot();
     }
 
@@ -45,6 +52,7 @@ public class QuizStudentFragment extends Fragment {
         RetrofitClient.getClient().getQuizByStudent(prefs.getToken()).enqueue(new Callback<QuizListGetResponse>() {
             @Override
             public void onResponse(Call<QuizListGetResponse> call, Response<QuizListGetResponse> response) {
+                binding.refresh.setRefreshing(false);
                 quizzes = response.body().getQuizzes();
                 setUpRecyclerView();
             }
