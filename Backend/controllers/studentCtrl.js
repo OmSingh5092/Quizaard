@@ -1,4 +1,5 @@
 const Student = require('../database/schema/student');
+const subject = require('../database/schema/subject');
 
 const updateProfile = (req,res)=>{
     const id = req.user.id;
@@ -38,4 +39,41 @@ const getProfile = (req,res)=>{
     })
 }
 
-module.exports = {updateProfile,getProfile}
+const addSubject = (req,res)=>{
+    const id =  req.user.id;
+    const subjectId = req.headers.subject_id;
+    Student.update({_id:id},{$push:{subjects:subjectId}})
+    .then((doc)=>{
+        res.status(200).json({
+            success:true,
+            msg:"Update Succesfull!",
+        })
+    }).catch((err)=>{
+        console.log("Error",err);
+        res.status(500).json({
+            success:false,
+            msg:"Update unsuccessfull!",
+        })
+    })
+}
+
+const removeSubject = (req,res)=>{
+    const id = req.user.id;
+    const subjectId = req.headers.subject_id;
+
+    Student.updateOne({_id:id},{$pop:{subjects:subjectId}})
+    .then((doc)=>{
+        return res.status(200).json({
+            success:true,
+            msg:"Remove subject Successfull!",
+        })
+    }).catch((err)=>{
+        console.log("Error",err);
+        res.status(500).json({
+            success:false,
+            msg:"Remove subject unsuccessfull!",
+        })
+    })
+}
+
+module.exports = {updateProfile,getProfile,addSubject,removeSubject}

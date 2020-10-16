@@ -5,6 +5,9 @@
         android:title="Profile"
         android:id="@+id/profile"/>
     <item
+        android:title="Subject"
+        android:id="@+id/subject"/>
+    <item
         android:title="Faculties"
         android:id="@+id/faculties"/>
     <item

@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,7 +36,12 @@ public class HostFacultyFragment extends Fragment {
         loadData();
 
 
-
+        binding.refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+            }
+        });
         return binding.getRoot();
     }
 
@@ -45,6 +51,7 @@ public class HostFacultyFragment extends Fragment {
             public void onResponse(Call<FacultyGetResponse> call, Response<FacultyGetResponse> response) {
                 HostFacultyFragment.this.faculty = response.body().getFaculty();
                 setUpRecyclerView();
+                binding.refresh.setRefreshing(false);
             }
 
             @Override
@@ -53,10 +60,10 @@ public class HostFacultyFragment extends Fragment {
             }
         });
     }
-
     private void setUpRecyclerView(){
         HostQuizRecycler adapter = new HostQuizRecycler(faculty.getSubjects(),getContext());
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(context));
         binding.recyclerView.setAdapter(adapter);
     }
+
 }

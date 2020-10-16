@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.andronauts.quizard.dataModels.Subject;
-import com.andronauts.quizard.databinding.RecyclerSubjectRegisteredBinding;
+import com.andronauts.quizard.databinding.RecyclerSubjectBinding;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
@@ -19,18 +19,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class SubjectRecycler extends RecyclerView.Adapter<SubjectRecycler.ViewHolder> {
 
-    public interface UnRegisterHandler{
-        void onAction();
+    public interface ActionHandler{
+        void onAction(int position);
     }
 
     List<Subject> data = new ArrayList<>();
     Context context;
-    UnRegisterHandler handler;
+    ActionHandler handler;
     boolean isRegistered;
 
-    RecyclerSubjectRegisteredBinding binding;
+    RecyclerSubjectBinding binding;
 
-    public SubjectRecycler(List<Subject> data, Context context, UnRegisterHandler handler, boolean isRegistered) {
+    public SubjectRecycler(List<Subject> data, Context context, boolean isRegistered,ActionHandler handler) {
         this.data = data;
         this.context = context;
         this.handler = handler;
@@ -40,7 +40,7 @@ public class SubjectRecycler extends RecyclerView.Adapter<SubjectRecycler.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding = RecyclerSubjectRegisteredBinding.inflate(LayoutInflater.from(context),parent,false);
+        binding = RecyclerSubjectBinding.inflate(LayoutInflater.from(context),parent,false);
         return new ViewHolder(binding.getRoot());
     }
 
@@ -60,13 +60,13 @@ public class SubjectRecycler extends RecyclerView.Adapter<SubjectRecycler.ViewHo
         holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                handler.onAction();
+                handler.onAction(position);
             }
         });
         holder.register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                handler.onAction();
+                handler.onAction(position);
             }
         });
     }

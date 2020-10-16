@@ -4,6 +4,9 @@
         android:title="Profile"
         android:id="@+id/profile"/>
     <item
+        android:title="Subject"
+        android:id="@+id/subject"/>
+    <item
         android:title="Previous Quizzes"
         android:id="@+id/previous_quizzes"/>
     <item
