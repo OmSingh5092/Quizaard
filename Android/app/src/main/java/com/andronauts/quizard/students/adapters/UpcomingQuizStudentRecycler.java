@@ -1,5 +1,6 @@
 package com.andronauts.quizard.students.adapters;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Layout;
@@ -15,6 +16,7 @@ import com.andronauts.quizard.dataModels.Quiz;
 import com.andronauts.quizard.dataModels.Subject;
 import com.andronauts.quizard.databinding.RecyclerUpcomingQuizStudentBinding;
 import com.andronauts.quizard.students.activities.QuizStudentActivity;
+import com.andronauts.quizard.utils.CalendarManager;
 import com.andronauts.quizard.utils.DateFormatter;
 import com.google.android.material.button.MaterialButton;
 
@@ -77,6 +79,13 @@ public class UpcomingQuizStudentRecycler extends RecyclerView.Adapter<UpcomingQu
                 Intent i = new Intent(context, QuizStudentActivity.class);
                 i.putExtra("quizId",quiz.getId());
                 context.startActivity(i);
+            }
+        });
+
+        holder.addEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new CalendarManager(context).addQuizEvent(data.get(position));
             }
         });
 

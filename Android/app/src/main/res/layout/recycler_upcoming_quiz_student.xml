@@ -100,12 +100,12 @@
                 android:layout_height="wrap_content"/>
 
             <ImageView
+                android:layout_marginTop="20dp"
                 android:id="@+id/add_event"
                 android:foreground="?attr/selectableItemBackground"
-                android:layout_weight="1"
                 android:layout_gravity="center"
                 android:layout_width="40dp"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:src = "@drawable/ic_add_event"/>
         </LinearLayout>
 
