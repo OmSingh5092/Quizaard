@@ -77,6 +77,9 @@ public class HomeFacultyActivity extends AppCompatActivity {
                     Intent i = new Intent(HomeFacultyActivity.this, SubjectActivity.class);
                     i.putExtra("isStudent",false);
                     startActivity(i);
+                }else if (item.getItemId() == R.id.profile){
+                    Intent i = new Intent(HomeFacultyActivity.this,ProfileFacultyActivity.class);
+                    startActivity(i);
                 }
 
                 return false;

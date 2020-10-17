@@ -140,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
                     sharedPrefs.saveEmail(account.getEmail());
                     sharedPrefs.saveNewUser(response.body().isNewUser());
                     sharedPrefs.saveToken(response.body().getAuthToken());
-                    sharedPrefs.saveUserType(!isStudent);
+                    sharedPrefs.saveUserType(isStudent);
                     firebaseAuthWithGoogle(account.getIdToken());
 
                     Log.i("Token",response.body().getAuthToken());

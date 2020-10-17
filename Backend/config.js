@@ -22,7 +22,7 @@ const config = {
             uri:"mongodb://localhost:27017/Quizzard"
         },
         prod:{
-            
+            uri:"mongodb+srv://omsingh:omsingh@cluster0.67wvl.mongodb.net/Quizaard?retryWrites=true&w=majority"
         }
     },
     gcp:{
