@@ -137,6 +137,7 @@ public class RegisterFacultyActivity extends AppCompatActivity {
     private void handleSubmit(){
         faculty.setFacultyId(binding.facultyId.getText().toString());
         faculty.setDepartment(binding.department.getText().toString());
+        faculty.setName(binding.name.getText().toString());
 
         RetrofitClient.getClient().facultyUpdate(prefs.getToken(),faculty).enqueue(new Callback<FacultyUpdateResponse>() {
             @Override

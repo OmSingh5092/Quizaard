@@ -21,6 +21,9 @@ const faculty = new Schema(
         },
         subjects:{
             type:Array
+        },
+        photo_path:{
+            type:String,
         }
     },{
         timestamps:true

@@ -6,6 +6,7 @@ import android.net.Uri;
 import com.andronauts.quizard.utils.SharedPrefs;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.UploadTask;
 
@@ -47,6 +48,16 @@ public class StorageCtrl {
     }
 
     public void downloadFile(String path, Uri uri, handleDownload handler){
-
+        storage.getReference(path).getFile(uri).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                handler.onSuccess();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                handler.onFailure();
+            }
+        });
     }
 }
