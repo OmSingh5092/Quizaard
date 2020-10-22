@@ -73,24 +73,28 @@ public class ProfileStudentActivity extends AppCompatActivity {
                 startActivityForResult(Intent.createChooser(pictureIntent,"Select Picture"), PICK_CARD);
             }
         });
+        loadData();
 
         new PermissionCtrl(this).askStoragePermission();
 
     }
 
     private void loadData(){
+        Snackbar snackbar = Snackbar.make(binding.getRoot(),"Fetching Profile...",Snackbar.LENGTH_INDEFINITE);
+        snackbar.show();
         RetrofitClient.getClient().studentGetProfile(prefs.getToken()).enqueue(new Callback<StudentGetResponse>() {
             @Override
             public void onResponse(Call<StudentGetResponse> call, Response<StudentGetResponse> response) {
                 if(response.isSuccessful()){
                     student = response.body().getStudent();
                     setData();
+                    snackbar.dismiss();
                 }
             }
 
             @Override
             public void onFailure(Call<StudentGetResponse> call, Throwable t) {
-
+                snackbar.dismiss();
             }
         });
     }
@@ -99,7 +103,7 @@ public class ProfileStudentActivity extends AppCompatActivity {
         binding.name.setText(student.getName());
         binding.registrationNumber.setText(student.getRegistrationNumber());
         binding.department.setText(student.getDepartment());
-        binding.year.setText(student.getYear());
+        binding.year.setText(String.valueOf(student.getYear()));
 
 
         try {

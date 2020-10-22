@@ -14,7 +14,7 @@ public class RetrofitClient {
     public static APIInterface getClient() {
         if (apiInterface == null) {
             String BASE_URL = "http://192.168.43.167:4000/api/";
-            //String BASE_URL = "https://collegemate-api.herokuapp.com/api/";
+            //String BASE_URL = "https://quizaard-api.herokuapp.com/api/";
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(getHttpClient())

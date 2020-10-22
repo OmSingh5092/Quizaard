@@ -45,7 +45,6 @@ public class HostQuizFacultyActivity extends AppCompatActivity {
 
     Calendar calendar = Calendar.getInstance();
     int duration = 0;
-
     int GET_PDF = 100;
 
     @Override
