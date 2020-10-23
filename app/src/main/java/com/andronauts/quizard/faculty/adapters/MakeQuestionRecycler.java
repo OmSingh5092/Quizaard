@@ -1,6 +1,8 @@
 package com.andronauts.quizard.faculty.adapters;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +10,7 @@ import android.widget.TextView;
 
 import com.andronauts.quizard.dataModels.Quiz;
 import com.andronauts.quizard.databinding.RecyclerMakeQuestionsFacultyBinding;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -15,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it.sephiroth.android.library.numberpicker.NumberPicker;
 
@@ -39,11 +43,42 @@ public class MakeQuestionRecycler extends RecyclerView.Adapter<MakeQuestionRecyc
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.serial.setText(String.valueOf(position+1));
+        holder.question.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                data.get(position).setQuestion(editable.toString());
+            }
+        });
+        List<String> options = new ArrayList<>();
+        binding.options.setLayoutManager(new LinearLayoutManager(context));
+        MakeQuestionOptionRecycler adapter = new MakeQuestionOptionRecycler(context,options);
+        binding.options.setAdapter(adapter);
+        data.get(position).setOptions(options);
 
         holder.total.setNumberPickerChangeListener(new NumberPicker.OnNumberPickerChangeListener() {
             @Override
             public void onProgressChanged(@NotNull NumberPicker numberPicker, int i, boolean b) {
                 data.get(position).setTotal(i);
+
+                while (options.size()!=i){
+                    if(options.size()<i){
+                        options.add("");
+                    }else{
+                        options.remove(options.size()-1);
+                    }
+                }
+
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -107,6 +142,9 @@ public class MakeQuestionRecycler extends RecyclerView.Adapter<MakeQuestionRecyc
 
             }
         });
+
+
+
     }
 
     @Override
@@ -117,15 +155,18 @@ public class MakeQuestionRecycler extends RecyclerView.Adapter<MakeQuestionRecyc
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView serial;
         NumberPicker total, correct, positive, negative;
+        TextInputEditText question;
+        RecyclerView options;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             serial = binding.serial;
-
+            question = binding.question;
             total = binding.total;
             correct = binding.correct;
             positive = binding.positive;
             negative = binding.negative;
+            options = binding.options;
         }
     }
 }

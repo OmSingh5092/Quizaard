@@ -34,4 +34,8 @@ public class DateFormatter {
         simpleDateFormat = new SimpleDateFormat("dd MMM yyyy hh:mm aa");
         return simpleDateFormat.format(date);
     }
+
+    public long getTimeStamp(){
+        return timestamp;
+    }
 }

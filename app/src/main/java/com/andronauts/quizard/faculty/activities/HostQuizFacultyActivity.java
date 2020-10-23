@@ -203,10 +203,11 @@ public class HostQuizFacultyActivity extends AppCompatActivity {
     private void uploadPdf(Uri uri){
         Snackbar snackbar = Snackbar.make(binding.getRoot(),"Uploading...",Snackbar.LENGTH_INDEFINITE);
         snackbar.show();
-        new StorageCtrl(this).uploadFile("quiz/" + System.currentTimeMillis() + ".pdf", uri, new StorageCtrl.handleUpload() {
+        String path = "quiz/" + System.currentTimeMillis() + ".pdf";
+        new StorageCtrl(this).uploadFile(path, uri, new StorageCtrl.handleUpload() {
             @Override
             public void onSuccess() {
-                quiz.setPaper("quiz/" + System.currentTimeMillis() + ".pdf");
+                quiz.setPaper(path);
                 snackbar.dismiss();
                 binding.done.setVisibility(View.VISIBLE);
                 Toast.makeText(HostQuizFacultyActivity.this, "Question paper uploaded successfully!", Toast.LENGTH_SHORT).show();

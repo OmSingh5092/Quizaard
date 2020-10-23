@@ -4,6 +4,86 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation= "vertical"
     tools:context=".students.activities.QuizStudentActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimaryDark"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:menu="@menu/menu_home_student"
+        app:navigationIcon="@drawable/ic_back"
+        app:title="Quiz"
+        app:titleTextColor="@color/colorWhite" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_margin="20dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_black"
+                android:textSize="24sp"
+                tools:text="Title" />
+            <TextView
+                android:id="@+id/description"
+                android:layout_marginTop="10dp"
+                tools:text="This is the description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <douglasspgyn.com.github.circularcountdown.CircularCountdown
+            android:layout_gravity="center"
+            android:id="@+id/circularCountdown"
+            android:layout_marginRight="20dp"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            app:countdownBackgroundColor="@color/colorAccent"
+            app:countdownForegroundColor="@color/colorPrimary"
+            app:countdownTextColor="@color/colorPrimaryDark"
+            app:countdownTextSize="24sp" />
+
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.github.barteksc.pdfviewpager.PDFViewPager
+                android:id="@+id/pdf_view_pager"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
+
+            <LinearLayout
+                android:id="@+id/questions"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
 
 </LinearLayout>

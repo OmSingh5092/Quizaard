@@ -79,6 +79,12 @@ dependencies {
     //socket.io
     implementation 'com.github.nkzawa:socket.io-client:0.6.0'
 
+    //circular timer
+    implementation 'com.github.douglasspgyn:CircularCountdown:0.3.0'
+
+    //pdf viewpager
+    implementation 'com.github.barteksc:pdf-view-pager:1.0.3'
+
 }
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'

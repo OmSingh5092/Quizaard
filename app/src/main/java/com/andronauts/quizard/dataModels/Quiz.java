@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Quiz {
-    @SerializedName("id")
+    @SerializedName("_id")
     @Expose
     private String id;
     @SerializedName("title")
@@ -61,6 +61,12 @@ public class Quiz {
     private List<Question> question;
 
     public static class Question{
+        @SerializedName("question")
+        @Expose
+        private String question;
+        @SerializedName("options")
+        @Expose
+        private List<String> options;
         @SerializedName("correct")
         @Expose
         private int correct;
@@ -73,6 +79,22 @@ public class Quiz {
         @SerializedName("negative")
         @Expose
         private int negative;
+
+        public String getQuestion() {
+            return question;
+        }
+
+        public void setQuestion(String question) {
+            this.question = question;
+        }
+
+        public List<String> getOptions() {
+            return options;
+        }
+
+        public void setOptions(List<String> options) {
+            this.options = options;
+        }
 
         public int getCorrect() {
             return correct;
