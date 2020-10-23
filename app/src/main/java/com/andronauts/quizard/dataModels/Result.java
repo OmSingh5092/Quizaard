@@ -3,6 +3,8 @@ package com.andronauts.quizard.dataModels;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Result {
     @SerializedName("id")
     @Expose
@@ -13,12 +15,45 @@ public class Result {
     @SerializedName("total")
     @Expose
     private int total;
-    @SerializedName("start_time")
-    @Expose
-    private String startTime;
     @SerializedName("submit_time")
     @Expose
     private String submitTime;
+    @SerializedName("responses")
+    @Expose
+    private int[] responses;
+    @SerializedName("student")
+    @Expose
+    private String student;
+    @SerializedName("quiz")
+    @Expose
+    private String quiz;
+    @SerializedName("subject")
+    @Expose
+    private String subject;
+
+    public String getStudent() {
+        return student;
+    }
+
+    public void setStudent(String student) {
+        this.student = student;
+    }
+
+    public String getQuiz() {
+        return quiz;
+    }
+
+    public void setQuiz(String quiz) {
+        this.quiz = quiz;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 
     public String getId() {
         return id;
@@ -44,19 +79,19 @@ public class Result {
         this.total = total;
     }
 
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
     public String getSubmitTime() {
         return submitTime;
     }
 
     public void setSubmitTime(String submitTime) {
         this.submitTime = submitTime;
+    }
+
+    public int[] getResponses() {
+        return responses;
+    }
+
+    public void setResponses(int[] responses) {
+        this.responses = responses;
     }
 }

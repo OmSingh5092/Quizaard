@@ -5,6 +5,7 @@ import com.andronauts.quizard.api.responseModels.faculty.FacultyUpdateResponse;
 import com.andronauts.quizard.api.responseModels.quiz.QuizCreateResponse;
 import com.andronauts.quizard.api.responseModels.quiz.QuizGetResponse;
 import com.andronauts.quizard.api.responseModels.quiz.QuizListGetResponse;
+import com.andronauts.quizard.api.responseModels.result.ResultCreateResponse;
 import com.andronauts.quizard.api.responseModels.signIn.GoogleSignInResponse;
 import com.andronauts.quizard.api.responseModels.student.StudentGetResponse;
 import com.andronauts.quizard.api.responseModels.student.StudentSubjectAddResponse;
@@ -14,6 +15,7 @@ import com.andronauts.quizard.api.responseModels.subject.SubjectGetAllResponse;
 import com.andronauts.quizard.api.responseModels.subject.SubjectGetResponse;
 import com.andronauts.quizard.dataModels.Faculty;
 import com.andronauts.quizard.dataModels.Quiz;
+import com.andronauts.quizard.dataModels.Result;
 import com.andronauts.quizard.dataModels.Student;
 
 import java.util.Map;
@@ -60,13 +62,15 @@ public interface APIInterface {
     Call<QuizCreateResponse> createQuiz(@Header("token") String token, @Body Quiz quiz);
     @GET("quiz/get/faculty")
     Call<QuizListGetResponse> getQuizByFaculty(@Header("id") String id);
-
     @GET("quiz/get/subject")
     Call<QuizListGetResponse> getQuizBySubject(@Header("id") String id);
     @GET("quiz/get/student")
     Call<QuizListGetResponse> getQuizByStudent(@Header("token") String token);
     @GET("quiz/get")
     Call<QuizGetResponse> getQuiz(@Header("token")String token,@Header("id") String id);
+
+    @POST("result/create")
+    Call<ResultCreateResponse> createResult(@Header("token") String token, @Body Result result);
 
 
 }
