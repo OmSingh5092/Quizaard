@@ -1,17 +1,22 @@
 package com.andronauts.quizard.students.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.andronauts.quizard.api.responseModels.quiz.QuizListGetResponse;
 import com.andronauts.quizard.api.retrofit.RetrofitClient;
+import com.andronauts.quizard.api.WebSocketClient;
 import com.andronauts.quizard.dataModels.Quiz;
 import com.andronauts.quizard.databinding.FragmentQuizStudentBinding;
 import com.andronauts.quizard.students.adapters.UpcomingQuizStudentRecycler;
 import com.andronauts.quizard.utils.SharedPrefs;
+import com.github.nkzawa.emitter.Emitter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,16 +31,24 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class QuizStudentFragment extends Fragment {
-    FragmentQuizStudentBinding binding;
-    Context context;
-    SharedPrefs prefs;
-    UpcomingQuizStudentRecycler adapter;
-    List<Quiz> quizzes = new ArrayList<>();
+    private FragmentQuizStudentBinding binding;
+    private Context context;
+    private Activity parent;
+    private SharedPrefs prefs;
+    private UpcomingQuizStudentRecycler adapter;
+    private List<Quiz> quizzes = new ArrayList<>();
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.context = context;
+        this.parent = (Activity)context;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentQuizStudentBinding.inflate(inflater,container,false);
-        context = getContext();
         prefs = new SharedPrefs(context);
         loadData();
 
@@ -45,6 +58,8 @@ public class QuizStudentFragment extends Fragment {
                 loadData();
             }
         });
+
+        setWebSocketListeners();
         return binding.getRoot();
     }
 
@@ -62,6 +77,59 @@ public class QuizStudentFragment extends Fragment {
 
             }
         });
+    }
+
+    private void setWebSocketListeners(){
+        WebSocketClient.getMSocket().on("quizStart", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                parent.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String quizId = (String) args[0];
+                        setQuizLive(quizId);
+                        adapter.notifyDataSetChanged();
+                        Log.i("MESSAGE","Quiz Started!");
+                    }
+                });
+            }
+        });
+
+        WebSocketClient.getMSocket().on("quizStop", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                parent.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String quizId = (String) args[0];
+                        setQuizNotLive(quizId);
+                        adapter.notifyDataSetChanged();
+                        Log.i("MESSAGE","Quiz Stopped!");
+                    }
+                });
+
+
+            }
+        });
+    }
+
+    private void setQuizLive(String quizId){
+        for(Quiz quiz:quizzes){
+            if(quiz.getId() == quizId){
+                quiz.setLive(true);
+                return;
+            }
+
+        }
+    }
+
+    private void setQuizNotLive(String quizId){
+        for(Quiz quiz:quizzes){
+            if(quiz.getId() == quizId){
+                quiz.setLive(false);
+                return;
+            }
+        }
     }
 
     private void setUpRecyclerView(){
