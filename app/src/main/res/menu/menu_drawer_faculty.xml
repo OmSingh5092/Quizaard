@@ -7,8 +7,8 @@
         android:title="Subject"
         android:id="@+id/subject"/>
     <item
-        android:title="Previous Quizzes"
-        android:id="@+id/previous_quizzes"/>
+        android:title="Hosted Quizzes"
+        android:id="@+id/hosted_quizzes"/>
     <item
         android:title="Faculties"
         android:id="@+id/faculties"/>

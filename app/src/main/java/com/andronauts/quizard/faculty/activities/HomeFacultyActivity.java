@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import com.andronauts.quizard.R;
 import com.andronauts.quizard.databinding.ActivityHomeFacultyBinding;
 import com.andronauts.quizard.faculty.fragments.HostFacultyFragment;
-import com.andronauts.quizard.faculty.fragments.QuizFacultyFragment;
+import com.andronauts.quizard.faculty.fragments.ResultFacultyFragment;
 import com.andronauts.quizard.general.activities.LoginActivity;
 import com.andronauts.quizard.general.activities.SubjectActivity;
 import com.andronauts.quizard.utils.SessionManager;
@@ -34,7 +34,7 @@ public class HomeFacultyActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position){
                 case 0: return new HostFacultyFragment();
-                case 1: return new QuizFacultyFragment();
+                case 1: return new ResultFacultyFragment();
             }
             return null;
         }
@@ -93,7 +93,7 @@ public class HomeFacultyActivity extends AppCompatActivity {
         binding.tabLayout.setupWithViewPager(binding.viewPager);
 
         binding.tabLayout.getTabAt(0).setText("Host Quiz");
-        binding.tabLayout.getTabAt(1).setText("Quiz");
+        binding.tabLayout.getTabAt(1).setText("Results");
     }
 
     @Override
