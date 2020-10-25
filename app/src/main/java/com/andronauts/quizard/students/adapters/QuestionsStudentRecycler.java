@@ -49,11 +49,23 @@ public class QuestionsStudentRecycler extends RecyclerView.Adapter<QuestionsStud
         Quiz.Question question = data.get(position);
         holder.serial.setText(String.valueOf(position+1));
         holder.question.setText(question.getQuestion());
+        holder.positive.setText(String.valueOf(question.getPositive()));
+        holder.negative.setText(String.valueOf(question.getNegative()));
         List<String> options = question.getOptions();
-        for(String option: options){
-            RadioButton radioButton = new RadioButton(context);
-            radioButton.setText(option);
-            holder.optionRadioGroup.addView(radioButton);
+
+        //Adding radio button to radio group only if there are no children
+        if(holder.optionRadioGroup.getChildCount() ==0){
+            for(String option: options){
+                RadioButton radioButton = new RadioButton(context);
+                radioButton.setText(option);
+                holder.optionRadioGroup.addView(radioButton);
+            }
+        }
+
+        if(response[position]!=0){
+            holder.optionRadioGroup.check(holder.optionRadioGroup.getChildAt(response[position]-1).getId());
+        }else{
+            holder.optionRadioGroup.clearCheck();
         }
 
         holder.optionRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -62,6 +74,23 @@ public class QuestionsStudentRecycler extends RecyclerView.Adapter<QuestionsStud
                 int index = holder.optionRadioGroup.indexOfChild(radioGroup.findViewById(i));
                 response[position] =index+1;
                 handler.onChange();
+
+                holder.removeResponse.setVisibility(View.VISIBLE);
+            }
+        });
+
+        //Setting the visibility of remove response button
+        if(response[position] == 0){
+            holder.removeResponse.setVisibility(View.GONE);
+        }
+
+        holder.removeResponse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                response[position]=0;
+                handler.onChange();
+                holder.optionRadioGroup.clearCheck();
+                holder.removeResponse.setVisibility(View.GONE);
 
             }
         });
@@ -75,13 +104,16 @@ public class QuestionsStudentRecycler extends RecyclerView.Adapter<QuestionsStud
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView serial,question;
+        TextView serial,question,removeResponse,positive,negative;
         RadioGroup optionRadioGroup;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             serial = binding.serial;
             question = binding.question;
             optionRadioGroup = binding.optionRadioGroup;
+            removeResponse = binding.removeResponse;
+            positive = binding.positive;
+            negative = binding.negative;
         }
     }
 }

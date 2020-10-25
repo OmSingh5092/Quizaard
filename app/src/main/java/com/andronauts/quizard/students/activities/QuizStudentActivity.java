@@ -2,6 +2,7 @@ package com.andronauts.quizard.students.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import douglasspgyn.com.github.circularcountdown.CircularCountdown;
 import douglasspgyn.com.github.circularcountdown.listener.CircularListener;
@@ -9,6 +10,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import android.content.Intent;
 import android.graphics.pdf.PdfRenderer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,17 +30,23 @@ import com.andronauts.quizard.dataModels.Result;
 import com.andronauts.quizard.databinding.ActivityQuizStudentBinding;
 import com.andronauts.quizard.students.adapters.QuestionsStudentRecycler;
 import com.andronauts.quizard.utils.DateFormatter;
+import com.andronauts.quizard.utils.PermissionCtrl;
 import com.andronauts.quizard.utils.SharedPrefs;
 import com.andronauts.quizard.utils.firebase.StorageCtrl;
 import com.github.barteksc.pdfviewpager.adapter.PDFPagerAdapter;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
 public class QuizStudentActivity extends AppCompatActivity {
-    ActivityQuizStudentBinding binding;
+    private ActivityQuizStudentBinding binding;
     private String quizId;
     private Quiz quiz;
     private SharedPrefs prefs;
@@ -65,6 +73,15 @@ public class QuizStudentActivity extends AppCompatActivity {
             }
         });
 
+        binding.downloadPaper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                downloadPdf();
+            }
+        });
+
+        new PermissionCtrl(this).askStoragePermission();
+
     }
 
     private void loadData(){
@@ -74,8 +91,17 @@ public class QuizStudentActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
                     quiz = response.body().getQuiz();
                     responses = new int[quiz.getQuestion().size()];
+
+                    /*//Checking if quiz is ended or not
+                    if(new DateFormatter(quiz.getEndTime()).getTimeStamp()<System.currentTimeMillis()){
+                        Toast.makeText(QuizStudentActivity.this, "Quiz is already ended", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }  */
+                    //Checking if there is any question paper or not
+                    if(quiz.getPaper() != null){
+                        binding.downloadPaper.setVisibility(View.VISIBLE);
+                    }
                     loadResult();
-                    setData();
                 }
             }
 
@@ -96,8 +122,9 @@ public class QuizStudentActivity extends AppCompatActivity {
                         makeResult();
                         return;
                     }
-                    result.setResponses(responses);
                     updateResponses(result.getResponses());
+                    result.setResponses(responses);
+                    setData();
                 }
             }
 
@@ -120,9 +147,9 @@ public class QuizStudentActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResultCreateResponse> call, Response<ResultCreateResponse> response) {
                 if(response.isSuccessful()){
-                    Toast.makeText(QuizStudentActivity.this, "Quiz Submitted successfully", Toast.LENGTH_SHORT).show();
                     result = response.body().getResult();
                     result.setResponses(responses);
+                    setData();
                 }
             }
 
@@ -145,7 +172,6 @@ public class QuizStudentActivity extends AppCompatActivity {
         for(int i =0 ;i<responses.length ; i++){
             responses[i] = newResponses[i];
         }
-        adapter.notifyDataSetChanged();
     }
 
     private void setTimer(){
@@ -186,6 +212,32 @@ public class QuizStudentActivity extends AppCompatActivity {
     }
 
     private void downloadPdf(){
+        File file =new File(Environment.getExternalStorageDirectory(),"Quizzard");
+        if(!file.exists()){
+            file.mkdir();
+        }
+        File pdfFile =new File(file,"questionPaper.pdf");
+
+        FirebaseStorage.getInstance().getReference(quiz.getPaper()).getFile(pdfFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                Uri contentUri = FileProvider.getUriForFile(QuizStudentActivity.this,getPackageName()+".provider",pdfFile);
+                Intent i = new Intent();
+                i.setAction(Intent.ACTION_VIEW);
+                i.setDataAndType(contentUri,"application/pdf");
+                i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                startActivity(i);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+
+    }
+
+    private void openPdfFile(){
 
     }
 
