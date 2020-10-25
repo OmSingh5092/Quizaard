@@ -78,7 +78,12 @@ public class QuizResultRecycler extends RecyclerView.Adapter<QuizResultRecycler.
                     holder.attendance.setText(String.valueOf(response.body().getAttendance()));
                     holder.average.setText(String.valueOf(response.body().getAverage()));
 
-
+                    binding.quizReport.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            new PDFGenerator(context).createReportPdf(quiz,response.body().getResults(),response.body().getStudents());
+                        }
+                    });
                 }
             }
 

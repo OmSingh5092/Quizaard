@@ -1,6 +1,7 @@
 package com.andronauts.quizard.api.responseModels.result;
 
 import com.andronauts.quizard.dataModels.Result;
+import com.andronauts.quizard.dataModels.Student;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -19,6 +20,17 @@ public class ResultGetBySubjectResponse {
     @SerializedName("attendance")
     @Expose
     private float attendance;
+    @SerializedName("students")
+    @Expose
+    private List<Student> students;
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
 
     public boolean isSuccess() {
         return success;

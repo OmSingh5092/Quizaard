@@ -1,10 +1,14 @@
 package com.andronauts.quizard.utils;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
 
 import com.andronauts.quizard.dataModels.Quiz;
 import com.andronauts.quizard.dataModels.Result;
 import com.andronauts.quizard.dataModels.Student;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -20,6 +24,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.List;
 
+import androidx.core.content.FileProvider;
+
 public class PDFGenerator {
     Context context;
 
@@ -27,7 +33,14 @@ public class PDFGenerator {
         this.context = context;
     }
 
-    public void createReportPdf(Quiz quiz, List<Result> results, List<Student>students, File file){
+    public void createReportPdf(Quiz quiz, List<Result> results, List<Student>students){
+        File parent = new File(Environment.getExternalStorageDirectory(),"Quizzard");
+        if(!parent.exists()){
+            parent.mkdir();
+        }
+
+        File file = new File(parent,"report.pdf");
+
         Document document = new Document();
         try {
             PdfWriter.getInstance(document,new FileOutputStream(file));
@@ -35,7 +48,7 @@ public class PDFGenerator {
 
             addTitle(document,quiz);
             addData(document,results,students,quiz);
-
+            document.close();
 
 
         } catch (DocumentException e) {
@@ -43,6 +56,13 @@ public class PDFGenerator {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
+        Uri contentUri = FileProvider.getUriForFile(context,context.getPackageName()+".provider",file);
+        Intent i = new Intent();
+        i.setAction(Intent.ACTION_VIEW);
+        i.setDataAndType(contentUri,"application/pdf");
+        i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        context.startActivity(i);
     }
 
     private void addTitle(Document document,Quiz quiz) throws DocumentException {
