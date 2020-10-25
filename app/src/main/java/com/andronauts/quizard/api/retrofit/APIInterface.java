@@ -3,7 +3,7 @@ package com.andronauts.quizard.api.retrofit;
 import com.andronauts.quizard.api.responseModels.faculty.FacultyGetResponse;
 import com.andronauts.quizard.api.responseModels.faculty.FacultyUpdateResponse;
 import com.andronauts.quizard.api.responseModels.quiz.QuizCreateResponse;
-import com.andronauts.quizard.api.responseModels.quiz.QuizGetResponse;
+import com.andronauts.quizard.api.responseModels.quiz.QuizResponse;
 import com.andronauts.quizard.api.responseModels.quiz.QuizListGetResponse;
 import com.andronauts.quizard.api.responseModels.result.ResultCreateResponse;
 import com.andronauts.quizard.api.responseModels.result.ResultGetBySubjectResponse;
@@ -69,8 +69,9 @@ public interface APIInterface {
     @GET("quiz/get/student")
     Call<QuizListGetResponse> getQuizByStudent(@Header("token") String token,@Header("completed") boolean completed);
     @GET("quiz/get")
-    Call<QuizGetResponse> getQuiz(@Header("token")String token,@Header("id") String id);
-
+    Call<QuizResponse> getQuiz(@Header("token")String token, @Header("id") String id);
+    @DELETE("quiz/delete")
+    Call<QuizResponse> deleteQuiz(@Header("token")String token,@Header("quizId")String quizId);
 
     @POST("result/create")
     Call<ResultCreateResponse> createResult(@Header("token") String token, @Body Result result);

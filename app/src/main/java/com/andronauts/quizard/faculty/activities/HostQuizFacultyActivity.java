@@ -74,9 +74,6 @@ public class HostQuizFacultyActivity extends AppCompatActivity {
                 onUpload();
             }
         });
-
-
-
     }
 
     private void setQuestionRecyclerView(){

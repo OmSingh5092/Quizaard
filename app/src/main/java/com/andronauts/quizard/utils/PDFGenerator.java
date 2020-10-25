@@ -34,13 +34,9 @@ public class PDFGenerator {
     }
 
     public void createReportPdf(Quiz quiz, List<Result> results, List<Student>students){
-        File parent = new File(Environment.getExternalStorageDirectory(),"Quizzard");
-        if(!parent.exists()){
-            parent.mkdir();
-        }
+        FileManager fileManager = new FileManager(context);
 
-        File file = new File(parent,"report.pdf");
-
+        File file = fileManager.getReportPdfFile();
         Document document = new Document();
         try {
             PdfWriter.getInstance(document,new FileOutputStream(file));
@@ -57,12 +53,7 @@ public class PDFGenerator {
             e.printStackTrace();
         }
 
-        Uri contentUri = FileProvider.getUriForFile(context,context.getPackageName()+".provider",file);
-        Intent i = new Intent();
-        i.setAction(Intent.ACTION_VIEW);
-        i.setDataAndType(contentUri,"application/pdf");
-        i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        context.startActivity(i);
+        fileManager.openPdfFile(file);
     }
 
     private void addTitle(Document document,Quiz quiz) throws DocumentException {

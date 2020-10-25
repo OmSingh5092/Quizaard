@@ -4,7 +4,7 @@ import com.andronauts.quizard.dataModels.Quiz;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class QuizGetResponse {
+public class QuizResponse {
     @SerializedName("success")
     @Expose
     private boolean success;

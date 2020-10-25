@@ -2,7 +2,6 @@ package com.andronauts.quizard.students.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import douglasspgyn.com.github.circularcountdown.CircularCountdown;
 import douglasspgyn.com.github.circularcountdown.listener.CircularListener;
@@ -10,18 +9,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import android.content.Intent;
-import android.graphics.pdf.PdfRenderer;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.ParcelFileDescriptor;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.andronauts.quizard.R;
-import com.andronauts.quizard.api.responseModels.quiz.QuizGetResponse;
+import com.andronauts.quizard.api.responseModels.quiz.QuizResponse;
 import com.andronauts.quizard.api.responseModels.result.ResultCreateResponse;
 import com.andronauts.quizard.api.responseModels.result.ResultGetResponse;
 import com.andronauts.quizard.api.retrofit.RetrofitClient;
@@ -30,20 +22,15 @@ import com.andronauts.quizard.dataModels.Result;
 import com.andronauts.quizard.databinding.ActivityQuizStudentBinding;
 import com.andronauts.quizard.students.adapters.QuestionsStudentRecycler;
 import com.andronauts.quizard.utils.DateFormatter;
+import com.andronauts.quizard.utils.FileManager;
 import com.andronauts.quizard.utils.PermissionCtrl;
 import com.andronauts.quizard.utils.SharedPrefs;
-import com.andronauts.quizard.utils.firebase.StorageCtrl;
-import com.github.barteksc.pdfviewpager.adapter.PDFPagerAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
 
 public class QuizStudentActivity extends AppCompatActivity {
     private ActivityQuizStudentBinding binding;
@@ -54,6 +41,8 @@ public class QuizStudentActivity extends AppCompatActivity {
     private int[] responses;
     private Result result;
 
+    private FileManager fileManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +52,7 @@ public class QuizStudentActivity extends AppCompatActivity {
         prefs = new SharedPrefs(this);
         quizId = getIntent().getStringExtra("quizId");
         result = new Result();
+        fileManager = new FileManager(this);
         loadData();
 
 
@@ -85,9 +75,9 @@ public class QuizStudentActivity extends AppCompatActivity {
     }
 
     private void loadData(){
-        RetrofitClient.getClient().getQuiz(prefs.getToken(),quizId).enqueue(new Callback<QuizGetResponse>() {
+        RetrofitClient.getClient().getQuiz(prefs.getToken(),quizId).enqueue(new Callback<QuizResponse>() {
             @Override
-            public void onResponse(Call<QuizGetResponse> call, Response<QuizGetResponse> response) {
+            public void onResponse(Call<QuizResponse> call, Response<QuizResponse> response) {
                 if(response.isSuccessful()){
                     quiz = response.body().getQuiz();
                     responses = new int[quiz.getQuestion().size()];
@@ -106,7 +96,7 @@ public class QuizStudentActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<QuizGetResponse> call, Throwable t) {
+            public void onFailure(Call<QuizResponse> call, Throwable t) {
 
             }
         });
@@ -212,21 +202,12 @@ public class QuizStudentActivity extends AppCompatActivity {
     }
 
     private void downloadPdf(){
-        File file =new File(Environment.getExternalStorageDirectory(),"Quizzard");
-        if(!file.exists()){
-            file.mkdir();
-        }
-        File pdfFile =new File(file,"questionPaper.pdf");
+        File pdfFile = fileManager.getQuestionPaperPdfFile();
 
         FirebaseStorage.getInstance().getReference(quiz.getPaper()).getFile(pdfFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                Uri contentUri = FileProvider.getUriForFile(QuizStudentActivity.this,getPackageName()+".provider",pdfFile);
-                Intent i = new Intent();
-                i.setAction(Intent.ACTION_VIEW);
-                i.setDataAndType(contentUri,"application/pdf");
-                i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                startActivity(i);
+                fileManager.openPdfFile(pdfFile);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -234,10 +215,6 @@ public class QuizStudentActivity extends AppCompatActivity {
 
             }
         });
-
-    }
-
-    private void openPdfFile(){
 
     }
 

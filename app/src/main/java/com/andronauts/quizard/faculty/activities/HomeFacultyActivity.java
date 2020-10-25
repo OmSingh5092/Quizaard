@@ -67,7 +67,6 @@ public class HomeFacultyActivity extends AppCompatActivity {
                             startActivity(i);
                             finish();
                         }
-
                         @Override
                         public void onFailure() {
 
@@ -79,6 +78,9 @@ public class HomeFacultyActivity extends AppCompatActivity {
                     startActivity(i);
                 }else if (item.getItemId() == R.id.profile){
                     Intent i = new Intent(HomeFacultyActivity.this,ProfileFacultyActivity.class);
+                    startActivity(i);
+                }else if(item.getItemId() == R.id.hosted_quizzes){
+                    Intent i = new Intent(HomeFacultyActivity.this,HostedQuizFacultyActivity.class);
                     startActivity(i);
                 }
 
