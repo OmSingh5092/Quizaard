@@ -7,6 +7,7 @@ import com.andronauts.quizard.api.responseModels.quiz.QuizGetResponse;
 import com.andronauts.quizard.api.responseModels.quiz.QuizListGetResponse;
 import com.andronauts.quizard.api.responseModels.result.ResultCreateResponse;
 import com.andronauts.quizard.api.responseModels.result.ResultGetBySubjectResponse;
+import com.andronauts.quizard.api.responseModels.result.ResultGetResponse;
 import com.andronauts.quizard.api.responseModels.signIn.GoogleSignInResponse;
 import com.andronauts.quizard.api.responseModels.student.StudentGetResponse;
 import com.andronauts.quizard.api.responseModels.student.StudentSubjectAddResponse;
@@ -62,18 +63,23 @@ public interface APIInterface {
     @POST("quiz/create")
     Call<QuizCreateResponse> createQuiz(@Header("token") String token, @Body Quiz quiz);
     @GET("quiz/get/faculty")
-    Call<QuizListGetResponse> getQuizByFaculty(@Header("id") String id,@Header("completed") boolean completed);
+    Call<QuizListGetResponse> getQuizByFaculty(@Header("token")String token,@Header("completed") boolean completed);
     @GET("quiz/get/subject")
     Call<QuizListGetResponse> getQuizBySubject(@Header("id") String id);
     @GET("quiz/get/student")
-    Call<QuizListGetResponse> getQuizByStudent(@Header("token") String token);
+    Call<QuizListGetResponse> getQuizByStudent(@Header("token") String token,@Header("completed") boolean completed);
     @GET("quiz/get")
     Call<QuizGetResponse> getQuiz(@Header("token")String token,@Header("id") String id);
+
 
     @POST("result/create")
     Call<ResultCreateResponse> createResult(@Header("token") String token, @Body Result result);
     @GET("result/get/subject")
     Call<ResultGetBySubjectResponse> getResultBySubject(@Header("token") String token, @Header("subject") String subject);
+    @GET("result/get/student/quiz")
+    Call<ResultGetResponse> getResultByQuizAndStudent(@Header("token")String token, @Header("quiz") String quizId);
+    @POST("result/update")
+    Call<ResultGetResponse> updateResult(@Header("token")String token, @Body Result result);
 
 
 }

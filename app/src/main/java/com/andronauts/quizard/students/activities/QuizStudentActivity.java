@@ -1,5 +1,6 @@
 package com.andronauts.quizard.students.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import douglasspgyn.com.github.circularcountdown.CircularCountdown;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import com.andronauts.quizard.R;
 import com.andronauts.quizard.api.responseModels.quiz.QuizGetResponse;
 import com.andronauts.quizard.api.responseModels.result.ResultCreateResponse;
+import com.andronauts.quizard.api.responseModels.result.ResultGetResponse;
 import com.andronauts.quizard.api.retrofit.RetrofitClient;
 import com.andronauts.quizard.dataModels.Quiz;
 import com.andronauts.quizard.dataModels.Result;
@@ -59,7 +61,7 @@ public class QuizStudentActivity extends AppCompatActivity {
         binding.submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onSubmit();
+                onEndTest();
             }
         });
 
@@ -72,6 +74,7 @@ public class QuizStudentActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
                     quiz = response.body().getQuiz();
                     responses = new int[quiz.getQuestion().size()];
+                    loadResult();
                     setData();
                 }
             }
@@ -83,12 +86,66 @@ public class QuizStudentActivity extends AppCompatActivity {
         });
     }
 
+    private void loadResult(){
+        RetrofitClient.getClient().getResultByQuizAndStudent(prefs.getToken(),quizId).enqueue(new Callback<ResultGetResponse>() {
+            @Override
+            public void onResponse(Call<ResultGetResponse> call, Response<ResultGetResponse> response) {
+                if(response.isSuccessful()){
+                    result = response.body().getResult();
+                    if(result == null){
+                        makeResult();
+                        return;
+                    }
+                    result.setResponses(responses);
+                    updateResponses(result.getResponses());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResultGetResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void makeResult(){
+        result = new Result();
+        result.setResponses(responses);
+        result.setQuiz(quizId);
+        result.setTotal(responses.length);
+        result.setSubject(quiz.getSubject());
+        result.setSubmitTime(String.valueOf(System.currentTimeMillis()));
+
+        RetrofitClient.getClient().createResult(prefs.getToken(),result).enqueue(new Callback<ResultCreateResponse>() {
+            @Override
+            public void onResponse(Call<ResultCreateResponse> call, Response<ResultCreateResponse> response) {
+                if(response.isSuccessful()){
+                    Toast.makeText(QuizStudentActivity.this, "Quiz Submitted successfully", Toast.LENGTH_SHORT).show();
+                    result = response.body().getResult();
+                    result.setResponses(responses);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResultCreateResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
     private void setData(){
         binding.title.setText(quiz.getTitle());
         binding.description.setText(quiz.getDescription());
         setTimer();
         setQuestionRecycler();
         setDownloadPdf();
+    }
+
+    private void updateResponses(int[] newResponses){
+        for(int i =0 ;i<responses.length ; i++){
+            responses[i] = newResponses[i];
+        }
+        adapter.notifyDataSetChanged();
     }
 
     private void setTimer(){
@@ -107,7 +164,8 @@ public class QuizStudentActivity extends AppCompatActivity {
                     @Override
                     public void onFinish(boolean b, int i) {
                         Toast.makeText(QuizStudentActivity.this, "Timer finished", Toast.LENGTH_SHORT).show();
-                        onSubmit();
+                        binding.circularCountdown.stop();
+                        onEndTest();
                     }
                 });
 
@@ -133,31 +191,29 @@ public class QuizStudentActivity extends AppCompatActivity {
 
     private void setQuestionRecycler(){
         binding.recycler.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new QuestionsStudentRecycler(this,quiz.getQuestion(),responses);
+        adapter = new QuestionsStudentRecycler(this, quiz.getQuestion(), responses, new QuestionsStudentRecycler.RadioChangeHandler() {
+            @Override
+            public void onChange() {
+                RetrofitClient.getClient().updateResult(prefs.getToken(),result).enqueue(new Callback<ResultGetResponse>() {
+                    @Override
+                    public void onResponse(Call<ResultGetResponse> call, Response<ResultGetResponse> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResultGetResponse> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
         binding.recycler.setAdapter(adapter);
     }
 
-    private void onSubmit(){
-        result.setResponses(responses);
-        result.setQuiz(quizId);
-        result.setTotal(responses.length);
-        result.setSubmitTime(String.valueOf(System.currentTimeMillis()));
-
-        RetrofitClient.getClient().createResult(prefs.getToken(),result).enqueue(new Callback<ResultCreateResponse>() {
-            @Override
-            public void onResponse(Call<ResultCreateResponse> call, Response<ResultCreateResponse> response) {
-                if(response.isSuccessful()){
-                    Toast.makeText(QuizStudentActivity.this, "Quiz Submitted successfully", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResultCreateResponse> call, Throwable t) {
-
-            }
-        });
+    private void onEndTest(){
+        finish();
     }
+
 
     @Override
     public boolean onSupportNavigateUp() {

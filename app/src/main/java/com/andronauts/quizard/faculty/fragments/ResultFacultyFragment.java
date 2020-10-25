@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,6 +37,13 @@ public class ResultFacultyFragment extends Fragment {
         context = getContext();
         prefs = new SharedPrefs(context);
         loadData();
+
+        binding.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+            }
+        });
         return binding.getRoot();
     }
 
@@ -46,12 +54,15 @@ public class ResultFacultyFragment extends Fragment {
                 if(response.isSuccessful()){
                     quizzes = response.body().getQuizzes();
                     setUpRecyclerView();
+                    binding.refreshLayout.setRefreshing(false);
+                }else{
+                    binding.refreshLayout.setRefreshing(false);
                 }
             }
 
             @Override
             public void onFailure(Call<QuizListGetResponse> call, Throwable t) {
-
+                binding.refreshLayout.setRefreshing(false);
             }
         });
     }

@@ -172,7 +172,6 @@ public class HostQuizFacultyActivity extends AppCompatActivity {
         quiz.setQuestion(questions);
         quiz.setTitle(binding.title.getText().toString());
         quiz.setDescription(binding.description.getText().toString());
-        quiz.setFaculty(prefs.getToken());
         quiz.setSubject(subjectId);
         quiz.setStartTime(String.valueOf(calendar.getTimeInMillis()));
         quiz.setEndTime(String.valueOf(calendar.getTimeInMillis()+(1000*duration*60)));

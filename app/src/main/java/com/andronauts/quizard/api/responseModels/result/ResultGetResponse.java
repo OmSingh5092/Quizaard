@@ -1,11 +1,10 @@
 package com.andronauts.quizard.api.responseModels.result;
 
-import com.andronauts.quizard.dataModels.Quiz;
 import com.andronauts.quizard.dataModels.Result;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ResultCreateResponse {
+public class ResultGetResponse {
     @SerializedName("success")
     @Expose
     private boolean success;

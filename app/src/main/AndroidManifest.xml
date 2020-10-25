@@ -19,7 +19,7 @@
         <activity android:name=".faculty.activities.ProfileFacultyActivity" />
         <activity android:name=".general.activities.StudentsActivity" />
         <activity android:name=".general.activities.FacultiesActivity" />
-        <activity android:name=".students.activities.QuizStudentActivity" />
+        <activity android:name=".students.activities.QuizStudentActivity"  />
         <activity android:name=".faculty.activities.HostQuizFacultyActivity" />
         <activity android:name=".students.activities.HomeStudentActivity" />
         <activity android:name=".faculty.activities.HomeFacultyActivity" />

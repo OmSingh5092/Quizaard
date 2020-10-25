@@ -64,7 +64,7 @@ public class QuizStudentFragment extends Fragment {
     }
 
     private void loadData(){
-        RetrofitClient.getClient().getQuizByStudent(prefs.getToken()).enqueue(new Callback<QuizListGetResponse>() {
+        RetrofitClient.getClient().getQuizByStudent(prefs.getToken(),false).enqueue(new Callback<QuizListGetResponse>() {
             @Override
             public void onResponse(Call<QuizListGetResponse> call, Response<QuizListGetResponse> response) {
                 binding.refresh.setRefreshing(false);

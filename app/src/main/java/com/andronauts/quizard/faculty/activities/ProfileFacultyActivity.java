@@ -75,6 +75,10 @@ public class ProfileFacultyActivity extends AppCompatActivity {
         binding.facultyId.setText(faculty.getFacultyId());
         binding.department.setText(faculty.getDepartment());
 
+        if(faculty.getPhotoPath() == null){
+            return;
+        }
+
         try {
             File file = File.createTempFile("photo","jpeg");
             new StorageCtrl(this).downloadFile(faculty.getPhotoPath(), Uri.fromFile(file), new StorageCtrl.handleDownload() {

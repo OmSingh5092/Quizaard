@@ -14,6 +14,7 @@ import com.andronauts.quizard.dataModels.Result;
 import com.andronauts.quizard.dataModels.Subject;
 import com.andronauts.quizard.databinding.RecyclerQuizResultFacultyBinding;
 import com.andronauts.quizard.utils.DateFormatter;
+import com.andronauts.quizard.utils.PDFGenerator;
 import com.andronauts.quizard.utils.SharedPrefs;
 import com.google.android.material.button.MaterialButton;
 
@@ -77,12 +78,7 @@ public class QuizResultRecycler extends RecyclerView.Adapter<QuizResultRecycler.
                     holder.attendance.setText(String.valueOf(response.body().getAttendance()));
                     holder.average.setText(String.valueOf(response.body().getAverage()));
 
-                    holder.showResults.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
 
-                        }
-                    });
                 }
             }
 
@@ -91,6 +87,7 @@ public class QuizResultRecycler extends RecyclerView.Adapter<QuizResultRecycler.
 
             }
         });
+
     }
 
     @Override

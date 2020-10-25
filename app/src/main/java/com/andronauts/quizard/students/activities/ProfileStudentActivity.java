@@ -105,7 +105,9 @@ public class ProfileStudentActivity extends AppCompatActivity {
         binding.department.setText(student.getDepartment());
         binding.year.setText(String.valueOf(student.getYear()));
 
-
+        if(student.getPhotoPath() == null){
+            return;
+        }
         try {
             File file = File.createTempFile("photo","jpeg");
             new StorageCtrl(this).downloadFile(student.getPhotoPath(), Uri.fromFile(file), new StorageCtrl.handleDownload() {
@@ -126,7 +128,8 @@ public class ProfileStudentActivity extends AppCompatActivity {
 
                 }
             });
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }

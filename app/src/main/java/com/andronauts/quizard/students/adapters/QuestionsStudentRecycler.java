@@ -19,15 +19,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class QuestionsStudentRecycler extends RecyclerView.Adapter<QuestionsStudentRecycler.ViewHolder> {
 
+    public interface RadioChangeHandler{
+        void onChange();
+    }
+
     RecyclerQuizStudentQuestionBinding binding;
     Context context;
     List<Quiz.Question> data;
     int[] response;
+    RadioChangeHandler handler;
 
-    public QuestionsStudentRecycler(Context context, List<Quiz.Question> data, int[] response) {
+
+    public QuestionsStudentRecycler(Context context, List<Quiz.Question> data, int[] response,RadioChangeHandler handler) {
         this.context = context;
         this.data = data;
         this.response = response;
+        this.handler = handler;
     }
 
     @NonNull
@@ -53,7 +60,8 @@ public class QuestionsStudentRecycler extends RecyclerView.Adapter<QuestionsStud
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 int index = holder.optionRadioGroup.indexOfChild(radioGroup.findViewById(i));
-                response[position] =index;
+                response[position] =index+1;
+                handler.onChange();
 
             }
         });

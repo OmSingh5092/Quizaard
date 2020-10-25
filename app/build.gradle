@@ -85,6 +85,9 @@ dependencies {
     //pdf viewpager
     implementation 'com.github.barteksc:pdf-view-pager:1.0.3'
 
+    //itext PDF
+    implementation 'com.itextpdf:itextg:5.5.10'
+
 }
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'

@@ -50,17 +50,17 @@ public class UpcomingQuizStudentRecycler extends RecyclerView.Adapter<UpcomingQu
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Quiz quiz = data.get(position);
-        binding.title.setText(quiz.getTitle());
-        binding.description.setText(quiz.getDescription());
-        binding.date.setText(new DateFormatter(quiz.getStartTime()).getDateAndTime());
-        binding.duration.setText(String.valueOf((Long.valueOf(quiz.getEndTime())-Long.valueOf(quiz.getStartTime()))/1000));
+        holder.title.setText(quiz.getTitle());
+        holder.description.setText(quiz.getDescription());
+        holder.date.setText(new DateFormatter(quiz.getStartTime()).getDateAndTime());
+        holder.duration.setText(String.valueOf((Long.valueOf(quiz.getEndTime())-Long.valueOf(quiz.getStartTime()))/60000));
 
         RetrofitClient.getClient().getSubject(quiz.getSubject()).enqueue(new Callback<SubjectGetResponse>() {
             @Override
             public void onResponse(Call<SubjectGetResponse> call, Response<SubjectGetResponse> response) {
                 Subject subject = response.body().getSubject();
-                binding.subject.setText(subject.getName());
-                binding.subjectCode.setText(subject.getSubjectCode());
+                holder.subject.setText(subject.getName());
+                holder.subjectCode.setText(subject.getSubjectCode());
             }
 
             @Override
