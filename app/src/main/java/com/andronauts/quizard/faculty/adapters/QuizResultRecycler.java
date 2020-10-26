@@ -10,15 +10,13 @@ import com.andronauts.quizard.api.responseModels.result.ResultGetBySubjectRespon
 import com.andronauts.quizard.api.responseModels.subject.SubjectGetResponse;
 import com.andronauts.quizard.api.retrofit.RetrofitClient;
 import com.andronauts.quizard.dataModels.Quiz;
-import com.andronauts.quizard.dataModels.Result;
 import com.andronauts.quizard.dataModels.Subject;
 import com.andronauts.quizard.databinding.RecyclerQuizResultFacultyBinding;
 import com.andronauts.quizard.utils.DateFormatter;
-import com.andronauts.quizard.utils.PDFGenerator;
+import com.andronauts.quizard.utils.pdfGenerators.ReportFacultyGenerator;
 import com.andronauts.quizard.utils.SharedPrefs;
 import com.google.android.material.button.MaterialButton;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -81,7 +79,7 @@ public class QuizResultRecycler extends RecyclerView.Adapter<QuizResultRecycler.
                     binding.quizReport.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            new PDFGenerator(context).createReportPdf(quiz,response.body().getResults(),response.body().getStudents());
+                            new ReportFacultyGenerator(context).createReportPdf(quiz,response.body().getResults(),response.body().getStudents());
                         }
                     });
                 }

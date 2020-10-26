@@ -71,7 +71,9 @@ public interface APIInterface {
     @GET("quiz/get")
     Call<QuizResponse> getQuiz(@Header("token")String token, @Header("id") String id);
     @DELETE("quiz/delete")
-    Call<QuizResponse> deleteQuiz(@Header("token")String token,@Header("quizId")String quizId);
+    Call<QuizResponse> deleteQuiz(@Header("token")String token,@Header("id")String quizId);
+    @POST("quiz/update")
+    Call<QuizResponse> updateQuiz(@Header("token")String token,@Body Quiz quiz);
 
     @POST("result/create")
     Call<ResultCreateResponse> createResult(@Header("token") String token, @Body Result result);

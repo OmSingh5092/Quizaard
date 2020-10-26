@@ -88,6 +88,9 @@ dependencies {
     //itext PDF
     implementation 'com.itextpdf:itextg:5.5.10'
 
+    //any chart
+    implementation 'com.github.AnyChart:AnyChart-Android:1.1.2'
+
 }
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'

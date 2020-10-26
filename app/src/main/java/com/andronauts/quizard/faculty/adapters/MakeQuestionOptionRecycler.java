@@ -37,7 +37,10 @@ public class MakeQuestionOptionRecycler extends RecyclerView.Adapter<MakeQuestio
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        //Setting data
         holder.serial.setText(String.valueOf(position+1));
+        holder.option.setText(data.get(position));
+
         holder.option.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

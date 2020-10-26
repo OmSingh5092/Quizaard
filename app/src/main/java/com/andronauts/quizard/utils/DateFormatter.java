@@ -7,6 +7,7 @@ public class DateFormatter {
     Long timestamp;
     SimpleDateFormat simpleDateFormat;
     Date date;
+    Long startTimeStamp, endTimeStamp;
 
     public DateFormatter(Long timestamp){
         this.timestamp = timestamp;
@@ -16,6 +17,12 @@ public class DateFormatter {
     public DateFormatter(String timestamp){
         this.timestamp = Long.valueOf(timestamp);
         date = new Date(this.timestamp);
+    }
+
+    public DateFormatter(String start, String end){
+        this.startTimeStamp = Long.valueOf(start);
+        this .endTimeStamp = Long.valueOf(end);
+
     }
 
 
@@ -33,6 +40,10 @@ public class DateFormatter {
     public String getDateAndTime(){
         simpleDateFormat = new SimpleDateFormat("dd MMM yyyy hh:mm aa");
         return simpleDateFormat.format(date);
+    }
+
+    public long getDurationMinutes(){
+        return (endTimeStamp-startTimeStamp)/60000;
     }
 
     public long getTimeStamp(){

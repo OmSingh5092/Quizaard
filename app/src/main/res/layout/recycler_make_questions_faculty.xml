@@ -70,7 +70,7 @@
                         android:text="Total" />
                     <it.sephiroth.android.library.numberpicker.NumberPicker
                         android:layout_gravity="center"
-                        style="@style/NumberPicker.Filled"
+                        style="@style/NumberPicker.Outlined"
                         app:picker_max="100"
                         app:picker_min="0"
                         android:progress="0"

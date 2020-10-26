@@ -23,8 +23,20 @@ public class FileManager {
         }
     }
 
-    public File getReportPdfFile(){
-        String name = "report"+new DateFormatter(System.currentTimeMillis()).getDateAndTime()+".pdf";
+    public File getFacultyReportPdfFile(){
+        String name = "report_"+"faculty_"+new DateFormatter(System.currentTimeMillis()).getDateAndTime()+".pdf";
+        File file = new File(parentFile,name);
+        return file;
+    }
+
+    public File getStudentReportPdfFile(){
+        String name = "report_"+"student_"+new DateFormatter(System.currentTimeMillis()).getDateAndTime()+".pdf";
+        File file = new File(parentFile,name);
+        return file;
+    }
+
+    public File getStudentQuestionPdfFile(){
+        String name = "questions_"+new DateFormatter(System.currentTimeMillis()).getDateAndTime()+".pdf";
         File file = new File(parentFile,name);
         return file;
     }

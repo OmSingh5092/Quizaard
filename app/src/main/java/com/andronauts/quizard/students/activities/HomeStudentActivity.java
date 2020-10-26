@@ -18,6 +18,7 @@ import com.andronauts.quizard.databinding.ActivityHomeStudentBinding;
 import com.andronauts.quizard.faculty.activities.HomeFacultyActivity;
 import com.andronauts.quizard.general.activities.LoginActivity;
 import com.andronauts.quizard.general.activities.SubjectActivity;
+import com.andronauts.quizard.students.adapters.PreviousQuizzesStudentRecycler;
 import com.andronauts.quizard.students.fragments.QuizStudentFragment;
 import com.andronauts.quizard.students.fragments.ReportStudentFragment;
 import com.andronauts.quizard.utils.SessionManager;
@@ -89,6 +90,9 @@ public class HomeStudentActivity extends AppCompatActivity {
                     startActivity(i);
                 }else if(item.getItemId()== R.id.profile){
                     Intent i = new Intent(HomeStudentActivity.this,ProfileStudentActivity.class);
+                    startActivity(i);
+                }else if(item.getItemId() == R.id.previous_quizzes){
+                    Intent i =new Intent(HomeStudentActivity.this, PreviousQuizzesStudentActivity.class);
                     startActivity(i);
                 }
 

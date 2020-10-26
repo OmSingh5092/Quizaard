@@ -1,4 +1,4 @@
-package com.andronauts.quizard.utils;
+package com.andronauts.quizard.utils.pdfGenerators;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,8 @@ import com.andronauts.quizard.dataModels.Quiz;
 import com.andronauts.quizard.dataModels.Result;
 import com.andronauts.quizard.dataModels.Student;
 
+import com.andronauts.quizard.utils.DateFormatter;
+import com.andronauts.quizard.utils.FileManager;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -23,20 +25,21 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.List;
+import java.util.Map;
 
 import androidx.core.content.FileProvider;
 
-public class PDFGenerator {
+public class ReportFacultyGenerator {
     Context context;
 
-    public PDFGenerator(Context context) {
+    public ReportFacultyGenerator(Context context) {
         this.context = context;
     }
 
-    public void createReportPdf(Quiz quiz, List<Result> results, List<Student>students){
+    public void createReportPdf(Quiz quiz, List<Result> results, Map<String,Student>students){
         FileManager fileManager = new FileManager(context);
 
-        File file = fileManager.getReportPdfFile();
+        File file = fileManager.getFacultyReportPdfFile();
         Document document = new Document();
         try {
             PdfWriter.getInstance(document,new FileOutputStream(file));
@@ -75,23 +78,25 @@ public class PDFGenerator {
         document.newPage();
     }
 
-    private void addData(Document document,List<Result> results,List<Student> students,Quiz quiz) throws DocumentException {
+    private void addData(Document document,List<Result> results,Map<String,Student> students,Quiz quiz) throws DocumentException {
         Paragraph titlePara = new Paragraph();
         titlePara.add("Student Response Data");
-        addEmptyLine(titlePara,5);
         document.add(titlePara);
 
         for(int i =0 ; i<results.size(); i++){
             Result result = results.get(i);
-            Student student =students.get(i);
+            Student student =students.get(result.getStudent());
             Paragraph resultPara = new Paragraph();
             addEmptyLine(resultPara,3);
             resultPara.add(String.valueOf(i+1));
-            resultPara.add("Enrollment Number "+student.getRegistrationNumber());
-            resultPara.add("Name "+student.getName());
+            resultPara.add("Enrollment Number-  "+student.getRegistrationNumber());
+            addEmptyLine(resultPara,1);
+            resultPara.add("Name-  "+student.getName());
             addEmptyLine(resultPara,2);
 
+            document.add(resultPara);
             addResultTable(document,result,quiz);
+            addScores(document,result,quiz);
         }
 
     }
@@ -146,6 +151,19 @@ public class PDFGenerator {
 
         document.add(table);
 
+    }
+
+    private void addScores(Document document, Result result, Quiz quiz) throws DocumentException {
+        Paragraph paragraph = new Paragraph();
+        addEmptyLine(paragraph,2);
+
+        int total = 0;
+        for(Quiz.Question question: quiz.getQuestion()){
+            total+=question.getPositive();
+        }
+
+        paragraph.add("Score - "+String.valueOf(result.getScore())+" / " +String.valueOf(total));
+        document.add(paragraph);
     }
 
     private void addEmptyLine(Paragraph paragraph, int number) {

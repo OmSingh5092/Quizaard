@@ -17,6 +17,7 @@ import com.andronauts.quizard.api.retrofit.RetrofitClient;
 import com.andronauts.quizard.dataModels.Quiz;
 import com.andronauts.quizard.dataModels.Subject;
 import com.andronauts.quizard.databinding.RecyclerUpcomingQuizFacultyBinding;
+import com.andronauts.quizard.faculty.activities.HostQuizFacultyActivity;
 import com.andronauts.quizard.students.activities.QuizStudentActivity;
 import com.andronauts.quizard.utils.CalendarManager;
 import com.andronauts.quizard.utils.DateFormatter;
@@ -89,6 +90,16 @@ public class UpcomingQuizFacultyRecycler extends RecyclerView.Adapter<UpcomingQu
                 new CalendarManager(context).addQuizEvent(data.get(position));
             }
         });
+
+        holder.editQuiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(context, HostQuizFacultyActivity.class);
+                i.putExtra("quizId",quiz.getId());
+                i.putExtra("updateQuiz",true);
+                context.startActivity(i);
+            }
+        });
     }
 
     private void handleCancelQuiz(Quiz quiz,int position){
@@ -134,7 +145,7 @@ public class UpcomingQuizFacultyRecycler extends RecyclerView.Adapter<UpcomingQu
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView title,description,date,duration,subjectCode,subject;
         MaterialButton cancelQuiz;
-        ImageView addEvent;
+        ImageView addEvent,editQuiz;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             title = binding.title;
@@ -145,6 +156,7 @@ public class UpcomingQuizFacultyRecycler extends RecyclerView.Adapter<UpcomingQu
             subjectCode = binding.subjectCode;
             cancelQuiz = binding.cancelQuiz;
             addEvent = binding.addEvent;
+            editQuiz = binding.editQuiz;
         }
     }
 }

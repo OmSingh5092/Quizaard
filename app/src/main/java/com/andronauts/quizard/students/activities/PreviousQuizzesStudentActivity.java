@@ -1,4 +1,4 @@
-package com.andronauts.quizard.faculty.activities;
+package com.andronauts.quizard.students.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,29 +8,28 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.widget.Toast;
 
 import com.andronauts.quizard.R;
 import com.andronauts.quizard.api.responseModels.quiz.QuizListGetResponse;
 import com.andronauts.quizard.api.retrofit.RetrofitClient;
 import com.andronauts.quizard.dataModels.Quiz;
-import com.andronauts.quizard.databinding.ActivityHostQuizFacultyBinding;
-import com.andronauts.quizard.databinding.ActivityHostedQuizFacultyBinding;
-import com.andronauts.quizard.databinding.RecyclerUpcomingQuizFacultyBinding;
-import com.andronauts.quizard.faculty.adapters.UpcomingQuizFacultyRecycler;
+import com.andronauts.quizard.databinding.ActivityPreviousQuizzesStudentBinding;
+import com.andronauts.quizard.students.adapters.PreviousQuizzesStudentRecycler;
 import com.andronauts.quizard.utils.SharedPrefs;
 
 import java.util.List;
 
-public class HostedQuizFacultyActivity extends AppCompatActivity {
-    private ActivityHostedQuizFacultyBinding binding;
+public class PreviousQuizzesStudentActivity extends AppCompatActivity {
+    private ActivityPreviousQuizzesStudentBinding binding;
     private SharedPrefs prefs;
+    private PreviousQuizzesStudentRecycler adapter;
     private List<Quiz> quizzes;
-    private UpcomingQuizFacultyRecycler adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityHostedQuizFacultyBinding.inflate(getLayoutInflater());
+        binding = ActivityPreviousQuizzesStudentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
         prefs = new SharedPrefs(this);
@@ -46,36 +45,28 @@ public class HostedQuizFacultyActivity extends AppCompatActivity {
     }
 
     private void loadData(){
-        RetrofitClient.getClient().getQuizByFaculty(prefs.getToken(),false).enqueue(new Callback<QuizListGetResponse>() {
+        RetrofitClient.getClient().getQuizByStudent(prefs.getToken(),true).enqueue(new Callback<QuizListGetResponse>() {
             @Override
             public void onResponse(Call<QuizListGetResponse> call, Response<QuizListGetResponse> response) {
                 if(response.isSuccessful()){
                     quizzes = response.body().getQuizzes();
                     setUpRecyclerView();
-                    binding.swipeRefreshLayout.setRefreshing(false);
-                }else{
-                    binding.swipeRefreshLayout.setRefreshing(false);
                 }
+                binding.swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onFailure(Call<QuizListGetResponse> call, Throwable t) {
-                Log.e("Error",t.getMessage());
+                Toast.makeText(PreviousQuizzesStudentActivity.this, "Some Error Occurred", Toast.LENGTH_SHORT).show();
                 binding.swipeRefreshLayout.setRefreshing(false);
             }
         });
     }
 
     private void setUpRecyclerView(){
+        adapter = new PreviousQuizzesStudentRecycler(this,quizzes);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new UpcomingQuizFacultyRecycler(quizzes,this);
         binding.recyclerView.setAdapter(adapter);
-    }
-
-    @Override
-    protected void onPostResume() {
-        loadData();
-        super.onPostResume();
     }
 
     @Override

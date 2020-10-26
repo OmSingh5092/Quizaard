@@ -6,6 +6,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+import java.util.Map;
 
 public class ResultGetBySubjectResponse {
     @SerializedName("success")
@@ -22,13 +23,13 @@ public class ResultGetBySubjectResponse {
     private float attendance;
     @SerializedName("students")
     @Expose
-    private List<Student> students;
+    private Map<String,Student> students;
 
-    public List<Student> getStudents() {
+    public Map<String, Student> getStudents() {
         return students;
     }
 
-    public void setStudents(List<Student> students) {
+    public void setStudents(Map<String, Student> students) {
         this.students = students;
     }
 

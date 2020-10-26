@@ -3,9 +3,10 @@ package com.andronauts.quizard.dataModels;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Quiz {
+public class Quiz implements Serializable {
     @SerializedName("_id")
     @Expose
     private String id;

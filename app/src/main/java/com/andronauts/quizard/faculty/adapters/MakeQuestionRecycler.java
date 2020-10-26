@@ -42,7 +42,17 @@ public class MakeQuestionRecycler extends RecyclerView.Adapter<MakeQuestionRecyc
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Quiz.Question question = data.get(position);
+
+        //Setting values
         holder.serial.setText(String.valueOf(position+1));
+        holder.question.setText(question.getQuestion());
+        holder.total.setProgress(question.getTotal());
+        holder.correct.setProgress(question.getCorrect());
+        holder.positive.setProgress(question.getPositive());
+        holder.negative.setProgress(question.getNegative());
+
+
         holder.question.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -59,11 +69,19 @@ public class MakeQuestionRecycler extends RecyclerView.Adapter<MakeQuestionRecyc
                 data.get(position).setQuestion(editable.toString());
             }
         });
-        List<String> options = new ArrayList<>();
+
+        List<String> options;
+        if(question.getOptions() == null){
+            options = new ArrayList<>();
+            question.setOptions(options);
+        }else{
+            options = question.getOptions();
+        }
+
         binding.options.setLayoutManager(new LinearLayoutManager(context));
         MakeQuestionOptionRecycler adapter = new MakeQuestionOptionRecycler(context,options);
         binding.options.setAdapter(adapter);
-        data.get(position).setOptions(options);
+
 
         holder.total.setNumberPickerChangeListener(new NumberPicker.OnNumberPickerChangeListener() {
             @Override

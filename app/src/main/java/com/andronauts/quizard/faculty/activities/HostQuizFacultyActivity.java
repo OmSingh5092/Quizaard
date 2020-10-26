@@ -1,5 +1,6 @@
 package com.andronauts.quizard.faculty.activities;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,12 +14,15 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.andronauts.quizard.api.responseModels.quiz.QuizCreateResponse;
+import com.andronauts.quizard.api.responseModels.quiz.QuizResponse;
 import com.andronauts.quizard.api.retrofit.RetrofitClient;
 import com.andronauts.quizard.dataModels.Quiz;
 import com.andronauts.quizard.databinding.ActivityHostQuizFacultyBinding;
@@ -32,6 +36,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class HostQuizFacultyActivity extends AppCompatActivity {
@@ -40,8 +45,12 @@ public class HostQuizFacultyActivity extends AppCompatActivity {
     SharedPrefs prefs;
 
     MakeQuestionRecycler adapter;
-    Quiz quiz = new Quiz();
-    List<Quiz.Question> questions = new ArrayList<>();
+
+    Quiz quiz;
+    String quizId = "default";
+    List<Quiz.Question> questions;
+
+    private boolean updateQuiz ;
 
     Calendar calendar = Calendar.getInstance();
     int duration = 0;
@@ -54,17 +63,21 @@ public class HostQuizFacultyActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
         subjectId = getIntent().getStringExtra("subjectId");
+        quizId = getIntent().getStringExtra("quizId");
+        updateQuiz = getIntent().getBooleanExtra("updateQuiz",false);
+
         prefs = new SharedPrefs(this);
 
-        setQuestionRecyclerView();
-        setQuestionSelector();
-        setDateTimePickers();
-        setQuizDurationPicker();
+        loadData();
 
         binding.host.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onHost();
+                if(updateQuiz){
+                    onUpdate();
+                }else{
+                    onHost();
+                }
             }
         });
 
@@ -72,6 +85,55 @@ public class HostQuizFacultyActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 onUpload();
+            }
+        });
+    }
+
+    private void setData(){
+        binding.title.setText(quiz.getTitle());
+        binding.description.setText(quiz.getDescription());
+        binding.date.setText(new DateFormatter(quiz.getStartTime()).getDate());
+        binding.time.setText(new DateFormatter(quiz.getStartTime()).getTime());
+        binding.duration.setProgress((int) new DateFormatter(quiz.getStartTime(),quiz.getEndTime()).getDurationMinutes());
+        binding.questionSelector.setProgress(quiz.getQuestion().size());
+
+        questions = quiz.getQuestion();
+
+        setQuestionRecyclerView();
+        setQuestionSelector();
+        setDateTimePickers();
+        setQuizDurationPicker();
+        setTextListeners();
+    }
+
+    private void loadData(){
+
+        if(!updateQuiz){
+            quiz = new Quiz();
+            questions=  new ArrayList<>();
+            quiz.setQuestion(questions);
+            quiz.setSubject(subjectId);
+
+            setQuestionRecyclerView();
+            setQuestionSelector();
+            setDateTimePickers();
+            setQuizDurationPicker();
+            setTextListeners();
+            return;
+        }
+
+        RetrofitClient.getClient().getQuiz(prefs.getToken(),quizId).enqueue(new Callback<QuizResponse>() {
+            @Override
+            public void onResponse(Call<QuizResponse> call, Response<QuizResponse> response) {
+                if(response.isSuccessful()){
+                    quiz = response.body().getQuiz();
+                    setData();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<QuizResponse> call, Throwable t) {
+
             }
         });
     }
@@ -113,6 +175,7 @@ public class HostQuizFacultyActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(@NotNull NumberPicker numberPicker, int i, boolean b) {
                 duration = i;
+                quiz.setEndTime(String.valueOf(calendar.getTimeInMillis()+(1000*duration*60)));
             }
 
             @Override
@@ -136,6 +199,8 @@ public class HostQuizFacultyActivity extends AppCompatActivity {
                 calendar.set(Calendar.MONTH,i1);
                 calendar.set(Calendar.DAY_OF_MONTH,i2);
 
+                quiz.setStartTime(String.valueOf(calendar.getTimeInMillis()));
+                quiz.setEndTime(String.valueOf(calendar.getTimeInMillis()+(1000*duration*60)));
                 binding.date.setText(new DateFormatter(calendar.getTimeInMillis()).getDate());
             }
         },present.get(Calendar.YEAR),present.get(Calendar.MONTH),present.get(Calendar.DAY_OF_MONTH));
@@ -146,6 +211,8 @@ public class HostQuizFacultyActivity extends AppCompatActivity {
                 calendar.set(Calendar.HOUR_OF_DAY,i);
                 calendar.set(Calendar.MINUTE,i1);
 
+                quiz.setStartTime(String.valueOf(calendar.getTimeInMillis()));
+                quiz.setEndTime(String.valueOf(calendar.getTimeInMillis()+(1000*duration*60)));
                 binding.time.setText(new DateFormatter(calendar.getTimeInMillis()).getTime());
             }
         },present.get(Calendar.HOUR_OF_DAY),present.get(Calendar.MINUTE),false);
@@ -165,14 +232,60 @@ public class HostQuizFacultyActivity extends AppCompatActivity {
         });
     }
 
-    private void onHost(){
-        quiz.setQuestion(questions);
-        quiz.setTitle(binding.title.getText().toString());
-        quiz.setDescription(binding.description.getText().toString());
-        quiz.setSubject(subjectId);
-        quiz.setStartTime(String.valueOf(calendar.getTimeInMillis()));
-        quiz.setEndTime(String.valueOf(calendar.getTimeInMillis()+(1000*duration*60)));
+    private void onUpdate(){
+        RetrofitClient.getClient().updateQuiz(prefs.getToken(),quiz).enqueue(new Callback<QuizResponse>() {
+            @Override
+            public void onResponse(Call<QuizResponse> call, Response<QuizResponse> response) {
+                if(response.isSuccessful()){
+                    Toast.makeText(HostQuizFacultyActivity.this, "Update Successful!", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
 
+            @Override
+            public void onFailure(Call<QuizResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void setTextListeners(){
+        binding.title.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                quiz.setTitle(editable.toString());
+            }
+        });
+
+        binding.description.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                quiz.setDescription(editable.toString());
+            }
+        });
+    }
+
+    private void onHost(){
 
         RetrofitClient.getClient().createQuiz(prefs.getToken(),quiz).enqueue(new Callback<QuizCreateResponse>() {
             @Override
@@ -228,5 +341,11 @@ public class HostQuizFacultyActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         finish();
         return super.onSupportNavigateUp();
+    }
+
+    @Override
+    protected void onPostResume() {
+        loadData();
+        super.onPostResume();
     }
 }
