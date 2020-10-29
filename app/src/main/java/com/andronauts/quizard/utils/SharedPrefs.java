@@ -56,13 +56,13 @@ public class SharedPrefs {
         editor.commit();
     }
 
-    public void saveUserType(boolean isStudent){
-        editor.putBoolean(userType,isStudent);
+    public void saveUserType(int type){
+        editor.putInt(userType,type);
         editor.commit();
     }
 
-    public boolean isStudent(){
-        return sharedPreferences.getBoolean(userType,true);
+    public int getUserType(){
+        return sharedPreferences.getInt(userType,0);
     }
 
     public void saveUserId(int id){

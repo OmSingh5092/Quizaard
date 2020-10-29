@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class SplashActivity extends AppCompatActivity {
     ActivitySplashScreenBinding binding;
     SharedPrefs prefs;
+    private int userType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,7 @@ public class SplashActivity extends AppCompatActivity {
         binding= ActivitySplashScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         prefs = new SharedPrefs(this);
+        userType = prefs.getUserType();
 
         final FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         new Handler().postDelayed(
@@ -31,16 +33,18 @@ public class SplashActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if(currentUser != null){
-                            if(prefs.isStudent()){
+                            if(userType== 0){
                                 Log.i("SPLASH SCREEN INTENT", "Not logged in");
                                 Intent login = new Intent(SplashActivity.this, HomeStudentActivity.class);
                                 startActivity(login);
                                 finish();
-                            }else{
+                            }else if(userType == 1){
                                 Log.i("SPLASH SCREEN INTENT", "Not logged in");
                                 Intent login = new Intent(SplashActivity.this, HomeFacultyActivity.class);
                                 startActivity(login);
                                 finish();
+                            }else{
+
                             }
 
                         }else{

@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     SharedPrefs sharedPrefs;
 
-    Boolean isStudent = true;
+    int userType  = 0;
     int RC_SIGN_IN;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
         binding.faculty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isStudent = false;
+                userType = 1;
                 signIn();
             }
         });
@@ -74,7 +74,15 @@ public class LoginActivity extends AppCompatActivity {
         binding.student.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isStudent = true;
+                userType = 0;
+                signIn();
+            }
+        });
+
+        binding.admin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                userType = 3;
                 signIn();
             }
         });
@@ -111,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
         //Add code to submit user info in the database
         Map<String,String> map = new HashMap<>();
         map.put("idToken",account.getIdToken());
-        if(isStudent){
+        if(userType == 0){
             RetrofitClient.getClient().studentGoogleSignIn(map).enqueue(new Callback<GoogleSignInResponse>() {
                 @Override
                 public void onResponse(Call<GoogleSignInResponse> call, Response<GoogleSignInResponse> response) {
@@ -120,7 +128,27 @@ public class LoginActivity extends AppCompatActivity {
                     sharedPrefs.saveEmail(account.getEmail());
                     sharedPrefs.saveNewUser(response.body().isNewUser());
                     sharedPrefs.saveToken(response.body().getAuthToken());
-                    sharedPrefs.saveUserType(isStudent);
+                    sharedPrefs.saveUserType(userType);
+                    firebaseAuthWithGoogle(account.getIdToken());
+
+                    Log.i("Token",response.body().getAuthToken());
+                }
+
+                @Override
+                public void onFailure(Call<GoogleSignInResponse> call, Throwable t) {
+
+                }
+            });
+        }else if(userType == 2){
+            RetrofitClient.getClient().facultyGoogleSignIn(map).enqueue(new Callback<GoogleSignInResponse>() {
+                @Override
+                public void onResponse(Call<GoogleSignInResponse> call, Response<GoogleSignInResponse> response) {
+
+                    sharedPrefs.saveName(account.getDisplayName());
+                    sharedPrefs.saveEmail(account.getEmail());
+                    sharedPrefs.saveNewUser(response.body().isNewUser());
+                    sharedPrefs.saveToken(response.body().getAuthToken());
+                    sharedPrefs.saveUserType(userType);
                     firebaseAuthWithGoogle(account.getIdToken());
 
                     Log.i("Token",response.body().getAuthToken());
@@ -132,7 +160,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         }else{
-            RetrofitClient.getClient().facultyGoogleSignIn(map).enqueue(new Callback<GoogleSignInResponse>() {
+            RetrofitClient.getClient().adminGoogleSignIn(map).enqueue(new Callback<GoogleSignInResponse>() {
                 @Override
                 public void onResponse(Call<GoogleSignInResponse> call, Response<GoogleSignInResponse> response) {
 
@@ -140,7 +168,7 @@ public class LoginActivity extends AppCompatActivity {
                     sharedPrefs.saveEmail(account.getEmail());
                     sharedPrefs.saveNewUser(response.body().isNewUser());
                     sharedPrefs.saveToken(response.body().getAuthToken());
-                    sharedPrefs.saveUserType(isStudent);
+                    sharedPrefs.saveUserType(userType);
                     firebaseAuthWithGoogle(account.getIdToken());
 
                     Log.i("Token",response.body().getAuthToken());
@@ -186,27 +214,31 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void goToOnBoarding(){
-        if(isStudent){
+        if(userType == 0){
             Intent i = new Intent(this, RegisterStudentActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
-        }else{
+        }else if(userType == 1){
             Intent i = new Intent(this, RegisterFacultyActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
+        }else{
+
         }
 
     }
 
     private  void goToHome(){
-        if(isStudent){
+        if(userType == 0){
             Intent i = new Intent(this, HomeStudentActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
-        }else{
+        }else if(userType == 1){
             Intent i = new Intent(this, HomeFacultyActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
+        }else{
+
         }
 
     }

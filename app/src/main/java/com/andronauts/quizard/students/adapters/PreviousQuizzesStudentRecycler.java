@@ -102,6 +102,13 @@ public class PreviousQuizzesStudentRecycler extends RecyclerView.Adapter<Previou
 
             }
         });
+
+        holder.questions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new QuestionsStudentGenerator(context).createPdf(quiz);
+            }
+        });
     }
 
     private void setResult(ViewHolder holder, int position, Result result){
@@ -121,12 +128,7 @@ public class PreviousQuizzesStudentRecycler extends RecyclerView.Adapter<Previou
             }
         });
 
-        holder.questions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new QuestionsStudentGenerator(context).createPdf(quiz);
-            }
-        });
+
 
         holder.paper.setOnClickListener(new View.OnClickListener() {
             @Override

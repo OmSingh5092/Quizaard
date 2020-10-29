@@ -87,6 +87,8 @@ public class HostQuizFacultyActivity extends AppCompatActivity {
                 onUpload();
             }
         });
+
+        setTextListeners();
     }
 
     private void setData(){
@@ -103,7 +105,7 @@ public class HostQuizFacultyActivity extends AppCompatActivity {
         setQuestionSelector();
         setDateTimePickers();
         setQuizDurationPicker();
-        setTextListeners();
+
     }
 
     private void loadData(){
@@ -118,7 +120,6 @@ public class HostQuizFacultyActivity extends AppCompatActivity {
             setQuestionSelector();
             setDateTimePickers();
             setQuizDurationPicker();
-            setTextListeners();
             return;
         }
 

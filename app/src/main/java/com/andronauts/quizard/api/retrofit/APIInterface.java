@@ -39,6 +39,8 @@ public interface APIInterface {
     Call<GoogleSignInResponse> studentGoogleSignIn(@Body Map<String, String> body);
     @POST("signin/faculty")
     Call<GoogleSignInResponse> facultyGoogleSignIn(@Body Map<String, String> body);
+    @POST("signin/admin")
+    Call<GoogleSignInResponse> adminGoogleSignIn(@Body Map<String,String> body);
 
     @POST("student/update")
     Call<StudentUpdateResponse> studentUpdate(@Header("token") String token ,@Body Student student);
