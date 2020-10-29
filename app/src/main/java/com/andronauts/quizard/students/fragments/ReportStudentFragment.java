@@ -1,18 +1,21 @@
 package com.andronauts.quizard.students.fragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.andronauts.quizard.R;
 import com.andronauts.quizard.api.responseModels.result.ResultListGetResponse;
 import com.andronauts.quizard.api.responseModels.subject.SubjectsGetByStudentResponse;
 import com.andronauts.quizard.api.retrofit.RetrofitClient;
 import com.andronauts.quizard.dataModels.Result;
 import com.andronauts.quizard.dataModels.Subject;
 import com.andronauts.quizard.databinding.FragmentReportStudentBinding;
+import com.andronauts.quizard.students.adapters.ReportSubjectStudentRecycler;
 import com.andronauts.quizard.utils.DateFormatter;
 import com.andronauts.quizard.utils.SharedPrefs;
 import com.anychart.APIlib;
@@ -32,6 +35,8 @@ import com.anychart.enums.MarkerType;
 import com.anychart.enums.TooltipPositionMode;
 import com.anychart.graphics.vector.Stroke;
 
+import org.eazegraph.lib.models.PieModel;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +46,8 @@ import java.util.function.BiConsumer;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import kotlin.ResultKt;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,6 +62,11 @@ public class ReportStudentFragment extends Fragment {
     private Map<String,List<Result>> subjectResult;
     private Map<String, Subject> studentSubject;
     private List<String> subjectIds;
+    private String[] colors;
+
+    private boolean chartsCreated;
+
+    private ReportSubjectStudentRecycler adapter;
 
     @Nullable
     @Override
@@ -62,6 +74,15 @@ public class ReportStudentFragment extends Fragment {
         binding = FragmentReportStudentBinding.inflate(inflater,container,false);
         context = getContext();
         prefs = new SharedPrefs(context);
+        colors = context.getResources().getStringArray(R.array.color_array);
+        chartsCreated = false;
+
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+            }
+        });
 
         loadData();
 
@@ -75,12 +96,12 @@ public class ReportStudentFragment extends Fragment {
                 if(response.isSuccessful()){
                     results = response.body().getResults();
                     if(results.size() == 0){
-                        binding.noReport.setVisibility(View.VISIBLE);
-                        binding.report.setVisibility(View.GONE);
+                        Toast.makeText(context, "No Report!", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     loadSubjects();
                 }
+
             }
 
             @Override
@@ -97,9 +118,10 @@ public class ReportStudentFragment extends Fragment {
                 if(response.isSuccessful()){
                     studentSubject = response.body().getStudentSubject();
                     createSubjectResult();
-                    createLineChart();
                     createPieChart();
+                    setUpRecyclerView();
 
+                    binding.swipeRefreshLayout.setRefreshing(false);
                 }
             }
 
@@ -122,129 +144,29 @@ public class ReportStudentFragment extends Fragment {
         }
     }
     private void createPieChart(){
-        //Necessary to instantiate the chart view
-        APIlib.getInstance().setActiveAnyChartView(binding.pieChart);
-        //Making pie chart
-        Pie pie = AnyChart.pie();
-        List<DataEntry> data = new ArrayList<>();
-
-        int total= 0;
-        int avg;
-        for(String subjectId :subjectIds){
-            List<Result> results = subjectResult.get(subjectId);
-            avg = getSubjectAverage(results);
-            total+=100-avg;
-            data.add(new ValueDataEntry(studentSubject.get(subjectId).getName(),avg));
+        binding.piechart.clearChart();
+        int total = 0;
+        for(int i =0;i<subjectIds.size(); i++){
+            String subjectId = subjectIds.get(i);
+            int marks = getSubjectAverage(subjectResult.get(subjectId));
+            total+=marks;
+            binding.piechart.addPieSlice(new PieModel(studentSubject.get(subjectId).getName(),marks , Color.parseColor(colors[i])));
         }
-
-        data.add(new ValueDataEntry("Wrong",total/subjectIds.size()));
-
-        pie.data(data);
-        pie.title("Overall Subject Performance");
-
-        pie.legend().title().enabled(true);
-        pie.legend().title()
-                .text("Retail channels")
-                .padding(0d, 0d, 10d, 0d);
-
-        pie.legend()
-                .position("center-bottom")
-                .itemsLayout(LegendLayout.HORIZONTAL)
-                .align(Align.CENTER);
-
-        binding.pieChart.setChart(pie);
+        binding.piechart.addPieSlice(new PieModel("Wrong Answers",100-total, Color.parseColor("#000000")));
+        binding.piechart.startAnimation();
     }
 
-    private void createLineChart(){
-        //Necessary to instantiate the chart view
-        APIlib.getInstance().setActiveAnyChartView(binding.lineChart);
-        //Making Data
-        Map<String,Map<String,Result>>data = new HashMap<>();
-        List<String> days=  new ArrayList<>();
-
-        for(Result result: results){
-            if(data.get(result.getSubmitTime()) == null){
-                data.put(result.getSubmitTime(),new HashMap<>());
-                days.add(result.getSubmitTime());
-            }
-
-            data.get(result.getSubmitTime()).put(result.getSubject(),result);
-        }
-
-        Cartesian cartesian = AnyChart.line();
-
-        cartesian.animation(true);
-
-        cartesian.padding(10d, 20d, 5d, 20d);
-
-        cartesian.crosshair().enabled(true);
-        cartesian.crosshair()
-                .yLabel(true)
-                // TODO ystroke
-                .yStroke((Stroke) null, null, null, (String) null, (String) null);
-
-        cartesian.tooltip().positionMode(TooltipPositionMode.POINT);
-
-        cartesian.title("Time trend of marks");
-
-        cartesian.yAxis(0).title("Time");
-        cartesian.xAxis(0).labels().padding(5d, 5d, 5d, 5d);
-
-        List<DataEntry> seriesData = new ArrayList<>();
-
-        for(String day: days){
-            seriesData.add(new CustomDataEntry(day,data.get(day)));
-        }
-
-        Set set = Set.instantiate();
-        set.data(seriesData);
-        for(String subjectId: subjectIds){
-            Mapping seriesMapping = set.mapAs("{ x: 'x', value: 'value' }");
-
-            Line series1 = cartesian.line(seriesMapping);
-            series1.name(studentSubject.get(subjectId).getName());
-            series1.hovered().markers().enabled(true);
-            series1.hovered().markers()
-                    .type(MarkerType.CIRCLE)
-                    .size(4d);
-            series1.tooltip()
-                    .position("right")
-                    .anchor(Anchor.LEFT_CENTER)
-                    .offsetX(5d)
-                    .offsetY(5d);
-
-        }
-
-        cartesian.legend().enabled(true);
-        cartesian.legend().fontSize(13d);
-        cartesian.legend().padding(0d, 0d, 10d, 0d);
-
-
-        binding.lineChart.setChart(cartesian);
-    }
-
-    private class CustomDataEntry extends ValueDataEntry {
-
-        CustomDataEntry(String day,Map<String,Result> data) {
-            super(new DateFormatter(day).getDate(),data.get(subjectIds.get(0))==null ?0:data.get(subjectIds.get(0)).getScore()/data.get(subjectIds.get(0)).getTotal());
-
-            for(int i =1 ;i<subjectIds.size(); i++){
-                String subjectId = subjectIds.get(i);
-                if(data.get(subjectId) != null){ ;
-                    setValue(subjectId,getPercentage(data.get(subjectId)));
-                }else{
-                    setValue(subjectId,0);
-                }
-            }
-        }
-        private int getPercentage(Result result){
-            return result.getScore()/result.getTotal();
-        }
-
-    }
 
     private void setUpRecyclerView(){
+        adapter = new ReportSubjectStudentRecycler(context, subjectIds, subjectResult, studentSubject, new ReportSubjectStudentRecycler.ViewTouchHandler() {
+            @Override
+            public void onTouch(int position) {
+                binding.piechart.setCurrentItem(position);
+            }
+        });
 
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        binding.recyclerView.setAdapter(adapter);
     }
 
 

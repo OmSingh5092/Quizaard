@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 
 import com.andronauts.quizard.R;
 import com.andronauts.quizard.dataModels.Subject;
@@ -114,6 +116,7 @@ public class HomeStudentActivity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         binding.viewPager.setAdapter(adapter);
         binding.tabLayout.setupWithViewPager(binding.viewPager);
+
 
         binding.tabLayout.getTabAt(0).setText("Report");
         binding.tabLayout.getTabAt(1).setText("Quizzes");

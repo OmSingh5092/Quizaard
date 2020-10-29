@@ -30,6 +30,17 @@ public class Result {
     @SerializedName("subject")
     @Expose
     private String subject;
+    @SerializedName("end_time")
+    @Expose
+    private String endTime;
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
 
     public String getStudent() {
         return student;
