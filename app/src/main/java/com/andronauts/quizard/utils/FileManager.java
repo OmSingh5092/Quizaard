@@ -47,11 +47,25 @@ public class FileManager {
         return file;
     }
 
+    public File getStudentAdmitCardFile(){
+        String name = "admitCard"+new DateFormatter(System.currentTimeMillis()).getDateAndTime()+".pdf";
+        File file = new File(parentFile,name);
+        return file;
+    }
+
     public void openPdfFile(File file){
         Uri contentUri = FileProvider.getUriForFile(context,context.getPackageName()+".provider",file);
         Intent i = new Intent();
         i.setAction(Intent.ACTION_VIEW);
         i.setDataAndType(contentUri,"application/pdf");
+        i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        context.startActivity(i);
+    }
+    public void openImageFile(File file){
+        Uri contentUri = FileProvider.getUriForFile(context,context.getPackageName()+".provider",file);
+        Intent i = new Intent();
+        i.setAction(Intent.ACTION_VIEW);
+        i.setDataAndType(contentUri,"image/*");
         i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         context.startActivity(i);
     }

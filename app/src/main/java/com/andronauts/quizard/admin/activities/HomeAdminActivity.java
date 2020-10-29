@@ -80,17 +80,16 @@ public class HomeAdminActivity extends AppCompatActivity {
                         }
                     });
                 }else if(item.getItemId() == R.id.subject){
-                    Intent i = new Intent(HomeAdminActivity.this, SubjectActivity.class);
+                    Intent i = new Intent(HomeAdminActivity.this, SubjectAdminActivity.class);
                     i.putExtra("isStudent",false);
                     startActivity(i);
                 }else if (item.getItemId() == R.id.profile){
-                    Intent i = new Intent(HomeAdminActivity.this, ProfileFacultyActivity.class);
-                    startActivity(i);
+
                 }else if(item.getItemId() == R.id.students){
-                    Intent i = new Intent(HomeAdminActivity.this, StudentsActivity.class);
+                    Intent i = new Intent(HomeAdminActivity.this, StudentAdminActivity.class);
                     startActivity(i);
                 }else if(item.getItemId() == R.id.faculties){
-                    Intent i =new Intent(HomeAdminActivity.this, FacultiesActivity.class);
+                    Intent i =new Intent(HomeAdminActivity.this, FacultyAdminActivity.class);
                     startActivity(i);
                 }
 

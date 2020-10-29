@@ -42,6 +42,15 @@ public interface APIInterface {
     @POST("signin/admin")
     Call<GoogleSignInResponse> adminGoogleSignIn(@Body Map<String,String> body);
 
+    @GET("admin/get/students")
+    Call<StudentGetListResponse> adminGetStudents (@Header("token") String token, @Header("registered") boolean registered);
+    @GET("admin/get/faculties")
+    Call<FacultyGetListResponse> adminGetFaculties (@Header("token")String token,@Header("registered") boolean registered);
+    @POST("admin/register/student")
+    Call<StudentUpdateResponse> adminRegisterStudent (@Header("token")String token,@Header("student")String student);
+    @POST("admin/register/faculty")
+    Call<FacultyUpdateResponse> adminRegisterFaculty (@Header("token")String token,@Header("faculty") String faculty);
+
     @POST("student/update")
     Call<StudentUpdateResponse> studentUpdate(@Header("token") String token ,@Body Student student);
     @GET("student/get")
