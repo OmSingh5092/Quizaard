@@ -16,6 +16,7 @@ import com.andronauts.quizard.api.responseModels.student.StudentGetResponse;
 import com.andronauts.quizard.api.responseModels.student.StudentSubjectAddResponse;
 import com.andronauts.quizard.api.responseModels.student.StudentSubjectDeleteResponse;
 import com.andronauts.quizard.api.responseModels.student.StudentUpdateResponse;
+import com.andronauts.quizard.api.responseModels.subject.SubjectResponse;
 import com.andronauts.quizard.api.responseModels.subject.SubjectGetAllResponse;
 import com.andronauts.quizard.api.responseModels.subject.SubjectGetResponse;
 import com.andronauts.quizard.api.responseModels.subject.SubjectsGetByStudentResponse;
@@ -23,6 +24,7 @@ import com.andronauts.quizard.dataModels.Faculty;
 import com.andronauts.quizard.dataModels.Quiz;
 import com.andronauts.quizard.dataModels.Result;
 import com.andronauts.quizard.dataModels.Student;
+import com.andronauts.quizard.dataModels.Subject;
 
 import java.util.Map;
 
@@ -74,12 +76,16 @@ public interface APIInterface {
     @DELETE("faculty/subject/remove")
     Call<StudentSubjectDeleteResponse> facultySubjectRemove(@Header("token") String token,@Header("subject_id") String subjectId);
 
+    @POST("subject/create")
+    Call<SubjectResponse> addSubject(@Header("token") String token, @Body Subject subject);
     @GET("subject/get")
     Call<SubjectGetResponse> getSubject(@Header("id") String id);
     @GET("subject/get/all")
     Call<SubjectGetAllResponse> getAllSubjects(@Header("token") String token);
     @GET("subject/get/student")
     Call<SubjectsGetByStudentResponse> getSubjectsByStudent(@Header("token")String token);
+    @DELETE("subject/delete")
+    Call<SubjectResponse> deleteSubject(@Header("token")String token,@Header("subject") String subjectId);
 
     @POST("quiz/create")
     Call<QuizCreateResponse> createQuiz(@Header("token") String token, @Body Quiz quiz);

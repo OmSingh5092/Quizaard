@@ -79,7 +79,7 @@ public class HomeAdminActivity extends AppCompatActivity {
 
                         }
                     });
-                }else if(item.getItemId() == R.id.subject){
+                }else if(item.getItemId() == R.id.subjects){
                     Intent i = new Intent(HomeAdminActivity.this, SubjectAdminActivity.class);
                     i.putExtra("isStudent",false);
                     startActivity(i);

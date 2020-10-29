@@ -37,6 +37,7 @@
 
         <ImageView
             android:id="@+id/remove"
+            android:foreground="?attr/selectableItemBackground"
             android:layout_margin="10dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_delete_subject"
