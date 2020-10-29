@@ -7,15 +7,19 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 
 import com.andronauts.quizard.R;
 import com.andronauts.quizard.api.responseModels.student.StudentGetListResponse;
 import com.andronauts.quizard.api.retrofit.RetrofitClient;
+import com.andronauts.quizard.dataModels.Faculty;
 import com.andronauts.quizard.dataModels.Student;
 import com.andronauts.quizard.databinding.ActivityStudentsBinding;
 import com.andronauts.quizard.general.adapters.StudentProfileRecycler;
 import com.andronauts.quizard.utils.SharedPrefs;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StudentsActivity extends AppCompatActivity {
@@ -23,6 +27,7 @@ public class StudentsActivity extends AppCompatActivity {
     private SharedPrefs prefs;
     private StudentProfileRecycler adapter;
     private List<Student> students;
+    private List<Student> sortedStudents;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,23 @@ public class StudentsActivity extends AppCompatActivity {
 
         loadData();
 
+        binding.search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                sortList(editable.toString());
+            }
+        });
+
     }
 
     private void loadData(){
@@ -42,6 +64,7 @@ public class StudentsActivity extends AppCompatActivity {
             public void onResponse(Call<StudentGetListResponse> call, Response<StudentGetListResponse> response) {
                 if(response.isSuccessful()){
                     students = response.body().getStudents();
+                    sortedStudents = new ArrayList<>(students);
                     setUpRecyclerView();
                 }
             }
@@ -53,9 +76,21 @@ public class StudentsActivity extends AppCompatActivity {
         });
     }
 
+    private void sortList(String key){
+        sortedStudents.clear();
+        for(Student student:students){
+            if(student.getName().toLowerCase().contains(key) ||
+                    student.getRegistrationNumber().toLowerCase().contains(key)){
+                sortedStudents.add(student);
+            }
+        }
+
+        adapter.notifyDataSetChanged();
+    }
+
     private void setUpRecyclerView(){
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new StudentProfileRecycler(this,students);
+        adapter = new StudentProfileRecycler(this,sortedStudents);
         binding.recyclerView.setAdapter(adapter);
     }
 
