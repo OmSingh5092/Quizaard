@@ -1,5 +1,6 @@
 package com.andronauts.quizard.api.retrofit;
 
+import com.andronauts.quizard.api.responseModels.faculty.FacultyGetListResponse;
 import com.andronauts.quizard.api.responseModels.faculty.FacultyGetResponse;
 import com.andronauts.quizard.api.responseModels.faculty.FacultyUpdateResponse;
 import com.andronauts.quizard.api.responseModels.quiz.QuizCreateResponse;
@@ -8,13 +9,16 @@ import com.andronauts.quizard.api.responseModels.quiz.QuizListGetResponse;
 import com.andronauts.quizard.api.responseModels.result.ResultCreateResponse;
 import com.andronauts.quizard.api.responseModels.result.ResultGetBySubjectResponse;
 import com.andronauts.quizard.api.responseModels.result.ResultGetResponse;
+import com.andronauts.quizard.api.responseModels.result.ResultListGetResponse;
 import com.andronauts.quizard.api.responseModels.signIn.GoogleSignInResponse;
+import com.andronauts.quizard.api.responseModels.student.StudentGetListResponse;
 import com.andronauts.quizard.api.responseModels.student.StudentGetResponse;
 import com.andronauts.quizard.api.responseModels.student.StudentSubjectAddResponse;
 import com.andronauts.quizard.api.responseModels.student.StudentSubjectDeleteResponse;
 import com.andronauts.quizard.api.responseModels.student.StudentUpdateResponse;
 import com.andronauts.quizard.api.responseModels.subject.SubjectGetAllResponse;
 import com.andronauts.quizard.api.responseModels.subject.SubjectGetResponse;
+import com.andronauts.quizard.api.responseModels.subject.SubjectsGetByStudentResponse;
 import com.andronauts.quizard.dataModels.Faculty;
 import com.andronauts.quizard.dataModels.Quiz;
 import com.andronauts.quizard.dataModels.Result;
@@ -40,6 +44,8 @@ public interface APIInterface {
     Call<StudentUpdateResponse> studentUpdate(@Header("token") String token ,@Body Student student);
     @GET("student/get")
     Call<StudentGetResponse> studentGetProfile(@Header("token") String token);
+    @GET("student/get/all")
+    Call<StudentGetListResponse> studentGetAll (@Header("token")String token);
     @POST("student/subject/add")
     Call<StudentSubjectAddResponse> studentSubjectAdd(@Header("token") String token,@Header("subject_id") String subjectId);
     @DELETE("student/subject/remove")
@@ -50,6 +56,8 @@ public interface APIInterface {
     Call<FacultyUpdateResponse> facultyUpdate(@Header("token") String token, @Body Faculty faculty);
     @GET("faculty/get")
     Call<FacultyGetResponse> facultyGetProfile(@Header("token") String token);
+    @GET("faculty/get/all")
+    Call<FacultyGetListResponse> facultyGetAll (@Header("token")String token);
     @POST("faculty/subject/add")
     Call<StudentSubjectAddResponse> facultySubjectAdd(@Header("token") String token,@Header("subject_id") String subjectId);
     @DELETE("faculty/subject/remove")
@@ -59,6 +67,8 @@ public interface APIInterface {
     Call<SubjectGetResponse> getSubject(@Header("id") String id);
     @GET("subject/get/all")
     Call<SubjectGetAllResponse> getAllSubjects(@Header("token") String token);
+    @GET("subject/get/student")
+    Call<SubjectsGetByStudentResponse> getSubjectsByStudent(@Header("token")String token);
 
     @POST("quiz/create")
     Call<QuizCreateResponse> createQuiz(@Header("token") String token, @Body Quiz quiz);
@@ -83,6 +93,8 @@ public interface APIInterface {
     Call<ResultGetResponse> getResultByQuizAndStudent(@Header("token")String token, @Header("quiz") String quizId);
     @POST("result/update")
     Call<ResultGetResponse> updateResult(@Header("token")String token, @Body Result result);
+    @GET("result/get/student")
+    Call<ResultListGetResponse> getResultsByStudent (@Header("token")String token);
 
 
 }

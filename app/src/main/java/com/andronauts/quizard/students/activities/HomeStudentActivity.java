@@ -16,7 +16,10 @@ import com.andronauts.quizard.R;
 import com.andronauts.quizard.dataModels.Subject;
 import com.andronauts.quizard.databinding.ActivityHomeStudentBinding;
 import com.andronauts.quizard.faculty.activities.HomeFacultyActivity;
+import com.andronauts.quizard.faculty.activities.ProfileFacultyActivity;
+import com.andronauts.quizard.general.activities.FacultiesActivity;
 import com.andronauts.quizard.general.activities.LoginActivity;
+import com.andronauts.quizard.general.activities.StudentsActivity;
 import com.andronauts.quizard.general.activities.SubjectActivity;
 import com.andronauts.quizard.students.adapters.PreviousQuizzesStudentRecycler;
 import com.andronauts.quizard.students.fragments.QuizStudentFragment;
@@ -93,6 +96,12 @@ public class HomeStudentActivity extends AppCompatActivity {
                     startActivity(i);
                 }else if(item.getItemId() == R.id.previous_quizzes){
                     Intent i =new Intent(HomeStudentActivity.this, PreviousQuizzesStudentActivity.class);
+                    startActivity(i);
+                }else if(item.getItemId() == R.id.students){
+                    Intent i =new Intent(HomeStudentActivity.this, StudentsActivity.class);
+                    startActivity(i);
+                }else if(item.getItemId() == R.id.faculties){
+                    Intent i = new Intent(HomeStudentActivity.this, FacultiesActivity.class);
                     startActivity(i);
                 }
 

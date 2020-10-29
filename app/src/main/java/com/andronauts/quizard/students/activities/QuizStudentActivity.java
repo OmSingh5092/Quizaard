@@ -129,7 +129,6 @@ public class QuizStudentActivity extends AppCompatActivity {
         result = new Result();
         result.setResponses(responses);
         result.setQuiz(quizId);
-        result.setTotal(responses.length);
         result.setSubject(quiz.getSubject());
         result.setSubmitTime(String.valueOf(System.currentTimeMillis()));
 

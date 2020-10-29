@@ -8,6 +8,9 @@
         android:title="Subject"
         android:id="@+id/subject"/>
     <item
+        android:title="Students"
+        android:id="@+id/students"/>
+    <item
         android:title="Faculties"
         android:id="@+id/faculties"/>
     <item

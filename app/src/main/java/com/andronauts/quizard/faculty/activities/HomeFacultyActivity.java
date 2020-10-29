@@ -15,8 +15,11 @@ import com.andronauts.quizard.R;
 import com.andronauts.quizard.databinding.ActivityHomeFacultyBinding;
 import com.andronauts.quizard.faculty.fragments.HostFacultyFragment;
 import com.andronauts.quizard.faculty.fragments.ResultFacultyFragment;
+import com.andronauts.quizard.general.activities.FacultiesActivity;
 import com.andronauts.quizard.general.activities.LoginActivity;
+import com.andronauts.quizard.general.activities.StudentsActivity;
 import com.andronauts.quizard.general.activities.SubjectActivity;
+import com.andronauts.quizard.students.activities.ProfileStudentActivity;
 import com.andronauts.quizard.utils.SessionManager;
 import com.google.android.material.navigation.NavigationView;
 
@@ -81,6 +84,12 @@ public class HomeFacultyActivity extends AppCompatActivity {
                     startActivity(i);
                 }else if(item.getItemId() == R.id.hosted_quizzes){
                     Intent i = new Intent(HomeFacultyActivity.this,HostedQuizFacultyActivity.class);
+                    startActivity(i);
+                }else if(item.getItemId() == R.id.students){
+                    Intent i = new Intent(HomeFacultyActivity.this, StudentsActivity.class);
+                    startActivity(i);
+                }else if(item.getItemId() == R.id.faculties){
+                    Intent i =new Intent(HomeFacultyActivity.this, FacultiesActivity.class);
                     startActivity(i);
                 }
 

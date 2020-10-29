@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.andronauts.quizard.api.responseModels.result.ResultGetResponse;
@@ -86,8 +87,8 @@ public class PreviousQuizzesStudentRecycler extends RecyclerView.Adapter<Previou
                     Result result = response.body().getResult();
 
                     if(result == null){
-                        binding.attempted.setVisibility(View.GONE);
-                        binding.notAttempted.setVisibility(View.VISIBLE);
+                        holder.attempted.setVisibility(View.GONE);
+                        holder.notAttempted.setVisibility(View.VISIBLE);
                         return;
                     }
 
@@ -158,6 +159,8 @@ public class PreviousQuizzesStudentRecycler extends RecyclerView.Adapter<Previou
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView title,description,date,duration,subjectCode,subject,report,paper,questions,score,total;
         MaterialButton virtual;
+        LinearLayout attempted;
+        TextView notAttempted;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -173,6 +176,8 @@ public class PreviousQuizzesStudentRecycler extends RecyclerView.Adapter<Previou
             questions = binding.questions;
             score = binding.score;
             total = binding.totalScore;
+            attempted = binding.attempted;
+            notAttempted = binding.notAttempted;
         }
     }
 }
