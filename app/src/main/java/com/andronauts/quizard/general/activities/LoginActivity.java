@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.andronauts.quizard.R;
+import com.andronauts.quizard.admin.activities.HomeAdminActivity;
 import com.andronauts.quizard.api.responseModels.signIn.GoogleSignInResponse;
 import com.andronauts.quizard.api.retrofit.RetrofitClient;
 import com.andronauts.quizard.databinding.ActivityLoginBinding;
@@ -164,14 +165,18 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<GoogleSignInResponse> call, Response<GoogleSignInResponse> response) {
 
-                    sharedPrefs.saveName(account.getDisplayName());
-                    sharedPrefs.saveEmail(account.getEmail());
-                    sharedPrefs.saveNewUser(response.body().isNewUser());
-                    sharedPrefs.saveToken(response.body().getAuthToken());
-                    sharedPrefs.saveUserType(userType);
-                    firebaseAuthWithGoogle(account.getIdToken());
+                    if(response.isSuccessful()){
+                        sharedPrefs.saveName(account.getDisplayName());
+                        sharedPrefs.saveEmail(account.getEmail());
+                        sharedPrefs.saveNewUser(response.body().isNewUser());
+                        sharedPrefs.saveToken(response.body().getAuthToken());
+                        sharedPrefs.saveUserType(userType);
+                        firebaseAuthWithGoogle(account.getIdToken());
 
-                    Log.i("Token",response.body().getAuthToken());
+                        Log.i("Token",response.body().getAuthToken());
+                    }else{
+                        Toast.makeText(LoginActivity.this, "Admin Doesn't Exists!", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 @Override
@@ -180,7 +185,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         }
-
     }
 
     private void firebaseAuthWithGoogle(String idToken) {
@@ -222,8 +226,6 @@ public class LoginActivity extends AppCompatActivity {
             Intent i = new Intent(this, RegisterFacultyActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
-        }else{
-
         }
 
     }
@@ -238,7 +240,9 @@ public class LoginActivity extends AppCompatActivity {
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
         }else{
-
+            Intent i = new Intent(this, HomeAdminActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
         }
 
     }

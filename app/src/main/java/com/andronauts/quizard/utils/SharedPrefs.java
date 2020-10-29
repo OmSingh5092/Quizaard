@@ -11,7 +11,7 @@ public class SharedPrefs {
     SharedPreferences.Editor editor;
     public SharedPrefs(Context context) {
         this.context = context;
-        sharedPreferences = context.getSharedPreferences("Session",Context.MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences("session",Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
     }
 
@@ -62,7 +62,7 @@ public class SharedPrefs {
     }
 
     public int getUserType(){
-        return sharedPreferences.getInt(userType,0);
+        return sharedPreferences.getInt(userType,1);
     }
 
     public void saveUserId(int id){

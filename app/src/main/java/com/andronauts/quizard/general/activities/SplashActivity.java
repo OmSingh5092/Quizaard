@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
+import com.andronauts.quizard.admin.activities.HomeAdminActivity;
 import com.andronauts.quizard.databinding.ActivitySplashScreenBinding;
 import com.andronauts.quizard.faculty.activities.HomeFacultyActivity;
 import com.andronauts.quizard.students.activities.HomeStudentActivity;
@@ -44,9 +45,11 @@ public class SplashActivity extends AppCompatActivity {
                                 startActivity(login);
                                 finish();
                             }else{
-
+                                Log.i("SPLASH SCREEN INTENT", "Not logged in");
+                                Intent login = new Intent(SplashActivity.this, HomeAdminActivity.class);
+                                startActivity(login);
+                                finish();
                             }
-
                         }else{
                             Log.i("SPLASH SCREEN INTENT", "Logged in");
                             Intent main = new Intent(SplashActivity.this, LoginActivity.class);

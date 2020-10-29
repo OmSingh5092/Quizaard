@@ -49,9 +49,12 @@ public class HostFacultyFragment extends Fragment {
         RetrofitClient.getClient().facultyGetProfile(prefs.getToken()).enqueue(new Callback<FacultyGetResponse>() {
             @Override
             public void onResponse(Call<FacultyGetResponse> call, Response<FacultyGetResponse> response) {
-                HostFacultyFragment.this.faculty = response.body().getFaculty();
-                setUpRecyclerView();
-                binding.refresh.setRefreshing(false);
+                if(response.isSuccessful()){
+                    HostFacultyFragment.this.faculty = response.body().getFaculty();
+                    setUpRecyclerView();
+                    binding.refresh.setRefreshing(false);
+                }
+
             }
 
             @Override
