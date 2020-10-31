@@ -152,7 +152,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void setUpRecyclerView(){
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ChatRecycler(this,chats);
+        adapter = new ChatRecycler(this,chats,senderId);
         binding.recyclerView.setAdapter(adapter);
     }
 
@@ -164,10 +164,12 @@ public class ChatActivity extends AppCompatActivity {
                 chat.setMessage(binding.message.getText().toString());
                 chat.setSender(senderId);
                 chat.setReceiver(receiverId);
-
+                chat.setTime(String.valueOf(System.currentTimeMillis()));
                 try {
                     JSONObject object = new JSONObject(new Gson().toJson(chat));
                     WebSocketClient.getMSocket().emit("receive_chat",object);
+                    chats.add(chat);
+                    adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -197,13 +199,14 @@ public class ChatActivity extends AppCompatActivity {
     private void handlePhotoUpload(Uri uri){
         Snackbar snackbar = Snackbar.make(binding.getRoot(),"Uploading...",Snackbar.LENGTH_INDEFINITE);
         snackbar.show();
-        FirebaseStorage.getInstance().getReference("chats/"+prefs.getEmail()+"/"+System.currentTimeMillis()+".jpg").putFile(uri)
+        String path = "chats/"+prefs.getEmail()+"/"+System.currentTimeMillis()+".jpg";
+        FirebaseStorage.getInstance().getReference(path).putFile(uri)
             .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     snackbar.dismiss();
                     Toast.makeText(ChatActivity.this, "Upload Successful!", Toast.LENGTH_SHORT).show();
-                    chat.setMedia("chats/"+prefs.getEmail()+"/"+System.currentTimeMillis()+".jpg");
+                    chat.setMedia(path);
 
                     binding.delete.setVisibility(View.VISIBLE);
                 }
@@ -226,7 +229,8 @@ public class ChatActivity extends AppCompatActivity {
                 ChatActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Chat chat = (Chat) args[0];
+                        JSONObject object = (JSONObject) args[0];
+                        Chat chat = new Gson().fromJson(object.toString(),Chat.class);
                         chats.add(chat);
                         adapter.notifyDataSetChanged();
                     }

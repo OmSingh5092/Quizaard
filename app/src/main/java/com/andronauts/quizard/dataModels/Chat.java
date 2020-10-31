@@ -19,12 +19,23 @@ public class Chat {
     @SerializedName("receiver")
     @Expose
     private String receiver;
+    @SerializedName("time")
+    @Expose
+    private String time;
     @SerializedName("createdAt")
     @Expose
     private String createdAt;
     @SerializedName("updatedAt")
     @Expose
     private String updatedAt;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public String getId() {
         return id;

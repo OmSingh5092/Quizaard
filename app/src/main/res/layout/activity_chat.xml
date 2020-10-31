@@ -31,48 +31,69 @@
 
     <LinearLayout
         android:layout_margin="10dp"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/message"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Message" />
-        </com.google.android.material.textfield.TextInputLayout>
 
-        <ImageView
-            android:id="@+id/media"
-            android:foreground="?attr/selectableItemBackground"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_attach"
-            android:layout_width="30dp"
-            android:layout_height="30dp"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/delete"
-            android:visibility="gone"
-            tools:visibility="visible"
-            android:foreground="?attr/selectableItemBackground"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_delete"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:tint="@color/colorSecondary" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Message" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/send"
-            android:text="send"
-            app:icon="@drawable/ic_send"
-            app:iconGravity="end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            <com.google.android.material.button.MaterialButton
+                android:layout_marginLeft="20dp"
+                android:id="@+id/send"
+                android:text="send"
+                app:icon="@drawable/ic_send"
+                app:iconGravity="end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/media"
+                android:foreground="?attr/selectableItemBackground"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_attach"
+                android:layout_width="30dp"
+                android:layout_height="30dp"/>
+
+            <TextView
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="Attach File"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/delete"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:foreground="?attr/selectableItemBackground"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_delete"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:tint="@color/colorSecondary" />
+        </LinearLayout>
+
     </LinearLayout>
+
 
 </LinearLayout>
