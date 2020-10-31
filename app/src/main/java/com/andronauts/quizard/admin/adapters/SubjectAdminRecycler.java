@@ -11,7 +11,7 @@ import android.widget.Toast;
 import com.andronauts.quizard.api.responseModels.subject.SubjectResponse;
 import com.andronauts.quizard.api.retrofit.RetrofitClient;
 import com.andronauts.quizard.dataModels.Subject;
-import com.andronauts.quizard.databinding.RecyclerSubjectBinding;
+import com.andronauts.quizard.databinding.RecyclerSubjectAdminBinding;
 import com.andronauts.quizard.utils.SharedPrefs;
 import com.google.android.material.button.MaterialButton;
 
@@ -24,7 +24,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SubjectAdminRecycler extends RecyclerView.Adapter<SubjectAdminRecycler.ViewHolder> {
-    private RecyclerSubjectBinding binding;
+    private RecyclerSubjectAdminBinding binding;
     private Context context;
     private List<Subject> data;
     private SharedPrefs prefs;
@@ -39,7 +39,7 @@ public class SubjectAdminRecycler extends RecyclerView.Adapter<SubjectAdminRecyc
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding = RecyclerSubjectBinding.inflate(LayoutInflater.from(context),parent,false);
+        binding = RecyclerSubjectAdminBinding.inflate(LayoutInflater.from(context),parent,false);
         return new ViewHolder(binding.getRoot());
     }
 

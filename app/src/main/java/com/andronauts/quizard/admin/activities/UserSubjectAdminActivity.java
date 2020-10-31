@@ -1,4 +1,4 @@
-package com.andronauts.quizard.general.activities;
+package com.andronauts.quizard.admin.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,26 +11,28 @@ import android.os.Bundle;
 
 import com.andronauts.quizard.R;
 import com.andronauts.quizard.api.responseModels.faculty.FacultyGetResponse;
+import com.andronauts.quizard.api.responseModels.faculty.FacultyUpdateResponse;
 import com.andronauts.quizard.api.responseModels.student.StudentGetResponse;
 import com.andronauts.quizard.api.responseModels.student.StudentSubjectAddResponse;
 import com.andronauts.quizard.api.responseModels.student.StudentSubjectDeleteResponse;
+import com.andronauts.quizard.api.responseModels.student.StudentUpdateResponse;
 import com.andronauts.quizard.api.responseModels.subject.SubjectGetAllResponse;
 import com.andronauts.quizard.api.retrofit.RetrofitClient;
 import com.andronauts.quizard.dataModels.Faculty;
-import com.andronauts.quizard.dataModels.Quiz;
 import com.andronauts.quizard.dataModels.Student;
 import com.andronauts.quizard.dataModels.Subject;
 import com.andronauts.quizard.databinding.ActivitySubjectBinding;
-import com.andronauts.quizard.general.adapters.SubjectRecycler;
+import com.andronauts.quizard.admin.adapters.SubjectRecycler;
 import com.andronauts.quizard.utils.SharedPrefs;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubjectActivity extends AppCompatActivity {
+public class UserSubjectAdminActivity extends AppCompatActivity {
     ActivitySubjectBinding binding;
     SharedPrefs prefs;
     boolean isStudent;
+    String userId;
 
     Faculty faculty;
     Student student;
@@ -40,7 +42,6 @@ public class SubjectActivity extends AppCompatActivity {
 
     SubjectRecycler registeredSubjectAdapter, notRegisteredSubjectAdapter;
 
-    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,9 +49,7 @@ public class SubjectActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         prefs = new SharedPrefs(this);
         isStudent = getIntent().getBooleanExtra("isStudent",false);
-        if(isStudent){
-            binding.toolbar.setBackgroundColor(R.color.colorPrimaryDark);
-        }
+        userId = getIntent().getStringExtra("userId");
         setSupportActionBar(binding.toolbar);
 
         loadData();
@@ -59,11 +58,13 @@ public class SubjectActivity extends AppCompatActivity {
 
     private void loadData(){
         if(isStudent){
-            RetrofitClient.getClient().studentGetProfile(prefs.getToken()).enqueue(new Callback<StudentGetResponse>() {
+            RetrofitClient.getClient().adminGetStudent(prefs.getToken(),userId).enqueue(new Callback<StudentGetResponse>() {
                 @Override
                 public void onResponse(Call<StudentGetResponse> call, Response<StudentGetResponse> response) {
-                    student = response.body().getStudent();
-                    loadSubjects();
+                    if(response.isSuccessful()){
+                        student = response.body().getStudent();
+                        loadSubjects();
+                    }
                 }
 
                 @Override
@@ -72,11 +73,13 @@ public class SubjectActivity extends AppCompatActivity {
                 }
             });
         }else{
-            RetrofitClient.getClient().facultyGetProfile(prefs.getToken()).enqueue(new Callback<FacultyGetResponse>() {
+            RetrofitClient.getClient().adminGetFaculty(prefs.getToken(),userId).enqueue(new Callback<FacultyGetResponse>() {
                 @Override
                 public void onResponse(Call<FacultyGetResponse> call, Response<FacultyGetResponse> response) {
-                    faculty = response.body().getFaculty();
-                    loadSubjects();
+                    if(response.isSuccessful()){
+                        faculty = response.body().getFaculty();
+                        loadSubjects();
+                    }
                 }
 
                 @Override
@@ -125,34 +128,32 @@ public class SubjectActivity extends AppCompatActivity {
             @Override
             public void onAction(int position) {
                 if(isStudent){
-                    RetrofitClient.getClient().studentSubjectRemove(prefs.getToken(),registeredSubjects.get(position).getId()).enqueue(new Callback<StudentSubjectDeleteResponse>() {
+                    RetrofitClient.getClient().adminRemoveStudentSubject(prefs.getToken(),userId,registeredSubjects.get(position).getId()).enqueue(new Callback<StudentUpdateResponse>() {
                         @Override
-                        public void onResponse(Call<StudentSubjectDeleteResponse> call, Response<StudentSubjectDeleteResponse> response) {
+                        public void onResponse(Call<StudentUpdateResponse> call, Response<StudentUpdateResponse> response) {
                             notRegisteredSubjects.add(registeredSubjects.get(position));
                             registeredSubjectAdapter.notifyDataSetChanged();
                             registeredSubjects.remove(position);
                             registeredSubjectAdapter.notifyDataSetChanged();
-
                         }
 
                         @Override
-                        public void onFailure(Call<StudentSubjectDeleteResponse> call, Throwable t) {
+                        public void onFailure(Call<StudentUpdateResponse> call, Throwable t) {
 
                         }
                     });
                 }else{
-                    RetrofitClient.getClient().facultySubjectRemove(prefs.getToken(),registeredSubjects.get(position).getId()).enqueue(new Callback<StudentSubjectDeleteResponse>() {
+                    RetrofitClient.getClient().adminRemoveFacultySubject(prefs.getToken(),userId,registeredSubjects.get(position).getId()).enqueue(new Callback<FacultyUpdateResponse>() {
                         @Override
-                        public void onResponse(Call<StudentSubjectDeleteResponse> call, Response<StudentSubjectDeleteResponse> response) {
+                        public void onResponse(Call<FacultyUpdateResponse> call, Response<FacultyUpdateResponse> response) {
                             notRegisteredSubjects.add(registeredSubjects.get(position));
                             registeredSubjectAdapter.notifyDataSetChanged();
                             registeredSubjects.remove(position);
                             registeredSubjectAdapter.notifyDataSetChanged();
-
                         }
 
                         @Override
-                        public void onFailure(Call<StudentSubjectDeleteResponse> call, Throwable t) {
+                        public void onFailure(Call<FacultyUpdateResponse> call, Throwable t) {
 
                         }
                     });
@@ -165,39 +166,36 @@ public class SubjectActivity extends AppCompatActivity {
             @Override
             public void onAction(int position) {
                 if(isStudent){
-                    RetrofitClient.getClient().studentSubjectAdd(prefs.getToken(),notRegisteredSubjects.get(position).getId()).enqueue(new Callback<StudentSubjectAddResponse>() {
+                    RetrofitClient.getClient().adminAddStudentSubject(prefs.getToken(),userId,notRegisteredSubjects.get(position).getId()).enqueue(new Callback<StudentUpdateResponse>() {
                         @Override
-                        public void onResponse(Call<StudentSubjectAddResponse> call, Response<StudentSubjectAddResponse> response) {
+                        public void onResponse(Call<StudentUpdateResponse> call, Response<StudentUpdateResponse> response) {
                             registeredSubjects.add(notRegisteredSubjects.get(position));
                             registeredSubjectAdapter.notifyDataSetChanged();
                             notRegisteredSubjects.remove(position);
                             notRegisteredSubjectAdapter.notifyDataSetChanged();
-
                         }
 
                         @Override
-                        public void onFailure(Call<StudentSubjectAddResponse> call, Throwable t) {
+                        public void onFailure(Call<StudentUpdateResponse> call, Throwable t) {
 
                         }
                     });
                 }else{
-                    RetrofitClient.getClient().facultySubjectAdd(prefs.getToken(),notRegisteredSubjects.get(position).getId()).enqueue(new Callback<StudentSubjectAddResponse>() {
+                    RetrofitClient.getClient().adminAddFacultySubject(prefs.getToken(),userId,notRegisteredSubjects.get(position).getId()).enqueue(new Callback<FacultyUpdateResponse>() {
                         @Override
-                        public void onResponse(Call<StudentSubjectAddResponse> call, Response<StudentSubjectAddResponse> response) {
+                        public void onResponse(Call<FacultyUpdateResponse> call, Response<FacultyUpdateResponse> response) {
                             registeredSubjects.add(notRegisteredSubjects.get(position));
                             registeredSubjectAdapter.notifyDataSetChanged();
                             notRegisteredSubjects.remove(position);
                             notRegisteredSubjectAdapter.notifyDataSetChanged();
-
                         }
 
                         @Override
-                        public void onFailure(Call<StudentSubjectAddResponse> call, Throwable t) {
+                        public void onFailure(Call<FacultyUpdateResponse> call, Throwable t) {
 
                         }
                     });
                 }
-
             }
         });
 

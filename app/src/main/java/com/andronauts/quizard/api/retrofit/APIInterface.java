@@ -1,5 +1,6 @@
 package com.andronauts.quizard.api.retrofit;
 
+import com.andronauts.quizard.api.responseModels.admin.AdminGetResponse;
 import com.andronauts.quizard.api.responseModels.faculty.FacultyGetListResponse;
 import com.andronauts.quizard.api.responseModels.faculty.FacultyGetResponse;
 import com.andronauts.quizard.api.responseModels.faculty.FacultyUpdateResponse;
@@ -48,6 +49,10 @@ public interface APIInterface {
     Call<StudentGetListResponse> adminGetStudents (@Header("token") String token, @Header("registered") boolean registered);
     @GET("admin/get/faculties")
     Call<FacultyGetListResponse> adminGetFaculties (@Header("token")String token,@Header("registered") boolean registered);
+    @GET("admin/get/student")
+    Call<StudentGetResponse> adminGetStudent(@Header("token")String token,@Header("student") String student);
+    @GET("admin/get/faculty")
+    Call<FacultyGetResponse> adminGetFaculty(@Header("token")String token,@Header("faculty")String faculty);
     @POST("admin/register/student")
     Call<StudentUpdateResponse> adminRegisterStudent (@Header("token")String token,@Header("student")String student,@Header("register") boolean register);
     @POST("admin/register/faculty")
@@ -55,7 +60,15 @@ public interface APIInterface {
     @POST("admin/delete/student")
     Call<StudentUpdateResponse> adminDeleteStudent(@Header("token")String token,@Header("student") String student);
     @POST("admin/delete/faculty")
-    Call<FacultyUpdateResponse> adminDeleteFaculty(@Header("token")String token,@Header("faculty") String fauclty);
+    Call<FacultyUpdateResponse> adminDeleteFaculty(@Header("token")String token,@Header("faculty") String faculty);
+    @POST("admin/add/student/subject")
+    Call<StudentUpdateResponse> adminAddStudentSubject(@Header("token")String token,@Header("student") String student,@Header("subject") String subject);
+    @POST("admin/add/faculty/subject")
+    Call<FacultyUpdateResponse> adminAddFacultySubject(@Header("token")String token,@Header("faculty") String faculty,@Header("subject") String subject);
+    @POST("admin/remove/student/subject")
+    Call<StudentUpdateResponse> adminRemoveStudentSubject(@Header("token")String token,@Header("student") String student,@Header("subject") String subject);
+    @POST("admin/remove/faculty/subject")
+    Call<FacultyUpdateResponse> adminRemoveFacultySubject(@Header("token")String token,@Header("faculty") String faculty,@Header("subject")String subject);
 
     @POST("student/update")
     Call<StudentUpdateResponse> studentUpdate(@Header("token") String token ,@Body Student student);
@@ -63,10 +76,6 @@ public interface APIInterface {
     Call<StudentGetResponse> studentGetProfile(@Header("token") String token);
     @GET("student/get/all")
     Call<StudentGetListResponse> studentGetAll (@Header("token")String token);
-    @POST("student/subject/add")
-    Call<StudentSubjectAddResponse> studentSubjectAdd(@Header("token") String token,@Header("subject_id") String subjectId);
-    @DELETE("student/subject/remove")
-    Call<StudentSubjectDeleteResponse> studentSubjectRemove(@Header("token") String token,@Header("subject_id") String subjectId);
 
 
     @POST("faculty/update")
@@ -75,10 +84,6 @@ public interface APIInterface {
     Call<FacultyGetResponse> facultyGetProfile(@Header("token") String token);
     @GET("faculty/get/all")
     Call<FacultyGetListResponse> facultyGetAll (@Header("token")String token);
-    @POST("faculty/subject/add")
-    Call<StudentSubjectAddResponse> facultySubjectAdd(@Header("token") String token,@Header("subject_id") String subjectId);
-    @DELETE("faculty/subject/remove")
-    Call<StudentSubjectDeleteResponse> facultySubjectRemove(@Header("token") String token,@Header("subject_id") String subjectId);
 
     @POST("subject/create")
     Call<SubjectResponse> addSubject(@Header("token") String token, @Body Subject subject);

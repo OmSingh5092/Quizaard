@@ -10,20 +10,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.andronauts.quizard.R;
-import com.andronauts.quizard.admin.fragments.VerifyFacultyAdminFragment;
-import com.andronauts.quizard.admin.fragments.VerifyStudentAdminFragment;
+import com.andronauts.quizard.admin.fragments.FacultyAdminFragment;
+import com.andronauts.quizard.admin.fragments.StudentAdminFragment;
 import com.andronauts.quizard.databinding.ActivityHomeAdminBinding;
-import com.andronauts.quizard.faculty.activities.HostedQuizFacultyActivity;
-import com.andronauts.quizard.faculty.activities.ProfileFacultyActivity;
-import com.andronauts.quizard.faculty.fragments.HostFacultyFragment;
-import com.andronauts.quizard.faculty.fragments.ResultFacultyFragment;
-import com.andronauts.quizard.general.activities.FacultiesActivity;
 import com.andronauts.quizard.general.activities.LoginActivity;
-import com.andronauts.quizard.general.activities.StudentsActivity;
-import com.andronauts.quizard.general.activities.SubjectActivity;
 import com.andronauts.quizard.utils.SessionManager;
 import com.google.android.material.navigation.NavigationView;
 
@@ -40,8 +32,8 @@ public class HomeAdminActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             switch (position){
-                case 0: return new VerifyStudentAdminFragment();
-                case 1: return new VerifyFacultyAdminFragment();
+                case 0: return new StudentAdminFragment();
+                case 1: return new FacultyAdminFragment();
             }
             return null;
         }

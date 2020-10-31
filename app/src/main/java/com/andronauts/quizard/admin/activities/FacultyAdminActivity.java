@@ -7,19 +7,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 
 import com.andronauts.quizard.R;
-import com.andronauts.quizard.admin.adapters.VerifyFacultyAdminRecycler;
+import com.andronauts.quizard.admin.adapters.FacultyAdminRecycler;
 import com.andronauts.quizard.api.responseModels.faculty.FacultyGetListResponse;
-import com.andronauts.quizard.api.responseModels.student.StudentGetListResponse;
 import com.andronauts.quizard.api.retrofit.RetrofitClient;
 import com.andronauts.quizard.dataModels.Faculty;
 import com.andronauts.quizard.databinding.ActivityFacultiesBinding;
-import com.andronauts.quizard.general.adapters.FacultyProfileRecycler;
 import com.andronauts.quizard.utils.SharedPrefs;
 
 import java.util.ArrayList;
@@ -29,7 +26,7 @@ public class FacultyAdminActivity extends AppCompatActivity {
     //Using activity_faculty
     private ActivityFacultiesBinding binding;
     private SharedPrefs prefs;
-    private VerifyFacultyAdminRecycler adapter;
+    private FacultyAdminRecycler adapter;
     private List<Faculty> faculties;
     private List<Faculty> sortedFaculties;
 
@@ -103,7 +100,7 @@ public class FacultyAdminActivity extends AppCompatActivity {
 
     private void setUpRecyclerView(){
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new VerifyFacultyAdminRecycler(this,sortedFaculties,true);
+        adapter = new FacultyAdminRecycler(this,sortedFaculties,true);
         binding.recyclerView.setAdapter(adapter);
     }
 

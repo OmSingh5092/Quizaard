@@ -14,7 +14,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_gravity="center"
+            android:layout_gravity="top"
             android:id="@+id/profile_image"
             tools:src="@tools:sample/avatars"
             android:layout_width="100dp"
@@ -88,11 +88,21 @@
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:layout_gravity="right"
+                android:id="@+id/subjects"
+                android:text="Subjects"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.button.MaterialButton
                 android:layout_gravity="right"
                 android:id="@+id/register"
                 android:text="Register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
+
 
 
         </LinearLayout>

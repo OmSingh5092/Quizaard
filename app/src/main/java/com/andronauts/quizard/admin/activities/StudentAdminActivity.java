@@ -11,12 +11,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 
 import com.andronauts.quizard.R;
-import com.andronauts.quizard.admin.adapters.VerifyStudentAdminRecycler;
+import com.andronauts.quizard.admin.adapters.StudentAdminRecycler;
 import com.andronauts.quizard.api.responseModels.student.StudentGetListResponse;
 import com.andronauts.quizard.api.retrofit.RetrofitClient;
 import com.andronauts.quizard.dataModels.Student;
 import com.andronauts.quizard.databinding.ActivityStudentsBinding;
-import com.andronauts.quizard.general.adapters.StudentProfileRecycler;
 import com.andronauts.quizard.utils.SharedPrefs;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class StudentAdminActivity extends AppCompatActivity {
     //Using activity_students
     private ActivityStudentsBinding binding;
     private SharedPrefs prefs;
-    private VerifyStudentAdminRecycler adapter;
+    private StudentAdminRecycler adapter;
     private List<Student> students;
     private List<Student> sortedStudents;
 
@@ -94,7 +93,7 @@ public class StudentAdminActivity extends AppCompatActivity {
 
     private void setUpRecyclerView(){
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new VerifyStudentAdminRecycler(this,sortedStudents,true);
+        adapter = new StudentAdminRecycler(this,sortedStudents,true);
         binding.recyclerView.setAdapter(adapter);
     }
 

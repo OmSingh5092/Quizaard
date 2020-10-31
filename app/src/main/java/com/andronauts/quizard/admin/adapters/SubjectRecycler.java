@@ -1,4 +1,4 @@
-package com.andronauts.quizard.general.adapters;
+package com.andronauts.quizard.admin.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.andronauts.quizard.dataModels.Subject;
-import com.andronauts.quizard.databinding.RecyclerSubjectBinding;
+import com.andronauts.quizard.databinding.RecyclerSubjectAdminBinding;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
@@ -23,12 +23,12 @@ public class SubjectRecycler extends RecyclerView.Adapter<SubjectRecycler.ViewHo
         void onAction(int position);
     }
 
-    List<Subject> data = new ArrayList<>();
-    Context context;
-    ActionHandler handler;
-    boolean isRegistered;
+    private List<Subject> data = new ArrayList<>();
+    private Context context;
+    private ActionHandler handler;
+    private boolean isRegistered;
 
-    RecyclerSubjectBinding binding;
+    RecyclerSubjectAdminBinding binding;
 
     public SubjectRecycler(List<Subject> data, Context context, boolean isRegistered,ActionHandler handler) {
         this.data = data;
@@ -40,7 +40,7 @@ public class SubjectRecycler extends RecyclerView.Adapter<SubjectRecycler.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding = RecyclerSubjectBinding.inflate(LayoutInflater.from(context),parent,false);
+        binding = RecyclerSubjectAdminBinding.inflate(LayoutInflater.from(context),parent,false);
         return new ViewHolder(binding.getRoot());
     }
 

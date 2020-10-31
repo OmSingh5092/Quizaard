@@ -1,6 +1,7 @@
 package com.andronauts.quizard.admin.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -10,11 +11,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.andronauts.quizard.api.responseModels.student.StudentUpdateResponse;
+import com.andronauts.quizard.admin.activities.StudentAdminActivity;
+import com.andronauts.quizard.admin.activities.SubjectAdminActivity;
+import com.andronauts.quizard.admin.activities.UserSubjectAdminActivity;
+import com.andronauts.quizard.api.responseModels.faculty.FacultyUpdateResponse;
 import com.andronauts.quizard.api.retrofit.RetrofitClient;
-import com.andronauts.quizard.dataModels.Student;
-import com.andronauts.quizard.databinding.RecyclerVerifyStudentBinding;
-import com.andronauts.quizard.utils.FileManager;
+import com.andronauts.quizard.dataModels.Faculty;
+import com.andronauts.quizard.databinding.RecyclerFacultyAdminBinding;
 import com.andronauts.quizard.utils.SharedPrefs;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
@@ -33,44 +36,38 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class VerifyStudentAdminRecycler extends RecyclerView.Adapter<VerifyStudentAdminRecycler.ViewHolder> {
-    private RecyclerVerifyStudentBinding binding;
+public class FacultyAdminRecycler extends RecyclerView.Adapter<FacultyAdminRecycler.ViewHolder>{
+    private RecyclerFacultyAdminBinding binding;
     private Context context;
-    private List<Student> data;
+    private List<Faculty> data;
     private SharedPrefs prefs;
-    private FileManager fileManager;
     private boolean registered;
-
-    public VerifyStudentAdminRecycler(Context context, List<Student> data,boolean registered) {
+    public FacultyAdminRecycler(Context context, List<Faculty> data, boolean registered) {
         this.context = context;
         this.data = data;
         this.registered = registered;
 
-        fileManager = new FileManager(context);
         prefs = new SharedPrefs(context);
-
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding = RecyclerVerifyStudentBinding.inflate(LayoutInflater.from(context),parent,false);
+        binding = RecyclerFacultyAdminBinding.inflate(LayoutInflater.from(context),parent,false);
         return new ViewHolder(binding.getRoot());
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Student student = data.get(position);
-        holder.name.setText(student.getName());
-        holder.registrationNumber.setText(student.getRegistrationNumber());
-        holder.year.setText(String.valueOf(student.getYear()));
-        holder.department.setText(student.getDepartment());
+        Faculty faculty = data.get(position);
+        holder.name.setText(faculty.getName());
+        holder.facultyId.setText(faculty.getFacultyId());
+        holder.department.setText(faculty.getDepartment());
 
-        //Adding profile photo
-        if(student.getPhotoPath()!=null){
+        if(faculty.getPhotoPath()!=null){
             try {
                 File file = File.createTempFile("profile","jpeg");
-                FirebaseStorage.getInstance().getReference(student.getPhotoPath()).getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                FirebaseStorage.getInstance().getReference(faculty.getPhotoPath()).getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                         try {
@@ -86,47 +83,31 @@ public class VerifyStudentAdminRecycler extends RecyclerView.Adapter<VerifyStude
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
         }
 
-        holder.admitCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(student.getAdmitCardPath()!=null){
-                    File file = fileManager.getStudentReportPdfFile();
-
-                    FirebaseStorage.getInstance().getReference(student.getAdmitCardPath()).getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                            fileManager.openImageFile(file);
-                        }
-                    });
-                }else{
-                    Toast.makeText(context, "No Admit Card Uploaded", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        //Changing the button text if the user is registered
+        //Changing the layout
         if(registered){
             holder.register.setText("Unregister");
+            holder.subjects.setVisibility(View.VISIBLE);
         }
 
         holder.register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Changing registration state of the user
-                RetrofitClient.getClient().adminRegisterStudent(prefs.getToken(),student.getId(),!registered).enqueue(new Callback<StudentUpdateResponse>() {
+                RetrofitClient.getClient().adminRegisterFaculty(prefs.getToken(),faculty.getId(),!registered).enqueue(new Callback<FacultyUpdateResponse>() {
                     @Override
-                    public void onResponse(Call<StudentUpdateResponse> call, Response<StudentUpdateResponse> response) {
+                    public void onResponse(Call<FacultyUpdateResponse> call, Response<FacultyUpdateResponse> response) {
                         if(response.isSuccessful()){
-                            Toast.makeText(context, "Registration Successful!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Successful!", Toast.LENGTH_SHORT).show();
                             data.remove(position);
                             notifyDataSetChanged();
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<StudentUpdateResponse> call, Throwable t) {
+                    public void onFailure(Call<FacultyUpdateResponse> call, Throwable t) {
 
                     }
                 });
@@ -137,9 +118,9 @@ public class VerifyStudentAdminRecycler extends RecyclerView.Adapter<VerifyStude
         holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RetrofitClient.getClient().adminDeleteStudent(prefs.getToken(),student.getId()).enqueue(new Callback<StudentUpdateResponse>() {
+                RetrofitClient.getClient().adminDeleteFaculty(prefs.getToken(),faculty.getId()).enqueue(new Callback<FacultyUpdateResponse>() {
                     @Override
-                    public void onResponse(Call<StudentUpdateResponse> call, Response<StudentUpdateResponse> response) {
+                    public void onResponse(Call<FacultyUpdateResponse> call, Response<FacultyUpdateResponse> response) {
                         if(response.isSuccessful()){
                             Toast.makeText(context, "User Removed Successfully!", Toast.LENGTH_SHORT).show();
                             data.remove(position);
@@ -148,10 +129,20 @@ public class VerifyStudentAdminRecycler extends RecyclerView.Adapter<VerifyStude
                     }
 
                     @Override
-                    public void onFailure(Call<StudentUpdateResponse> call, Throwable t) {
+                    public void onFailure(Call<FacultyUpdateResponse> call, Throwable t) {
 
                     }
                 });
+            }
+        });
+
+        holder.subjects.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(context, UserSubjectAdminActivity.class);
+                i.putExtra("userId",faculty.getId());
+                i.putExtra("isStudent",false);
+                context.startActivity(i);
             }
         });
     }
@@ -162,20 +153,18 @@ public class VerifyStudentAdminRecycler extends RecyclerView.Adapter<VerifyStude
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView name,registrationNumber,department,year;
-        ImageView profileImage,admitCard,remove;
-        MaterialButton register;
+        TextView name,facultyId,department;
+        ImageView profileImage,remove;
+        MaterialButton register,subjects;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             name = binding.name;
-            registrationNumber = binding.registrationNumber;
+            facultyId = binding.facultyId;
             department = binding.department;
-            admitCard = binding.admitCard;
-            year = binding.year;
             profileImage = binding.profileImage;
             register = binding.register;
             remove = binding.remove;
+            subjects = binding.subjects;
         }
     }
 }

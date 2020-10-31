@@ -6,11 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.andronauts.quizard.admin.adapters.VerifyFacultyAdminRecycler;
-import com.andronauts.quizard.api.responseModels.faculty.FacultyGetListResponse;
+import com.andronauts.quizard.admin.adapters.StudentAdminRecycler;
+import com.andronauts.quizard.api.responseModels.student.StudentGetListResponse;
 import com.andronauts.quizard.api.retrofit.RetrofitClient;
-import com.andronauts.quizard.dataModels.Faculty;
-import com.andronauts.quizard.databinding.FragmentVerifyFacultyAdminBinding;
+import com.andronauts.quizard.dataModels.Student;
+import com.andronauts.quizard.databinding.FragmentVerifyStudentAdminBinding;
 import com.andronauts.quizard.utils.SharedPrefs;
 
 import java.util.List;
@@ -24,18 +24,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class VerifyFacultyAdminFragment extends Fragment {
-    private FragmentVerifyFacultyAdminBinding binding;
+public class StudentAdminFragment extends Fragment {
+    private FragmentVerifyStudentAdminBinding binding;
     private Context context;
     private SharedPrefs prefs;
-    private VerifyFacultyAdminRecycler adapter;
+    private StudentAdminRecycler adapter;
 
-    private List<Faculty> faculties;
+    private List<Student> students;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentVerifyFacultyAdminBinding.inflate(getLayoutInflater(),container,false);
+        binding = FragmentVerifyStudentAdminBinding.inflate(getLayoutInflater(),container,false);
         context = getContext();
         prefs = new SharedPrefs(context);
 
@@ -52,18 +52,19 @@ public class VerifyFacultyAdminFragment extends Fragment {
     }
 
     private void loadData(){
-        RetrofitClient.getClient().adminGetFaculties(prefs.getToken(),false).enqueue(new Callback<FacultyGetListResponse>() {
+        RetrofitClient.getClient().adminGetStudents(prefs.getToken(),false).enqueue(new Callback<StudentGetListResponse>() {
             @Override
-            public void onResponse(Call<FacultyGetListResponse> call, Response<FacultyGetListResponse> response) {
+            public void onResponse(Call<StudentGetListResponse> call, Response<StudentGetListResponse> response) {
                 if(response.isSuccessful()){
-                    faculties = response.body().getFaculties();
+                    students = response.body().getStudents();
                     setUpRecyclerView();
                 }
+
                 binding.swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
-            public void onFailure(Call<FacultyGetListResponse> call, Throwable t) {
+            public void onFailure(Call<StudentGetListResponse> call, Throwable t) {
 
             }
         });
@@ -71,7 +72,7 @@ public class VerifyFacultyAdminFragment extends Fragment {
 
     private void setUpRecyclerView(){
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new VerifyFacultyAdminRecycler(context,faculties,false);
+        adapter = new StudentAdminRecycler(context,students,false);
         binding.recyclerView.setAdapter(adapter);
     }
 }

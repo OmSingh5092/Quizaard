@@ -5,25 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
 
 import com.andronauts.quizard.R;
-import com.andronauts.quizard.dataModels.Subject;
 import com.andronauts.quizard.databinding.ActivityHomeStudentBinding;
-import com.andronauts.quizard.faculty.activities.HomeFacultyActivity;
-import com.andronauts.quizard.faculty.activities.ProfileFacultyActivity;
 import com.andronauts.quizard.general.activities.FacultiesActivity;
 import com.andronauts.quizard.general.activities.LoginActivity;
 import com.andronauts.quizard.general.activities.StudentsActivity;
-import com.andronauts.quizard.general.activities.SubjectActivity;
-import com.andronauts.quizard.students.adapters.PreviousQuizzesStudentRecycler;
+import com.andronauts.quizard.admin.activities.UserSubjectAdminActivity;
 import com.andronauts.quizard.students.fragments.QuizStudentFragment;
 import com.andronauts.quizard.students.fragments.ReportStudentFragment;
 import com.andronauts.quizard.utils.SessionManager;
@@ -90,7 +83,7 @@ public class HomeStudentActivity extends AppCompatActivity {
                         }
                     });
                 }else if(item.getItemId() == R.id.subject){
-                    Intent i = new Intent(HomeStudentActivity.this, SubjectActivity.class);
+                    Intent i = new Intent(HomeStudentActivity.this, UserSubjectAdminActivity.class);
                     i.putExtra("isStudent",true);
                     startActivity(i);
                 }else if(item.getItemId()== R.id.profile){

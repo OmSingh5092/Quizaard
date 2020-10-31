@@ -18,8 +18,7 @@ import com.andronauts.quizard.faculty.fragments.ResultFacultyFragment;
 import com.andronauts.quizard.general.activities.FacultiesActivity;
 import com.andronauts.quizard.general.activities.LoginActivity;
 import com.andronauts.quizard.general.activities.StudentsActivity;
-import com.andronauts.quizard.general.activities.SubjectActivity;
-import com.andronauts.quizard.students.activities.ProfileStudentActivity;
+import com.andronauts.quizard.admin.activities.UserSubjectAdminActivity;
 import com.andronauts.quizard.utils.SessionManager;
 import com.google.android.material.navigation.NavigationView;
 
@@ -76,7 +75,7 @@ public class HomeFacultyActivity extends AppCompatActivity {
                         }
                     });
                 }else if(item.getItemId() == R.id.subject){
-                    Intent i = new Intent(HomeFacultyActivity.this, SubjectActivity.class);
+                    Intent i = new Intent(HomeFacultyActivity.this, UserSubjectAdminActivity.class);
                     i.putExtra("isStudent",false);
                     startActivity(i);
                 }else if (item.getItemId() == R.id.profile){

@@ -15,13 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".admin.activities.SubjectAdminActivity"></activity>
+        <activity android:name=".admin.activities.SubjectAdminActivity"/>
         <activity android:name=".admin.activities.FacultyAdminActivity" />
         <activity android:name=".admin.activities.StudentAdminActivity" />
         <activity android:name=".admin.activities.HomeAdminActivity" />
         <activity android:name=".students.activities.PreviousQuizzesStudentActivity" />
         <activity android:name=".faculty.activities.HostedQuizFacultyActivity" />
-        <activity android:name=".general.activities.SubjectActivity" />
+        <activity android:name=".admin.activities.UserSubjectAdminActivity" />
         <activity android:name=".students.activities.ProfileStudentActivity" />
         <activity android:name=".faculty.activities.ProfileFacultyActivity" />
         <activity android:name=".general.activities.StudentsActivity" />
