@@ -38,9 +38,11 @@ public class VerifyFacultyAdminRecycler extends RecyclerView.Adapter<VerifyFacul
     private Context context;
     private List<Faculty> data;
     private SharedPrefs prefs;
-    public VerifyFacultyAdminRecycler(Context context, List<Faculty> data) {
+    private boolean registered;
+    public VerifyFacultyAdminRecycler(Context context, List<Faculty> data,boolean registered) {
         this.context = context;
         this.data = data;
+        this.registered = registered;
 
         prefs = new SharedPrefs(context);
     }
@@ -81,14 +83,42 @@ public class VerifyFacultyAdminRecycler extends RecyclerView.Adapter<VerifyFacul
 
         }
 
+        //Changing the button text if the user is registered
+        if(registered){
+            holder.register.setText("Unregister");
+        }
+
         holder.register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RetrofitClient.getClient().adminRegisterFaculty(prefs.getToken(),faculty.getId()).enqueue(new Callback<FacultyUpdateResponse>() {
+                //Changing registration state of the user
+                RetrofitClient.getClient().adminRegisterFaculty(prefs.getToken(),faculty.getId(),!registered).enqueue(new Callback<FacultyUpdateResponse>() {
                     @Override
                     public void onResponse(Call<FacultyUpdateResponse> call, Response<FacultyUpdateResponse> response) {
                         if(response.isSuccessful()){
-                            Toast.makeText(context, "Registration Successful!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Successful!", Toast.LENGTH_SHORT).show();
+                            data.remove(position);
+                            notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<FacultyUpdateResponse> call, Throwable t) {
+
+                    }
+                });
+
+            }
+        });
+
+        holder.remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RetrofitClient.getClient().adminDeleteFaculty(prefs.getToken(),faculty.getId()).enqueue(new Callback<FacultyUpdateResponse>() {
+                    @Override
+                    public void onResponse(Call<FacultyUpdateResponse> call, Response<FacultyUpdateResponse> response) {
+                        if(response.isSuccessful()){
+                            Toast.makeText(context, "User Removed Successfully!", Toast.LENGTH_SHORT).show();
                             data.remove(position);
                             notifyDataSetChanged();
                         }
@@ -110,7 +140,7 @@ public class VerifyFacultyAdminRecycler extends RecyclerView.Adapter<VerifyFacul
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView name,facultyId,department;
-        ImageView profileImage;
+        ImageView profileImage,remove;
         MaterialButton register;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -119,6 +149,7 @@ public class VerifyFacultyAdminRecycler extends RecyclerView.Adapter<VerifyFacul
             department = binding.department;
             profileImage = binding.profileImage;
             register = binding.register;
+            remove = binding.remove;
         }
     }
 }

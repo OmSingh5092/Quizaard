@@ -49,9 +49,13 @@ public interface APIInterface {
     @GET("admin/get/faculties")
     Call<FacultyGetListResponse> adminGetFaculties (@Header("token")String token,@Header("registered") boolean registered);
     @POST("admin/register/student")
-    Call<StudentUpdateResponse> adminRegisterStudent (@Header("token")String token,@Header("student")String student);
+    Call<StudentUpdateResponse> adminRegisterStudent (@Header("token")String token,@Header("student")String student,@Header("register") boolean register);
     @POST("admin/register/faculty")
-    Call<FacultyUpdateResponse> adminRegisterFaculty (@Header("token")String token,@Header("faculty") String faculty);
+    Call<FacultyUpdateResponse> adminRegisterFaculty (@Header("token")String token,@Header("faculty") String faculty,@Header("register") boolean register);
+    @POST("admin/delete/student")
+    Call<StudentUpdateResponse> adminDeleteStudent(@Header("token")String token,@Header("student") String student);
+    @POST("admin/delete/faculty")
+    Call<FacultyUpdateResponse> adminDeleteFaculty(@Header("token")String token,@Header("faculty") String fauclty);
 
     @POST("student/update")
     Call<StudentUpdateResponse> studentUpdate(@Header("token") String token ,@Body Student student);

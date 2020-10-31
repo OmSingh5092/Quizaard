@@ -73,7 +73,7 @@ public class VerifyStudentAdminFragment extends Fragment {
 
     private void setUpRecyclerView(){
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new VerifyStudentAdminRecycler(context,students);
+        adapter = new VerifyStudentAdminRecycler(context,students,false);
         binding.recyclerView.setAdapter(adapter);
     }
 }
