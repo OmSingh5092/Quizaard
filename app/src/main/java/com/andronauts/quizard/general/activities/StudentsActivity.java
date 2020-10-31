@@ -28,6 +28,7 @@ public class StudentsActivity extends AppCompatActivity {
     private StudentProfileRecycler adapter;
     private List<Student> students;
     private List<Student> sortedStudents;
+    private boolean isStudent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,10 @@ public class StudentsActivity extends AppCompatActivity {
         binding = ActivityStudentsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         prefs = new SharedPrefs(this);
+        isStudent = getIntent().getBooleanExtra("isStudent",false);
+        if(isStudent){
+            binding.toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        }
         setSupportActionBar(binding.toolbar);
 
         loadData();

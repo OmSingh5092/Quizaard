@@ -33,18 +33,33 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:layout_gravity="bottom"
                     android:id="@+id/photo"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:src="@drawable/ic_student_avatar" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/upload_photo"
-                    android:layout_gravity="center"
-                    android:text="Upload Photo"
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:visibility="gone"
+                        android:id="@+id/verified"
+                        android:layout_gravity="right"
+                        android:src="@drawable/ic_verified"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/upload_photo"
+                        android:layout_gravity="center"
+                        android:text="Upload Photo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
             </LinearLayout>
             <LinearLayout
                 android:layout_marginTop="20dp"
@@ -58,7 +73,7 @@
                     android:layout_height="100dp"/>
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/upload_admit_card"
-                    android:layout_gravity="center"
+                    android:layout_gravity="bottom"
                     android:text="Upload Photo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>

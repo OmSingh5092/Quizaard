@@ -103,6 +103,9 @@ public class ProfileFacultyActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        if(faculty.isRegistered()){
+            binding.verified.setVisibility(View.VISIBLE);
+        }
     }
 
     private void loadData(){

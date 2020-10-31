@@ -92,6 +92,10 @@ public class FacultyProfileRecycler extends RecyclerView.Adapter<FacultyProfileR
 
             }
         });
+
+        if(faculty.isRegistered()){
+            holder.verified.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -101,7 +105,7 @@ public class FacultyProfileRecycler extends RecyclerView.Adapter<FacultyProfileR
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView name,facultyId,department;
-        ImageView email,message,profileImage;
+        ImageView email,message,profileImage,verified;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             name = binding.name;
@@ -110,6 +114,7 @@ public class FacultyProfileRecycler extends RecyclerView.Adapter<FacultyProfileR
             email = binding.email;
             message = binding.chat;
             profileImage = binding.profileImage;
+            verified = binding.verified;
         }
     }
 }

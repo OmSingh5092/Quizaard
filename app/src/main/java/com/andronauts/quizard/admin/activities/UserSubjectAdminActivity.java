@@ -21,7 +21,7 @@ import com.andronauts.quizard.api.retrofit.RetrofitClient;
 import com.andronauts.quizard.dataModels.Faculty;
 import com.andronauts.quizard.dataModels.Student;
 import com.andronauts.quizard.dataModels.Subject;
-import com.andronauts.quizard.databinding.ActivitySubjectBinding;
+import com.andronauts.quizard.databinding.ActivitySubjectUserAdminBinding;
 import com.andronauts.quizard.admin.adapters.SubjectRecycler;
 import com.andronauts.quizard.utils.SharedPrefs;
 
@@ -29,23 +29,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserSubjectAdminActivity extends AppCompatActivity {
-    ActivitySubjectBinding binding;
-    SharedPrefs prefs;
-    boolean isStudent;
-    String userId;
+    private ActivitySubjectUserAdminBinding binding;
+    private SharedPrefs prefs;
+    private boolean isStudent;
+    private String userId;
 
-    Faculty faculty;
-    Student student;
-    List<Subject> subjects = new ArrayList<>();
-    List<Subject> registeredSubjects = new ArrayList<>();
-    List<Subject> notRegisteredSubjects = new ArrayList<>();
+    private Faculty faculty;
+    private Student student;
+    private List<Subject> subjects = new ArrayList<>();
+    private List<Subject> registeredSubjects = new ArrayList<>();
+    private List<Subject> notRegisteredSubjects = new ArrayList<>();
 
-    SubjectRecycler registeredSubjectAdapter, notRegisteredSubjectAdapter;
+    private SubjectRecycler registeredSubjectAdapter, notRegisteredSubjectAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivitySubjectBinding.inflate(getLayoutInflater());
+        binding = ActivitySubjectUserAdminBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         prefs = new SharedPrefs(this);
         isStudent = getIntent().getBooleanExtra("isStudent",false);

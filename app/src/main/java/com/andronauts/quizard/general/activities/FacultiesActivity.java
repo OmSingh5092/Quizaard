@@ -28,13 +28,19 @@ public class FacultiesActivity extends AppCompatActivity {
     private FacultyProfileRecycler adapter;
     private List<Faculty> faculties;
     private List<Faculty> sortedFaculties;
+    private boolean isStudent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityFacultiesBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        setSupportActionBar(binding.toolbar);
         prefs = new SharedPrefs(this);
+        isStudent = getIntent().getBooleanExtra("isStudent",false);
+        if(isStudent){
+            binding.toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        }
+        setSupportActionBar(binding.toolbar);
 
         binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

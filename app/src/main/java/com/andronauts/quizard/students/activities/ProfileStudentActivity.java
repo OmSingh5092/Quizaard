@@ -132,6 +132,10 @@ public class ProfileStudentActivity extends AppCompatActivity {
         catch (IOException e) {
             e.printStackTrace();
         }
+
+        if(student.isRegistered()){
+            binding.verified.setVisibility(View.VISIBLE);
+        }
     }
 
     private File getImageFile() throws IOException {

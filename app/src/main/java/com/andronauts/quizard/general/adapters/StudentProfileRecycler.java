@@ -91,6 +91,10 @@ public class StudentProfileRecycler extends RecyclerView.Adapter<StudentProfileR
 
             }
         });
+
+        if(student.isRegistered()){
+            holder.verified.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -100,7 +104,7 @@ public class StudentProfileRecycler extends RecyclerView.Adapter<StudentProfileR
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView name,registrationNumber,department,year;
-        ImageView email,message,profileImage;
+        ImageView email,message,profileImage,verified;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -111,6 +115,7 @@ public class StudentProfileRecycler extends RecyclerView.Adapter<StudentProfileR
             message = binding.chat;
             year = binding.year;
             profileImage = binding.profileImage;
+            verified = binding.verified;
         }
     }
 }

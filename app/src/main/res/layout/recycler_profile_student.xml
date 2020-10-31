@@ -23,50 +23,67 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_weight="1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_weight="1"
                 android:layout_marginLeft="20dp"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/name"
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_black"
-                    android:textSize="18sp"
-                    tools:text="Om Singh" />
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/registration_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
-                    android:textSize="18sp"
-                    tools:text="Registration Number" />
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_black"
+                        android:textSize="18sp"
+                        tools:text="Om Singh" />
 
-                <TextView
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/department"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
-                    android:textSize="18sp"
-                    tools:text="ECE" />
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:id="@+id/registration_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:textSize="18sp"
+                        tools:text="Registration Number" />
 
-                <TextView
-                    android:id="@+id/year"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:fontFamily="@font/roboto_black"
-                    android:textSize="18sp"
-                    tools:text="3" />
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:id="@+id/department"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:textSize="18sp"
+                        tools:text="ECE" />
+                    <TextView
+                        android:id="@+id/year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/roboto_black"
+                        android:textSize="18sp"
+                        tools:text="3" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:id="@+id/verified"
+                    android:src="@drawable/ic_verified"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"/>
+
+
+
 
             </LinearLayout>
 

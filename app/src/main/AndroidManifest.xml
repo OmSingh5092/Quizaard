@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".admin.activities.SubjectAdminActivity"/>
+        <activity android:name=".general.activities.SubjectActivity"></activity>
+        <activity android:name=".admin.activities.SubjectAdminActivity" />
         <activity android:name=".admin.activities.FacultyAdminActivity" />
         <activity android:name=".admin.activities.StudentAdminActivity" />
         <activity android:name=".admin.activities.HomeAdminActivity" />
