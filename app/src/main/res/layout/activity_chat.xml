@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".general.activities.ChatActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorSecondary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:navigationIcon="@drawable/ic_back"
+        app:title="Chat"
+        app:titleTextColor="@color/colorWhite" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_weight="1"
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Message" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/media"
+            android:foreground="?attr/selectableItemBackground"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_attach"
+            android:layout_width="30dp"
+            android:layout_height="30dp"/>
+
+        <ImageView
+            android:id="@+id/delete"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:foreground="?attr/selectableItemBackground"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_delete"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:tint="@color/colorSecondary" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/send"
+            android:text="send"
+            app:icon="@drawable/ic_send"
+            app:iconGravity="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</LinearLayout>

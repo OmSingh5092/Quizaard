@@ -95,7 +95,7 @@ public class StudentsActivity extends AppCompatActivity {
 
     private void setUpRecyclerView(){
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new StudentProfileRecycler(this,sortedStudents);
+        adapter = new StudentProfileRecycler(this,sortedStudents,isStudent);
         binding.recyclerView.setAdapter(adapter);
     }
 

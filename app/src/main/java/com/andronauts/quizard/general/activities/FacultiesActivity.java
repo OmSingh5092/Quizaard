@@ -101,7 +101,7 @@ public class FacultiesActivity extends AppCompatActivity {
 
     private void setUpRecyclerView(){
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new FacultyProfileRecycler(this,sortedFaculties);
+        adapter = new FacultyProfileRecycler(this,sortedFaculties,isStudent);
         binding.recyclerView.setAdapter(adapter);
     }
 

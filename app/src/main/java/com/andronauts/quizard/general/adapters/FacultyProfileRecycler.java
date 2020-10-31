@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.andronauts.quizard.dataModels.Faculty;
 import com.andronauts.quizard.databinding.RecyclerProfileFacultyBinding;
+import com.andronauts.quizard.general.activities.ChatActivity;
 import com.andronauts.quizard.utils.SharedPrefs;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
@@ -33,11 +34,12 @@ public class FacultyProfileRecycler extends RecyclerView.Adapter<FacultyProfileR
     private Context context;
     private SharedPrefs prefs;
     private List<Faculty> data;
+    private boolean isStudent;
 
-    public FacultyProfileRecycler(Context context, List<Faculty> data) {
+    public FacultyProfileRecycler(Context context, List<Faculty> data,boolean isStudent) {
         this.context = context;
         this.data = data;
-
+        this.isStudent = isStudent;
         prefs = new SharedPrefs(context);
     }
 
@@ -89,7 +91,11 @@ public class FacultyProfileRecycler extends RecyclerView.Adapter<FacultyProfileR
         holder.message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent i = new Intent(context, ChatActivity.class);
+                i.putExtra("receiverId",faculty.getId());
+                i.putExtra("isSenderStudent",isStudent);
+                i.putExtra("isReceiverStudent",false);
+                context.startActivity(i);
             }
         });
 

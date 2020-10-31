@@ -53,6 +53,12 @@ public class FileManager {
         return file;
     }
 
+    public File getChatMediaFile(){
+        String name = "chatMedia"+new DateFormatter(System.currentTimeMillis()).getDateAndTime()+".pdf";
+        File file = new File(parentFile,name);
+        return file;
+    }
+
     public void openPdfFile(File file){
         Uri contentUri = FileProvider.getUriForFile(context,context.getPackageName()+".provider",file);
         Intent i = new Intent();

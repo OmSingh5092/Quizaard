@@ -1,6 +1,7 @@
 package com.andronauts.quizard.api.retrofit;
 
 import com.andronauts.quizard.api.responseModels.admin.AdminGetResponse;
+import com.andronauts.quizard.api.responseModels.chat.ChatGetListResponse;
 import com.andronauts.quizard.api.responseModels.faculty.FacultyGetListResponse;
 import com.andronauts.quizard.api.responseModels.faculty.FacultyGetResponse;
 import com.andronauts.quizard.api.responseModels.faculty.FacultyUpdateResponse;
@@ -121,6 +122,10 @@ public interface APIInterface {
     Call<ResultGetResponse> updateResult(@Header("token")String token, @Body Result result);
     @GET("result/get/student")
     Call<ResultListGetResponse> getResultsByStudent (@Header("token")String token);
+
+    @GET("chat/get/all")
+    Call<ChatGetListResponse> getAllChats(@Header("token")String token,@Header("sender")String sender);
+
 
 
 }

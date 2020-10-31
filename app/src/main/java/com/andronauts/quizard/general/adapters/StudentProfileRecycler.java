@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.andronauts.quizard.dataModels.Student;
 import com.andronauts.quizard.databinding.RecyclerProfileStudentBinding;
+import com.andronauts.quizard.general.activities.ChatActivity;
 import com.andronauts.quizard.utils.SharedPrefs;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
@@ -32,10 +33,12 @@ public class StudentProfileRecycler extends RecyclerView.Adapter<StudentProfileR
     private Context context;
     private List<Student> data;
     private SharedPrefs prefs;
+    private boolean isStudent;
 
-    public StudentProfileRecycler(Context context, List<Student> students) {
+    public StudentProfileRecycler(Context context, List<Student> students,boolean isStudent) {
         this.context = context;
         this.data = students;
+        this.isStudent = isStudent;
     }
 
     @NonNull
@@ -88,7 +91,11 @@ public class StudentProfileRecycler extends RecyclerView.Adapter<StudentProfileR
         holder.message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent i = new Intent(context, ChatActivity.class);
+                i.putExtra("receiverId",student.getId());
+                i.putExtra("isSenderStudent",isStudent);
+                i.putExtra("isReceiverStudent",true);
+                context.startActivity(i);
             }
         });
 

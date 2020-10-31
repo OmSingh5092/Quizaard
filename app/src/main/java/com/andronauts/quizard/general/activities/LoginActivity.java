@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
         binding.admin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                userType = 3;
+                userType = 2;
                 signIn();
             }
         });
@@ -140,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 }
             });
-        }else if(userType == 2){
+        }else if(userType == 1){
             RetrofitClient.getClient().facultyGoogleSignIn(map).enqueue(new Callback<GoogleSignInResponse>() {
                 @Override
                 public void onResponse(Call<GoogleSignInResponse> call, Response<GoogleSignInResponse> response) {
