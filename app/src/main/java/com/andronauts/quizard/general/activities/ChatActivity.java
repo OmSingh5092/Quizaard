@@ -63,6 +63,7 @@ public class ChatActivity extends AppCompatActivity {
     private String senderId;
     private boolean isSenderStudent;
     private boolean isReceiverStudent;
+    private String name;
 
     private int MEDIA_REQUEST;
 
@@ -71,10 +72,12 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityChatBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        setSupportActionBar(binding.toolbar);
         receiverId = getIntent().getStringExtra("receiverId");
         isSenderStudent = getIntent().getBooleanExtra("isSenderStudent",false);
         isReceiverStudent = getIntent().getBooleanExtra("isReceiverStudent",false);
+        name = getIntent().getStringExtra("name");
+        binding.toolbar.setTitle(name);
+        setSupportActionBar(binding.toolbar);
 
         prefs = new SharedPrefs(this);
         chat = new Chat();

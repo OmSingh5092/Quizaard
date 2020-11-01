@@ -1,6 +1,7 @@
 package com.andronauts.quizard.general.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,7 +86,7 @@ public class ChatRecycler extends RecyclerView.Adapter<ChatRecycler.ViewHolder> 
             }
         });
 
-        if(chat.getReceiver() == userId){
+        if(chat.getSender().equals(userId)){
             holder.container.setGravity(Gravity.RIGHT);
         }
     }

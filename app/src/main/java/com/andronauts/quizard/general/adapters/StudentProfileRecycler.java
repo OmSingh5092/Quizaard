@@ -95,6 +95,7 @@ public class StudentProfileRecycler extends RecyclerView.Adapter<StudentProfileR
                 i.putExtra("receiverId",student.getId());
                 i.putExtra("isSenderStudent",isStudent);
                 i.putExtra("isReceiverStudent",true);
+                i.putExtra("name",student.getName());
                 context.startActivity(i);
             }
         });

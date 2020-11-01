@@ -95,6 +95,7 @@ public class FacultyProfileRecycler extends RecyclerView.Adapter<FacultyProfileR
                 i.putExtra("receiverId",faculty.getId());
                 i.putExtra("isSenderStudent",isStudent);
                 i.putExtra("isReceiverStudent",false);
+                i.putExtra("name",faculty.getName());
                 context.startActivity(i);
             }
         });

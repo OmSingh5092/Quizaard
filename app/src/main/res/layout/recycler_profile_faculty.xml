@@ -70,8 +70,8 @@
                     tools:visibility="visible"
                     android:id="@+id/verified"
                     android:src="@drawable/ic_verified"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"/>
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"/>
 
             </LinearLayout>
             <LinearLayout

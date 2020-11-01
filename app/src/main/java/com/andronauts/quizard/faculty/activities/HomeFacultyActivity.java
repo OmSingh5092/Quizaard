@@ -157,16 +157,16 @@ public class HomeFacultyActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if(item.getItemId() == R.id.logout){
-
+                    logOut();
                 }else if(item.getItemId() == R.id.subject){
-                    Intent i = new Intent(HomeFacultyActivity.this, UserSubjectAdminActivity.class);
+                    Intent i = new Intent(HomeFacultyActivity.this, SubjectActivity.class);
                     i.putExtra("isStudent",false);
                     startActivity(i);
                 }else if (item.getItemId() == R.id.profile){
                     Intent i = new Intent(HomeFacultyActivity.this,ProfileFacultyActivity.class);
                     startActivity(i);
                 }else if(item.getItemId() == R.id.hosted_quizzes){
-                    Intent i = new Intent(HomeFacultyActivity.this, SubjectActivity.class);
+                    Intent i = new Intent(HomeFacultyActivity.this, HostedQuizFacultyActivity.class);
                     startActivity(i);
                 }else if(item.getItemId() == R.id.students){
                     Intent i = new Intent(HomeFacultyActivity.this, StudentsActivity.class);
