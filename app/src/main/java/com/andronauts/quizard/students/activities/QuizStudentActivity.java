@@ -166,9 +166,9 @@ public class QuizStudentActivity extends AppCompatActivity {
 
     private void setTimer(){
         long minutes = new DateFormatter(quiz.getEndTime()).getTimeStamp()-System.currentTimeMillis();
-        minutes/=60000;
+        minutes/=1000;
 
-        binding.circularCountdown.create(0, (int) minutes, CircularCountdown.TYPE_MINUTE)
+        binding.circularCountdown.create(0, (int) minutes, CircularCountdown.TYPE_SECOND)
                 .listener(new CircularListener() {
                     @Override
                     public void onTick(int i) {

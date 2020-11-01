@@ -45,8 +45,8 @@ public class SubjectRecycler extends RecyclerView.Adapter<SubjectRecycler.ViewHo
                 if(response.isSuccessful()){
                     Subject subject = response.body().getSubject();
 
-                    binding.name.setText(subject.getName());
-                    binding.code.setText(subject.getSubjectCode());
+                    holder.name.setText(subject.getName());
+                    holder.code.setText(subject.getSubjectCode());
                 }
             }
 

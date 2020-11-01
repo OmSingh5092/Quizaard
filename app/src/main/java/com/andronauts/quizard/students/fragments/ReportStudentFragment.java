@@ -97,6 +97,7 @@ public class ReportStudentFragment extends Fragment {
                     results = response.body().getResults();
                     if(results.size() == 0){
                         Toast.makeText(context, "No Report!", Toast.LENGTH_SHORT).show();
+                        binding.swipeRefreshLayout.setRefreshing(false);
                         return;
                     }
                     loadSubjects();
@@ -120,9 +121,9 @@ public class ReportStudentFragment extends Fragment {
                     createSubjectResult();
                     createPieChart();
                     setUpRecyclerView();
-
-                    binding.swipeRefreshLayout.setRefreshing(false);
                 }
+
+                binding.swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override

@@ -2,6 +2,7 @@ package com.andronauts.quizard.general.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,6 +46,13 @@ public class SubjectActivity extends AppCompatActivity {
         }
         setSupportActionBar(binding.toolbar);
 
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+            }
+        });
+
         loadData();
     }
 
@@ -58,6 +66,8 @@ public class SubjectActivity extends AppCompatActivity {
                         subjectIds = student.getSubjects();
                         setUpRecyclerView();
                     }
+
+                    binding.swipeRefreshLayout.setRefreshing(false);
                 }
 
                 @Override

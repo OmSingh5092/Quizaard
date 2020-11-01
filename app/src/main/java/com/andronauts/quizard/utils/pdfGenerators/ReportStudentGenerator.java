@@ -101,13 +101,16 @@ public class ReportStudentGenerator {
             addEmptyLine(paragraph,1);
 
             int marks;
+            boolean isPositive;
             if(responses[i] == question.getCorrect()){
                 marks = question.getPositive();
+                isPositive = true;
             }else{
+                isPositive = false;
                 marks = question.getNegative();
             }
 
-            paragraph.add("Marks Awarded: "+marks);
+            paragraph.add("Marks Awarded: "+(isPositive?"+":"-")+marks);
             document.add(paragraph);
         }
 

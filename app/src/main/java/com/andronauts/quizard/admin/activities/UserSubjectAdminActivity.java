@@ -8,6 +8,7 @@ import retrofit2.Response;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.andronauts.quizard.R;
 import com.andronauts.quizard.api.responseModels.faculty.FacultyGetResponse;
@@ -49,6 +50,7 @@ public class UserSubjectAdminActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         prefs = new SharedPrefs(this);
         isStudent = getIntent().getBooleanExtra("isStudent",false);
+        Log.i("isStudent",String.valueOf(isStudent));
         userId = getIntent().getStringExtra("userId");
         setSupportActionBar(binding.toolbar);
 

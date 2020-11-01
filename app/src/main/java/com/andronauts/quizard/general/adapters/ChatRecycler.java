@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andronauts.quizard.R;
 import com.andronauts.quizard.dataModels.Chat;
 import com.andronauts.quizard.databinding.RecyclerChatBinding;
 import com.andronauts.quizard.utils.DateFormatter;
@@ -88,6 +89,7 @@ public class ChatRecycler extends RecyclerView.Adapter<ChatRecycler.ViewHolder> 
 
         if(chat.getSender().equals(userId)){
             holder.container.setGravity(Gravity.RIGHT);
+            holder.message.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
         }
     }
 

@@ -205,6 +205,7 @@ public class HostQuizFacultyActivity extends AppCompatActivity {
                 binding.date.setText(new DateFormatter(calendar.getTimeInMillis()).getDate());
             }
         },present.get(Calendar.YEAR),present.get(Calendar.MONTH),present.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
@@ -217,6 +218,7 @@ public class HostQuizFacultyActivity extends AppCompatActivity {
                 binding.time.setText(new DateFormatter(calendar.getTimeInMillis()).getTime());
             }
         },present.get(Calendar.HOUR_OF_DAY),present.get(Calendar.MINUTE),false);
+
 
         binding.time.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -231,6 +233,27 @@ public class HostQuizFacultyActivity extends AppCompatActivity {
                 datePickerDialog.show();
             }
         });
+    }
+
+    private boolean validate(){
+        if(quiz.getTitle()==null|| quiz.getTitle().equals("")){
+            Toast.makeText(this, "Please Enter a title", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if(quiz.getDescription() == null||quiz.getDescription().equals("")){
+            Toast.makeText(this, "Please enter the description", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if(quiz.getQuestion() == null ||quiz.getQuestion().size() == 0){
+            Toast.makeText(this, "Please add a question", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if(quiz.getStartTime() == null|| quiz.getStartTime().equals("")){
+            Toast.makeText(this, "Please enter time", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if(quiz.getEndTime() == null || quiz.getEndTime().equals("")){
+            Toast.makeText(this, "Please enter test duration", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     private void onUpdate(){
@@ -287,6 +310,9 @@ public class HostQuizFacultyActivity extends AppCompatActivity {
     }
 
     private void onHost(){
+        if(!validate()){
+            return;
+        }
 
         RetrofitClient.getClient().createQuiz(prefs.getToken(),quiz).enqueue(new Callback<QuizCreateResponse>() {
             @Override

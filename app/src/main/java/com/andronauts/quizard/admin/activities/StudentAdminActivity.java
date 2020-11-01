@@ -70,6 +70,8 @@ public class StudentAdminActivity extends AppCompatActivity {
                     sortedStudents = new ArrayList<>(students);
                     setUpRecyclerView();
                 }
+
+                binding.swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override

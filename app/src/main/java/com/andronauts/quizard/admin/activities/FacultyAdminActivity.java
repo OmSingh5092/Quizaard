@@ -77,6 +77,7 @@ public class FacultyAdminActivity extends AppCompatActivity {
                     sortedFaculties = new ArrayList<>(faculties);
                     setUpRecyclerView();
                 }
+                binding.swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override

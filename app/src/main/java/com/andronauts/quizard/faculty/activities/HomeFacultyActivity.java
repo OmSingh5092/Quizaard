@@ -124,7 +124,7 @@ public class HomeFacultyActivity extends AppCompatActivity {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     if(item.getItemId() == R.id.profile){
-                        Intent i = new Intent(HomeFacultyActivity.this, ProfileStudentActivity.class);
+                        Intent i = new Intent(HomeFacultyActivity.this, ProfileFacultyActivity.class);
                         startActivity(i);
                     }else if(item.getItemId() == R.id.logout){
                         logOut();

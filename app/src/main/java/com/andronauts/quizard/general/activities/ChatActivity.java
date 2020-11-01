@@ -3,6 +3,7 @@ package com.andronauts.quizard.general.activities;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import okhttp3.WebSocket;
 import retrofit2.Call;
@@ -16,6 +17,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.andronauts.quizard.R;
@@ -77,7 +79,12 @@ public class ChatActivity extends AppCompatActivity {
         isReceiverStudent = getIntent().getBooleanExtra("isReceiverStudent",false);
         name = getIntent().getStringExtra("name");
         binding.toolbar.setTitle(name);
-        setSupportActionBar(binding.toolbar);
+
+        if(isSenderStudent){
+            binding.toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+            setSupportActionBar(binding.toolbar);
+        }
+
 
         prefs = new SharedPrefs(this);
         chat = new Chat();
@@ -154,7 +161,9 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void setUpRecyclerView(){
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager manager = new LinearLayoutManager(this, RecyclerView.VERTICAL,false);
+        manager.setStackFromEnd(true);
+        binding.recyclerView.setLayoutManager(manager);
         adapter = new ChatRecycler(this,chats,senderId);
         binding.recyclerView.setAdapter(adapter);
     }
@@ -172,7 +181,10 @@ public class ChatActivity extends AppCompatActivity {
                     JSONObject object = new JSONObject(new Gson().toJson(chat));
                     WebSocketClient.getMSocket().emit("receive_chat",object);
                     chats.add(chat);
-                    adapter.notifyDataSetChanged();
+                    chat = new Chat();
+                    setUpRecyclerView();
+                    binding.message.setText("");
+                    binding.delete.setVisibility(View.GONE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -235,7 +247,7 @@ public class ChatActivity extends AppCompatActivity {
                         JSONObject object = (JSONObject) args[0];
                         Chat chat = new Gson().fromJson(object.toString(),Chat.class);
                         chats.add(chat);
-                        adapter.notifyDataSetChanged();
+                        setUpRecyclerView();
                     }
                 });
             }

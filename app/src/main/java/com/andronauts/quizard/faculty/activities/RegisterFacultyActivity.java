@@ -132,12 +132,29 @@ public class RegisterFacultyActivity extends AppCompatActivity {
         });
     }
 
-    
+    private boolean validate(){
+        if(faculty.getFacultyId().equals("")){
+            Toast.makeText(this, "Please enter faculty ID", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if(faculty.getName().equals("")){
+            Toast.makeText(this, "Please enter faculty name", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if(faculty.getDepartment().equals("")){
+            Toast.makeText(this, "Please enter a department", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
 
     private void handleSubmit(){
         faculty.setFacultyId(binding.facultyId.getText().toString());
         faculty.setDepartment(binding.department.getText().toString());
         faculty.setName(binding.name.getText().toString());
+
+        if(!validate()){
+            return;
+        }
 
         RetrofitClient.getClient().facultyUpdate(prefs.getToken(),faculty).enqueue(new Callback<FacultyUpdateResponse>() {
             @Override

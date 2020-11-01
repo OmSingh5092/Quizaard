@@ -168,10 +168,33 @@ public class RegisterStudentActivity extends AppCompatActivity {
         });
     }
 
+    private boolean validate(){
+        if(student.getName().equals("")){
+            Toast.makeText(this, "Please enter student name", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if(student.getAdmitCardPath() == null){
+            Toast.makeText(this, "Admit card is necessary for registration", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if(student.getDepartment().equals("")){
+            Toast.makeText(this, "Please enter a department", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if(student.getRegistrationNumber().equals("")){
+            Toast.makeText(this, "Please enter registration number", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
     private void handleSubmit(){
+        student.setName(binding.name.getText().toString());
         student.setRegistrationNumber(binding.registrationNumber.getText().toString());
         student.setDepartment(binding.department.getText().toString());
         student.setYear(Integer.valueOf(binding.year.getText().toString()));
+
+        if(!validate()){
+            return;
+        }
 
         RetrofitClient.getClient().studentUpdate(prefs.getToken(),student).enqueue(new Callback<StudentUpdateResponse>() {
             @Override

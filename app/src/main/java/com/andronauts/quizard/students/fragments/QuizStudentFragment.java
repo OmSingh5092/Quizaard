@@ -87,6 +87,7 @@ public class QuizStudentFragment extends Fragment {
                     @Override
                     public void run() {
                         String quizId = (String) args[0];
+                        Toast.makeText(context, quizId, Toast.LENGTH_SHORT).show();
                         setQuizLive(quizId);
                         adapter.notifyDataSetChanged();
                         Log.i("MESSAGE","Quiz Started!");
@@ -115,7 +116,7 @@ public class QuizStudentFragment extends Fragment {
 
     private void setQuizLive(String quizId){
         for(Quiz quiz:quizzes){
-            if(quiz.getId() == quizId){
+            if(quiz.getId().equals(quizId)){
                 quiz.setLive(true);
                 return;
             }
@@ -125,7 +126,7 @@ public class QuizStudentFragment extends Fragment {
 
     private void setQuizNotLive(String quizId){
         for(Quiz quiz:quizzes){
-            if(quiz.getId() == quizId){
+            if(quiz.getId().equals(quizId)){
                 quiz.setLive(false);
                 return;
             }

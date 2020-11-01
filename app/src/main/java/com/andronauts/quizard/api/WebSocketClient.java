@@ -9,7 +9,7 @@ import java.net.URISyntaxException;
 
 public class WebSocketClient {
     private static Socket mSocket;
-    private static final String url = "http://192.168.0.106:4000/";
+    private static final String url = "https://quizzard-web.herokuapp.com/";
 
     public static Socket getMSocket(){
         if(mSocket != null){

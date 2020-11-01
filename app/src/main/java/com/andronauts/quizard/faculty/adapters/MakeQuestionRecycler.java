@@ -97,6 +97,9 @@ public class MakeQuestionRecycler extends RecyclerView.Adapter<MakeQuestionRecyc
                 }
 
                 adapter.notifyDataSetChanged();
+
+                //Setting upper limit of correct option
+                holder.correct.setMaxValue(data.get(position).getTotal());
             }
 
             @Override
@@ -109,6 +112,8 @@ public class MakeQuestionRecycler extends RecyclerView.Adapter<MakeQuestionRecyc
 
             }
         });
+
+
 
         holder.correct.setNumberPickerChangeListener(new NumberPicker.OnNumberPickerChangeListener() {
             @Override
