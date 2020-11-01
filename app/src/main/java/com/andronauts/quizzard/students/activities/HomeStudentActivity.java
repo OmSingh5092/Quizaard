@@ -102,6 +102,7 @@ public class HomeStudentActivity extends AppCompatActivity {
             Toast.makeText(this, "Profile has been deleted!", Toast.LENGTH_SHORT).show();
             //logging out
             logOut();
+            return;
         }
         if(student.isRegistered()){
             binding.viewPager.setVisibility(View.VISIBLE);

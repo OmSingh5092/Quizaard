@@ -181,6 +181,9 @@ public class RegisterStudentActivity extends AppCompatActivity {
         }else if(student.getRegistrationNumber().equals("")){
             Toast.makeText(this, "Please enter registration number", Toast.LENGTH_SHORT).show();
             return false;
+        }else if(student.getYear() ==0){
+            Toast.makeText(this, "Please enter year", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
         return true;
@@ -190,7 +193,9 @@ public class RegisterStudentActivity extends AppCompatActivity {
         student.setName(binding.name.getText().toString());
         student.setRegistrationNumber(binding.registrationNumber.getText().toString());
         student.setDepartment(binding.department.getText().toString());
-        student.setYear(Integer.valueOf(binding.year.getText().toString()));
+        if(!binding.year.getText().toString().equals("")){
+            student.setYear(Integer.valueOf(binding.year.getText().toString()));
+        }
 
         if(!validate()){
             return;
