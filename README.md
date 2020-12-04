@@ -18,6 +18,6 @@ For detailed description refer [these](https://docs.google.com/presentation/d/1L
 <br/>
 
 **Made for DroidRush event of Avishkar 2k20, a techno management fest of MNNIT Allahabad.** <br/>
-:v: Secured 2nd Price.
+:v: Secured 2nd Position.
 
 
